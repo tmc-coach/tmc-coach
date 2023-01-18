@@ -17,3 +17,14 @@ source venv/bin/activate
 pip install -r requirements.txt
 python hello_world.py
 ```
+
+## Analyzing the code with pylint
+
+After activating the virtual environment and
+installing all the requirements the code
+can be analyzed with command
+
+```sh
+pylint hello_world.py
+```
+
