@@ -1,3 +1,10 @@
-FROM ubuntu:latest
+FROM node:19-alpine
 
-RUN echo "Hello react"
+WORKDIR /app
+COPY . .
+
+RUN npm install
+
+EXPOSE 3000
+
+CMD [ "npm", "start" ]
