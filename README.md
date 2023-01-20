@@ -3,6 +3,7 @@
 ### What the project does
 TMC-Coach project is created for MOOC-center to help with unscheduled courses. The project's purpose is to create application for students who want's to feed their own schedule to follow on the course provided by MOOC-center. After the student has set a schedule, the application will follow student's progress on the course. If the student doesn't progress as planned, the application will send reminders and encourage to catch up with the course. The application will be connected to the MOOC-platform and apis.
 
+TMC-Coach is a project for Ohjelmistotuotantoprojekti course in University of Helsinki.
 
 ### Why the project is useful
 Feature is desired by both the users and MOOC-center. The unscheduled courses require a lot of self-control and planning ahead in which current platform doesn't provide any support on. The new application will help students to plan course schedule and send reminders to follow it, thus, supporting students to get through the course.
@@ -14,7 +15,6 @@ TBA
 ### Who maintains and contributes to the project
 TBA
 
-TMC-Coach is a project for Ohjelmistotuotantoprojekti course in University of Helsinki.
 
 ## Documentation
 
