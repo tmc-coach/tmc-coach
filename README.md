@@ -19,6 +19,7 @@ TBA
 ## Documentation
 
 - [Definition of Done](https://github.com/tmc-coach/tmc-coach/blob/readme/documentation/definitionofdone.md)
+- [Development handbook](https://docs.google.com/document/d/1ALZTLGx0Cch003IU9dt_ZokcnbUYIAfOtwvWJiRgpXU/edit#heading=h.eyrv7itl9mm)
 - [Tuntikirjanpito](https://docs.google.com/spreadsheets/d/1FKB0VWYljS7rRs1_JVq_U7krczXOK_BZMwVvlSUouE4/edit#gid=0)
 
 (Sprint 0's notes are [here](https://docs.google.com/document/d/1j_VbBCg3YdW0vBGyd-Qgy9zb4REvuBvsVwNQtehDGro/edit#))
@@ -27,7 +28,7 @@ TBA
 
 ### How to run the project
 
-Project can be run at this moment only locally. Instructions on how to run the project can be found [here](https://github.com/tmc-coach/tmc-coach/tree/main/backend).
+Project can be run at this moment only locally. Instructions on how to run the project can be found [here](https://docs.google.com/document/d/1ALZTLGx0Cch003IU9dt_ZokcnbUYIAfOtwvWJiRgpXU/edit#heading=h.eyrv7itl9mm).
 
 ## Backlogs
 - [Product backlog](https://github.com/orgs/tmc-coach/projects/1)
