@@ -18,7 +18,7 @@ TMC-Coach is a project for Ohjelmistotuotantoprojekti course in University of He
 
 ## Documentation
 
-- [Definition of Done]()
+- [Definition of Done](https://github.com/tmc-coach/tmc-coach/blob/readme/documentation/definitionofdone.md)
 - [Tuntikirjanpito](https://docs.google.com/spreadsheets/d/1FKB0VWYljS7rRs1_JVq_U7krczXOK_BZMwVvlSUouE4/edit#gid=0)
 
 (Sprint 0's notes are [here](https://docs.google.com/document/d/1j_VbBCg3YdW0vBGyd-Qgy9zb4REvuBvsVwNQtehDGro/edit#))
