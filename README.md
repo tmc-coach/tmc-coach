@@ -27,7 +27,7 @@ TMC-Coach is a project for Ohjelmistotuotantoprojekti course in University of He
 
 ### How to run the project
 
-Project can be run at this moment at locally. Instructions how to run the project are [here](https://github.com/tmc-coach/tmc-coach/tree/main/backend).
+Project can be run at this moment only locally. Instructions on how to run the project can be found [here](https://github.com/tmc-coach/tmc-coach/tree/main/backend).
 
 ## Backlogs
 - [Product backlog](https://github.com/orgs/tmc-coach/projects/1)
