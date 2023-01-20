@@ -31,4 +31,4 @@ Project can be run at this moment only locally. Instructions on how to run the p
 
 ## Backlogs
 - [Product backlog](https://github.com/orgs/tmc-coach/projects/1)
-- [Sprint's backlog](https://github.com/orgs/tmc-coach/projects/1/views/4)
+- [Sprints backlogs](https://github.com/orgs/tmc-coach/projects/1/views/4)
