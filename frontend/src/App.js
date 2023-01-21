@@ -1,11 +1,19 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState, useEffect } from 'react';
 
 function App() {
+  const [link, setLink] = useState('');
+
+  useEffect(() => {
+    fetch('http://localhost:5000/techdemo')
+      .then(res => res.json())
+      .then(data => setLink(data.link));
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <a href={link}>Backend says hi!</a>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>

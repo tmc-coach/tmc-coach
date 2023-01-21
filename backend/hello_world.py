@@ -10,5 +10,11 @@ CORS(app)
 def hello_world():
     return jsonify(message='Hello TMC Coach!')
 
+
+@app.route('/techdemo')
+def techdemo():
+    return jsonify(link='https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+
+
 if __name__ == '__main__':
     app.run()
