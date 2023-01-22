@@ -9,4 +9,4 @@ MarkupSafe==2.1.1
 six==1.16.0
 Werkzeug==2.2.2
 zipp==3.11.0
-pylint==2.4.4
+pylint==2.15.10
