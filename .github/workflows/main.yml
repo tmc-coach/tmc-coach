@@ -24,14 +24,14 @@ jobs:
       run: |
         pylint ./hello_world.py
 
-    frontend-build:
-      runs-on: ubuntu-latest
-      defaults:
-        run:
-          working-directory: ./frontend
-      steps:
-        - uses: actions/checkout@v3
-        - name: Install modules
-          run: npm install
-        - name: Run ESLint 
-          run: npm run lint
+  frontend-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install modules
+        run: npm install
+      - name: Run ESLint 
+        run: npm run lint
