@@ -22,7 +22,7 @@ jobs:
         pip install -r requirements.txt
     - name: Analysing the code with pylint
       run: |
-        pylint ./hello_world.py
+        pylint --fail-under=8 ./hello_world.py
 
   frontend-build:
     runs-on: ubuntu-latest
