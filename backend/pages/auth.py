@@ -4,8 +4,8 @@ import os
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/login', methods=['POST'])
-def login():
+@auth.route('/authorize', methods=['POST'])
+def authorize():
 
     username = request.data.username
     password = request.data.password
