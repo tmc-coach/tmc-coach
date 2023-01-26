@@ -11,8 +11,7 @@ function App() {
   const handleLogin = (event) => {
     event.preventDefault()
     axios.post('http://localhost:5000/authorize', {
-      username: { username },
-      password: { password }
+      username, password
     }).then(function (response) {
       console.log(response)
     }).catch(function (error) {
