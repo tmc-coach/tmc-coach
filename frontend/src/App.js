@@ -1,6 +1,8 @@
 import './App.css'
 //import React, { useState, useEffect } from 'react'
 import React, { useState } from 'react'
+import axios from 'axios'
+import(axios)
 
 function App() {
   const [username, setUsername] = useState('')
@@ -8,6 +10,14 @@ function App() {
 
   const handleLogin = (event) => {
     event.preventDefault()
+    axios.post('http://localhost:5000/authorize', {
+      username: { username },
+      password: { password }
+    }).then(function (response) {
+      console.log(response)
+    }).catch(function (error) {
+      console.log(error)
+    })
     console.log('logging in with', username, password)
   }
 
