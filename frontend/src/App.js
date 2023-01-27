@@ -10,14 +10,14 @@ function App() {
 
   const handleLogin = (event) => {
     event.preventDefault()
-    axios.post('http://localhost:5000/authorize', {
+    axios.post('http://localhost:5000/auth/authorize', {
       username, password
     }).then(function (response) {
       console.log(response)
     }).catch(function (error) {
       console.log(error)
     })
-    console.log('logging in with', username, password)
+    console.log('logging in with', username)
   }
 
   return (
