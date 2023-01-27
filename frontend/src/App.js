@@ -1,4 +1,5 @@
 import './App.css'
+import LoginForm from './components/LoginForm'
 //import React, { useState, useEffect } from 'react'
 import React, { useState } from 'react'
 import axios from 'axios'
@@ -23,18 +24,13 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h2>Login</h2>
-        <form onSubmit={handleLogin}>
-          <div>
-            Username:
-            <input type="text" value={username} name="username" onChange={({ target }) => setUsername(target.value)} />
-          </div>
-          <div>
-            Password:
-            <input type="password" value={password} name="Password" onChange={({ target }) => setPassword(target.value)} />
-          </div>
-          <button type="submit">Login</button>
-        </form>
+        <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleLogin={handleLogin}
+        />
       </header>
     </div>
   )
