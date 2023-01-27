@@ -1,8 +1,9 @@
-from flask import Blueprint, jsonify, request, redirect
+from flask import Blueprint, jsonify, request, Response
 import requests
 import os
 
 auth = Blueprint('auth', __name__)
+
 
 @auth.route('/authorize', methods=['POST'])
 def authorize():
@@ -18,9 +19,10 @@ def authorize():
         'grant_type': 'password'
     })
 
-    print(response)
-    token = response.json()['token_type'] + " " + \
-        response.json()['access_token']
-    print(token)
-
-    return redirect('/')
+    try:
+        token = response.json()['token_type'] + " " + \
+            response.json()['access_token']
+        print(token)
+        return Response(status=200)
+    except:
+        return jsonify(error='invalid username or password'), 401

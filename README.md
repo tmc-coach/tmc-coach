@@ -20,15 +20,15 @@ TBA
 
 ## Documentation
 
-- [Definition of Done](https://github.com/tmc-coach/tmc-coach/blob/readme/documentation/definitionofdone.md)
-- [Development handbook](https://github.com/tmc-coach/tmc-coach/blob/readme/documentation/development_handbook.md)
+- [Definition of Done](https://github.com/tmc-coach/tmc-coach/blob/main/documentation/definitionofdone.md)
+- [Development handbook](https://github.com/tmc-coach/tmc-coach/blob/main/documentation/development_handbook.md)
 - [Hour reporting](https://docs.google.com/spreadsheets/d/1FKB0VWYljS7rRs1_JVq_U7krczXOK_BZMwVvlSUouE4/edit#gid=0)
 
 ## Instructions
 
 ### How to run the project
 
-Project can be run at this moment only locally. Instructions on how to run the project can be found in [Development handbook](https://github.com/tmc-coach/tmc-coach/blob/readme/documentation/development_handbook.md).
+Project can be run at this moment only locally. Instructions on how to run the project can be found in [Development handbook](https://github.com/tmc-coach/tmc-coach/blob/main/documentation/development_handbook.md).
 
 ## Backlogs
 
