@@ -1,30 +1,36 @@
 import './App.css'
-import React, { useState, useEffect } from 'react'
+import LoginForm from './components/LoginForm'
+//import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import axios from 'axios'
+import(axios)
 
 function App() {
-  const [link, setLink] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
-  useEffect(() => {
-    fetch('http://localhost:5000/techdemo')
-      .then(res => res.json())
-      .then(data => setLink(data.link))
-  }, [])
+  const handleLogin = (event) => {
+    event.preventDefault()
+    axios.post('http://localhost:5000/auth/authorize', {
+      username, password
+    }).then(function (response) {
+      console.log(response)
+    }).catch(function (error) {
+      console.log(error)
+    })
+    console.log('logging in with', username)
+  }
 
   return (
     <div className="App">
       <header className="App-header">
-        <a href={link}>Backend says hi!</a>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleLogin={handleLogin}
+        />
       </header>
     </div>
   )

@@ -7,8 +7,8 @@ auth = Blueprint('auth', __name__)
 @auth.route('/authorize', methods=['POST'])
 def authorize():
 
-    username = request.data.username
-    password = request.data.password
+    username = request.json.get('username')
+    password = request.json.get('password')
 
     response = requests.post('https://tmc.mooc.fi/oauth/token', data={
         'client_id': os.getenv("CLIENT_ID"),
@@ -18,6 +18,7 @@ def authorize():
         'grant_type': 'password'
     })
 
+    print(response)
     token = response.json()['token_type'] + " " + \
         response.json()['access_token']
     print(token)
