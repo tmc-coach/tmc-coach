@@ -3,7 +3,6 @@ import LoginForm from './components/LoginForm'
 //import React, { useState, useEffect } from 'react'
 import React, { useState } from 'react'
 import axios from 'axios'
-import(axios)
 
 function App() {
   const [username, setUsername] = useState('')
@@ -21,6 +20,17 @@ function App() {
     console.log('logging in with', username)
   }
 
+  const testAuth = () => {
+    // axios with httponly cookie
+    axios.get('http://localhost:5000/auth/test', {
+      withCredentials: true
+    }).then(function (response) {
+      console.log(response)
+    }).catch(function (error) {
+      console.log(error)
+    })
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -31,6 +41,9 @@ function App() {
           handlePasswordChange={({ target }) => setPassword(target.value)}
           handleLogin={handleLogin}
         />
+        <div>
+          <button onClick={testAuth}>Test Auth</button>
+        </div>
       </header>
     </div>
   )
