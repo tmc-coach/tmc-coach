@@ -67,8 +67,8 @@ jobs:
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
         run: |
           echo "*** Variables ***" > ../frontend/robot-tests/login_resource.robot
-          echo '${USERNAME}'"\t${{ secrets.USERNAME }}" >> ../frontend/robot-tests/login_resource.robot
-          echo '${PASSWORD}'"\t${{ secrets.PASSWORD }}" >> ../frontend/robot-tests/login_resource.robot
+          echo '${USERNAME}'"\\t${{ secrets.USERNAME }}" >> ../frontend/robot-tests/login_resource.robot
+          echo '${PASSWORD}'"\\t${{ secrets.PASSWORD }}" >> ../frontend/robot-tests/login_resource.robot
           python -m pip install --upgrade pip
           pip install -r ../frontend/robot-tests/requirements.txt
           robot ../frontend/robot-tests
