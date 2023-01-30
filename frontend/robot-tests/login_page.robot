@@ -1,12 +1,14 @@
 *** Settings ***
 Resource		resource.robot
-Resource		login_resource.robot
+Variables		login_resource.py
 Suite Setup		Open And Configure Logging Browser
 Suite Teardown	Close Browser
 Test Setup		Go To Login Page
 
+
 *** Test Cases ***
 User Can Open Login Page
+	Log		${TMCUSERNAME}
 	Login Page Should Be Open
 
 User Can Login With Valid Credentials
@@ -14,11 +16,11 @@ User Can Login With Valid Credentials
 	Set Password
 	Click Button	Login
 	${LOGS}=		Get Browser Console Log Entries    
-	Should Be True	"""${USERNAME}""" in """${LOGS}"""
+	Should Be True	"""${TMCUSERNAME}""" in """${LOGS}"""
 
 *** Keywords ***
 Set Username
-	Input Text	username	${USERNAME}
+	Input Text	username	${TMCUSERNAME}
 
 Set Password
-	Input Text	password	${PASSWORD} 
+	Input Text	password	${TMCPASSWORD} 
