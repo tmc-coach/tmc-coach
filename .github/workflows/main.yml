@@ -69,10 +69,10 @@ jobs:
           echo "*** Variables ***" > ../frontend/robot-tests/login_resource.robot
           echo -n '${USERNAME}' >> ../frontend/robot-tests/login_resource.robot
           echo -n "\t" >> ../frontend/robot-tests/login_resource.robot
-          echo -n "${USERNAME}" >> ../frontend/robot-tests/login_resource.robot
+          echo "${USERNAME}" >> ../frontend/robot-tests/login_resource.robot
           echo -n '${PASSWORD}' >> ../frontend/robot-tests/login_resource.robot
           echo -n "\t" >> ../frontend/robot-tests/login_resource.robot
-          echo -n "${PASSWORD}" >> ../frontend/robot-tests/login_resource.robot
+          echo "${PASSWORD}" >> ../frontend/robot-tests/login_resource.robot
           python -m pip install --upgrade pip
           pip install -r ../frontend/robot-tests/requirements.txt
           robot ../frontend/robot-tests
