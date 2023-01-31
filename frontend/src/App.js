@@ -17,6 +17,7 @@ function App() {
     }).then(function (response) {
       localStorage.setItem('user', response.data.jwt)
       setUser(response.data.jwt)
+      console.log(user)
     }).catch(function (error) {
       console.log(error)
     })
