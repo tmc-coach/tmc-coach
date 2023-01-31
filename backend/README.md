@@ -15,7 +15,7 @@ docker run -d -p 5000:5000 backend
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python hello_world.py
+python wsgi.py
 ```
 
 ## Analyzing the code with pylint
@@ -23,7 +23,25 @@ python hello_world.py
 After activating the virtual environment and installing all the requirements the code can be analyzed with command
 
 ```sh
-pylint hello_world.py
+pylint wsgi.py
+```
+
+## Type checking with Mypy
+
+After activating the virtual environment and
+installing all the requirements the code can be type checked with
+
+```sh
+mypy wsgi.py
+```
+
+## Format code with Black
+
+After activating the virtual environment and
+installing all the requirements the code can be formatted usin Black with
+
+```sh
+black .
 ```
 
 ## Testing

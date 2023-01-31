@@ -1,11 +1,13 @@
 from flask import Blueprint, jsonify
 
-main = Blueprint('main', __name__)
+main = Blueprint("main", __name__)
 
-@main.route('/')
+
+@main.route("/")
 def hello_world():
-    return jsonify(message='Hello TMC Coach!')
+    return jsonify(message="Hello TMC Coach!")
 
-@main.route('/techdemo')
+
+@main.route("/techdemo")
 def techdemo():
-    return jsonify(link='https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+    return jsonify(link="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
