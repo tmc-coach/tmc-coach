@@ -20,9 +20,7 @@ python wsgi.py
 
 ## Analyzing the code with pylint
 
-After activating the virtual environment and
-installing all the requirements the code
-can be analyzed with command
+After activating the virtual environment and installing all the requirements the code can be analyzed with command
 
 ```sh
 pylint wsgi.py
@@ -44,4 +42,12 @@ installing all the requirements the code can be formatted usin Black with
 
 ```sh
 black .
+```
+
+## Testing
+
+Testing the backend is possible with
+
+```sh
+pytest .
 ```
