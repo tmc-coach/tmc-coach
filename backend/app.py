@@ -17,6 +17,9 @@ except FileNotFoundError:
 app = Flask(__name__)
 CORS(app)
 
+# set secret key
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
+
 # register blueprints
 app.register_blueprint(main, url_prefix='/')
 app.register_blueprint(auth, url_prefix='/auth')
