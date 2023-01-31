@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify, request, redirect, Response, session
+from flask import Blueprint, jsonify, request, Response
+from modules.user import *
 import requests
 import os
 import jwt
@@ -8,8 +9,13 @@ auth = Blueprint('auth', __name__)
 @auth.route('/authorize', methods=['POST'])
 def authorize():
 
-    username = request.json.get('username')
-    password = request.json.get('password')
+    username = request.json.get('username', None)
+    password = request.json.get('password', None)
+
+    if not username:
+        return jsonify(error='username is required'), 400
+    if not password:
+        return jsonify(error='password is required'), 400
 
     response = requests.post('https://tmc.mooc.fi/oauth/token', data={
         'client_id': os.getenv("CLIENT_ID"),
@@ -19,26 +25,9 @@ def authorize():
         'grant_type': 'password'
     })
 
-    print(response)
-    token = response.json()['access_token']
+    if response.status_code == 401:
+        return jsonify(error='invalid username or password'), 401
 
-    # pack token into jwt
-    encoded_jwt = jwt.encode({'token': token}, os.getenv("JWT_SECRET"), algorithm='HS256')
-
-
-    # set jwt as httpnonly cooki
-    session["jwt"] = encoded_jwt
-
-    #return statuscode 200
-    return Response(status=200)
-
-@auth.route('/test', methods=['GET'])
-def test():
-    # get jwt from the http only cookie
-    encoded_jwt = session.get("jwt")
-    print(encoded_jwt)
-
-    # decode jwt
-    decoded_jwt = jwt.decode(encoded_jwt, os.getenv("JWT_SECRET"), algorithms=['HS256'])
-
-    return decoded_jwt
+    token = f"{response.json()['token_type']} {response.json()['access_token']}"
+    encoded_jwt = encode_jwt(username, token)
+    return jsonify(jwt=encoded_jwt)
