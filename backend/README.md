@@ -36,3 +36,12 @@ installing all the requirements the code can be type checked with
 ```sh
 mypy wsgi.py
 ```
+
+## Format code with Black
+
+After activating the virtual environment and
+installing all the requirements the code can be formatted usin Black with
+
+```sh
+black .
+```
