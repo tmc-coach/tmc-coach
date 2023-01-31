@@ -1,33 +1,29 @@
 import './App.css'
 import LoginForm from './components/LoginForm'
-//import React, { useState, useEffect } from 'react'
+import loginService from './services/login'
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 
 function App() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
 
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault()
-    axios.post('http://localhost:5000/auth/authorize', {
-      username, password
-    }).then(function (response) {
-      localStorage.setItem('user', response.data.jwt)
-      setUser(response.data.jwt)
+
+    try {
+      const user = await loginService.login({ username, password })
+      localStorage.setItem('user', user)
       console.log(user)
-    }).catch(function (error) {
-      console.log(error)
-    })
-    console.log('logging in with', username)
+    } catch (exception) {
+      console.log(exception)
+    }
   }
 
   useEffect(() => {
     const user = localStorage.getItem('user')
     if (user) {
-      setUser(user)
+      console.log('logged in')
     }
   }, [])
 
