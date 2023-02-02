@@ -15,8 +15,7 @@ User Can Open Login Page
 # 	Set Username
 # 	Set Password
 # 	Click Button	Login
-# 	${LOGS}=		Get Browser Console Log Entries    
-# 	Should Be True	"""${TMCUSERNAME}""" in """${LOGS}"""
+# 	Wait Until Page Contains	Your courses	timeout=5s
 
 *** Keywords ***
 Set Username
