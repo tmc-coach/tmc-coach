@@ -4,12 +4,14 @@ const LoginForm = ({
   password,
   handleLogin,
   handleUsernameChange,
-  handlePasswordChange
+  handlePasswordChange,
+  errorMessage
 
 }) => {
   return (
     <div>
       <h2>Login</h2>
+      <p>{errorMessage}</p>
       <form onSubmit={handleLogin}>
         <div>
             Username:
