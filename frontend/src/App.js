@@ -25,10 +25,6 @@ function App() {
   }
 
   useEffect(() => {
-    setErrorMessage('')
-  }, [username, password])
-
-  useEffect(() => {
     const user = localStorage.getItem('user')
     if (user) {
       console.log('logged in')
