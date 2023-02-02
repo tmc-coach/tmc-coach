@@ -11,12 +11,11 @@ User Can Open Login Page
 	Log		${TMCUSERNAME}
 	Login Page Should Be Open
 
-# User Can Login With Valid Credentials
-# 	Set Username
-# 	Set Password
-# 	Click Button	Login
-# 	${LOGS}=		Get Browser Console Log Entries    
-# 	Should Be True	"""${TMCUSERNAME}""" in """${LOGS}"""
+User Can Login With Valid Credentials
+	Set Username
+	Set Password
+	Click Button	Login
+	Wait Until Page Contains	Your courses	timeout=5s
 
 *** Keywords ***
 Set Username
