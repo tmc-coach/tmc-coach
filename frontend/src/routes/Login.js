@@ -1,11 +1,38 @@
+import { useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
 import LoginForm from '../components/LoginForm'
-import { Navigate } from 'react-router-dom'
+import loginService from '../services/login'
 
-const Login = ({ username, setUsername, password, setPassword, handleLogin, errorMessage }) => {
+
+const Login = () => {
+
+  const [errorMessage, setErrorMessage] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const navigate = useNavigate()
+
+  const handleLogin = async (event) => {
+    event.preventDefault()
+
+    try {
+      const user = await loginService.login({ username, password })
+      localStorage.setItem('user', user)
+      navigate('/')
+    } catch (exception) {
+      setErrorMessage('Invalid credentials. Try again.')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 10000)
+      console.log(exception)
+    }
+  }
+
+
   const user = localStorage.getItem('user')
   if (user) {
     return <Navigate to="/" replace/>
   }
+
   return <LoginForm
     username={username}
     password={password}
