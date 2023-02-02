@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react'
 
 function App() {
   const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-
+  const [password, setPassword] = useState({})
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -16,6 +16,10 @@ function App() {
       localStorage.setItem('user', user)
       console.log(user)
     } catch (exception) {
+      setErrorMessage('Invalid credentials. Try again.')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 10000)
       console.log(exception)
     }
   }
@@ -36,6 +40,7 @@ function App() {
           handleUsernameChange={({ target }) => setUsername(target.value)}
           handlePasswordChange={({ target }) => setPassword(target.value)}
           handleLogin={handleLogin}
+          errorMessage={errorMessage}
         />
       </header>
     </div>
