@@ -6,7 +6,15 @@ const Home = () => {
   if (!user) {
     return <Navigate to="/login" replace/>
   }
-  return <FrontpageForm />
+
+  const logOut = () => {
+    localStorage.removeItem('user')
+    return <Navigate to="/login" replace/>
+  }
+
+  return <FrontpageForm
+    logout={logOut}
+  />
 }
 
 export default Home
