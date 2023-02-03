@@ -42,3 +42,19 @@ def user():
     authorization = request.headers.get("Authorization")
     if not authorization:
         return jsonify(error="Authorization header is required"), 400
+
+    try:
+        decoded_jwt = decode_jwt(authorization)
+    except jwt.DecodeError:
+        return jsonify(error="Invalid token"), 401
+
+    headers = {"Authorization": decoded_jwt["username"]}
+    response = requests.get("https://tmc.mooc.fi/api/v8/users/current", headers=headers)
+
+    if response.status_code != 200:
+        return (
+            jsonify(error="Failed to retrieve user information"),
+            response.status_code,
+        )
+
+    return response.json()
