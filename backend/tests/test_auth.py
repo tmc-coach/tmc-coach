@@ -26,7 +26,3 @@ class AuthRouteTestCase(TestCase):
         response = self.client.get("/auth/user", headers=headers)
         self.assertEqual(response.status_code, 401)
         self.assertEqual(json.loads(response.data), {"error": "Invalid token"})
-
-
-if __name__ == "__main__":
-    unittest.main()

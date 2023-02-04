@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, Response
+from flask import Blueprint, jsonify, request
 from modules.user import encode_jwt, decode_jwt
 import requests
 import os
@@ -38,7 +38,7 @@ def authorize():
 
 
 @auth.route("/user", methods=["GET"])
-def user():
+def get_user():
     authorization = request.headers.get("Authorization")
     if not authorization:
         return jsonify(error="Authorization header is required"), 400
