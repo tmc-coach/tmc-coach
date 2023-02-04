@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, Response
-from modules.user import *
+from modules.user import encode_jwt, decode_jwt
 import requests
 import os
 import jwt
