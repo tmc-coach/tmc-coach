@@ -16,7 +16,7 @@ const Login = () => {
     try {
       const user = await loginService.login({ username, password })
       localStorage.setItem('user', user)
-      navigate('/')
+      navigate('/orgs')
     } catch (exception) {
       setErrorMessage('Invalid credentials. Try again.')
       setTimeout(() => {
@@ -29,7 +29,7 @@ const Login = () => {
 
   const user = localStorage.getItem('user')
   if (user) {
-    return <Navigate to="/" replace/>
+    return <Navigate to="/" replace />
   }
 
   return <LoginForm
@@ -38,7 +38,7 @@ const Login = () => {
     handleUsernameChange={({ target }) => setUsername(target.value)}
     handlePasswordChange={({ target }) => setPassword(target.value)}
     handleLogin={handleLogin}
-    errorMessage={errorMessage}/>
+    errorMessage={errorMessage} />
 }
 
 export default Login
