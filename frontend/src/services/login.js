@@ -10,8 +10,12 @@ const login = async credentials => {
 }
 
 const checkAuth = async token => {
-  const response = await axios.get(baseUrl + '/auth/user', { headers: { Authorization: token } })
-  return response
+  try {
+    const response = await axios.get(baseUrl + '/auth/user', { headers: { Authorization: token } })
+    return response
+  } catch (error) {
+    return error.response
+  }
 }
 
 export default { login, checkAuth }
