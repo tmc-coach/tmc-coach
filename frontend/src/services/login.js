@@ -1,11 +1,16 @@
 import axios from 'axios'
 
 const prod = process.env.NODE_ENV === 'production'
-const baseUrl = prod ? '/auth/authorize' : process.env.REACT_APP_BASEURL + '/auth/authorize'
+const baseUrl = process.env.REACT_APP_BASEURL
 
 const login = async credentials => {
-  const response = await axios.post(baseUrl, credentials)
+  const response = await axios.post(baseUrl + '/auth/authorize', credentials)
   return response.data.jwt
+}
+
+const check = async token => {
+  const response = await axios.post(baseUrl + '/auth/user', token)
+  return response.data
 }
 
 export default { login }
