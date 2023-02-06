@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+
 //const prod = process.env.NODE_ENV === 'production'
 const baseUrl = process.env.REACT_APP_BASEURL
 
@@ -8,13 +9,9 @@ const login = async credentials => {
   return response.data.jwt
 }
 
-const check = async token => {
-  try {
-    const response = await axios.get(baseUrl + '/auth/user', { headers: { Authorization: token } })
-    return response.data
-  } catch (error) {
-    return error.response.status
-  }
+const checkAuth = async token => {
+  const response = await axios.get(baseUrl + '/auth/user', { headers: { Authorization: token } })
+  return response
 }
 
-export default { login, check }
+export default { login, checkAuth }

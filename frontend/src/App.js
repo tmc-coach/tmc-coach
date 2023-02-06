@@ -2,18 +2,17 @@ import './App.css'
 import Login from './routes/Login'
 import Home from './routes/Home'
 import React from 'react'
-import { BrowserRouter as  Routes, Route } from 'react-router-dom'
-import AuthLayout from './components/AuthLayout'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 function App() {
 
   return (
-    <Routes>
-      <Route path="/login" element={<Login />}/>
-      <Route element={<AuthLayout />}>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />}/>
         <Route path="/" element={<Home />}/>
-      </Route>
-    </Routes>
+      </Routes>
+    </Router>
   )
 }
 
