@@ -40,6 +40,8 @@ def authorize():
 @auth.route("/user", methods=["GET"])
 def get_user():
     authorization = request.headers.get("Authorization", None)
+    if not authorization:
+        return jsonify(error="Authorization header is required"), 400
 
     try:
         decoded_jwt = decode_jwt(authorization)
