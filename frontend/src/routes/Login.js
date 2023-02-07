@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LoginForm from '../components/LoginForm'
-import loginService from '../services/login'
+import authService from '../services/auth'
 
 
 const Login = () => {
@@ -16,7 +16,7 @@ const Login = () => {
     event.preventDefault()
 
     try {
-      const user = await loginService.login({ username, password })
+      const user = await authService.login({ username, password })
       localStorage.setItem('token', user)
       navigate('/')
     } catch (exception) {
@@ -31,7 +31,7 @@ const Login = () => {
   const checkAuth = async () => {
     const token = localStorage.getItem('token')
     if (token) {
-      const user = await loginService.checkAuth(token)
+      const user = await authService.getUser(token)
       if (user.status && user.status === 200) {
         return navigate('/', { replace: true })
       }

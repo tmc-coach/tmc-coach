@@ -1,7 +1,7 @@
 import FrontpageForm from '../components/FrontpageForm'
 import { useEffect } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import loginService from '../services/login'
+import authService from '../services/auth'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -16,7 +16,7 @@ const Home = () => {
     if (!token) {
       return navigate('/login', { replace: true })
     }
-    const user = await loginService.checkAuth(token)
+    const user = await authService.getUser(token)
     if (user.status && user.status !== 200) {
       localStorage.removeItem('token')
       return navigate('/login', { replace: true })

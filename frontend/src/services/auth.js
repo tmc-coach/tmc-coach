@@ -9,7 +9,7 @@ const login = async credentials => {
   return response.data.jwt
 }
 
-const checkAuth = async token => {
+const getUser = async token => {
   try {
     const response = await axios.get(baseUrl + '/auth/user', { headers: { Authorization: token } })
     return response
@@ -18,4 +18,4 @@ const checkAuth = async token => {
   }
 }
 
-export default { login, checkAuth }
+export default { login, getUser }
