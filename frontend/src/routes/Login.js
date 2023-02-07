@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import LoginForm from '../components/LoginForm'
 import authService from '../services/auth'
 
 
@@ -18,7 +17,7 @@ const Login = () => {
     try {
       const user = await authService.login({ username, password })
       localStorage.setItem('token', user)
-      navigate('/orgs')
+      navigate('/')
     } catch (exception) {
       setErrorMessage('Invalid credentials. Try again.')
       setTimeout(() => {
@@ -42,13 +41,23 @@ const Login = () => {
     checkAuth()
   }, [])
 
-  return <LoginForm
-    username={username}
-    password={password}
-    handleUsernameChange={({ target }) => setUsername(target.value)}
-    handlePasswordChange={({ target }) => setPassword(target.value)}
-    handleLogin={handleLogin}
-    errorMessage={errorMessage} />
+  return (
+    <div>
+      <h2>Login</h2>
+      <p>{errorMessage}</p>
+      <form onSubmit={handleLogin}>
+        <div>
+          Username:
+          <input type="text" value={username} name="username" onChange={({ target }) => setUsername(target.value)} />
+        </div>
+        <div>
+          Password:
+          <input type="password" value={password} name="password" onChange={({ target }) => setPassword(target.value)} />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  )
 }
 
 export default Login
