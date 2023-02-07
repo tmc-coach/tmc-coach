@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 
-//const prod = process.env.NODE_ENV === 'production'
 const baseUrl = process.env.REACT_APP_BASEURL
 
 const login = async credentials => {
