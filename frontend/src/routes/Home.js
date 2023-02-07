@@ -1,12 +1,11 @@
-import FrontpageForm from '../components/FrontpageForm'
 import { useEffect } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate, Link } from 'react-router-dom'
 import authService from '../services/auth'
 
 const Home = () => {
   const navigate = useNavigate()
 
-  const logOut = () => {
+  const logout = () => {
     localStorage.removeItem('token')
     return <Navigate to="/login" replace/>
   }
@@ -27,9 +26,18 @@ const Home = () => {
     checkAuth()
   })
 
-  return <FrontpageForm
-    logout={logOut}
-  />
+  return (
+    <div>
+      <div className="flex justify-between items-center p-2 bg-blue-600">
+        <h2 className="text-white">TMC Coach</h2>
+        <form onSubmit={logout} className="bg-red-500 w-fit px-2.5 py-2 rounded text-white">
+          <button type="submit">Sign out</button>
+        </form>
+      </div>
+      <br></br>
+      <br></br>
+      <Link to="/orgs">Organizations</Link>
+    </div>
+  )
 }
-
 export default Home
