@@ -1,16 +1,31 @@
 import FrontpageForm from '../components/FrontpageForm'
-import { Navigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
+import authService from '../services/auth'
 
 const Home = () => {
-  const user = localStorage.getItem('user')
-  if (!user) {
+  const navigate = useNavigate()
+
+  const logOut = () => {
+    localStorage.removeItem('token')
     return <Navigate to="/login" replace/>
   }
 
-  const logOut = () => {
-    localStorage.removeItem('user')
-    return <Navigate to="/login" replace/>
+  const checkAuth = async () => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      return navigate('/login', { replace: true })
+    }
+    const user = await authService.getUser(token)
+    if (user.status && user.status !== 200) {
+      localStorage.removeItem('token')
+      return navigate('/login', { replace: true })
+    }
   }
+
+  useEffect(() => {
+    checkAuth()
+  })
 
   return <FrontpageForm
     logout={logOut}

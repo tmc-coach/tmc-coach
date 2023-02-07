@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import LoginForm from '../components/LoginForm'
-import loginService from '../services/login'
+import authService from '../services/auth'
 
 
 const Login = () => {
@@ -9,13 +9,15 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+
   const navigate = useNavigate()
+
   const handleLogin = async (event) => {
     event.preventDefault()
 
     try {
-      const user = await loginService.login({ username, password })
-      localStorage.setItem('user', user)
+      const user = await authService.login({ username, password })
+      localStorage.setItem('token', user)
       navigate('/')
     } catch (exception) {
       setErrorMessage('Invalid credentials. Try again.')
@@ -26,11 +28,19 @@ const Login = () => {
     }
   }
 
-
-  const user = localStorage.getItem('user')
-  if (user) {
-    return <Navigate to="/" replace/>
+  const checkAuth = async () => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      const user = await authService.getUser(token)
+      if (user.status && user.status === 200) {
+        return navigate('/', { replace: true })
+      }
+    }
   }
+
+  useEffect(() => {
+    checkAuth()
+  }, [])
 
   return <LoginForm
     username={username}
