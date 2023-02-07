@@ -1,4 +1,3 @@
-import './App.css'
 import Login from './routes/Login'
 import Home from './routes/Home'
 import Orgs from './routes/Orgs'
