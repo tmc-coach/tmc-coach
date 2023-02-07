@@ -18,7 +18,7 @@ const Login = () => {
     try {
       const user = await authService.login({ username, password })
       localStorage.setItem('token', user)
-      navigate('/')
+      navigate('/orgs')
     } catch (exception) {
       setErrorMessage('Invalid credentials. Try again.')
       setTimeout(() => {
@@ -48,7 +48,7 @@ const Login = () => {
     handleUsernameChange={({ target }) => setUsername(target.value)}
     handlePasswordChange={({ target }) => setPassword(target.value)}
     handleLogin={handleLogin}
-    errorMessage={errorMessage}/>
+    errorMessage={errorMessage} />
 }
 
 export default Login
