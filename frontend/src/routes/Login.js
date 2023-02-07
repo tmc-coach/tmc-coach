@@ -42,20 +42,22 @@ const Login = () => {
   }, [])
 
   return (
-    <div>
-      <h2>Login</h2>
-      <p>{errorMessage}</p>
-      <form onSubmit={handleLogin}>
-        <div>
-          Username:
-          <input type="text" value={username} name="username" onChange={({ target }) => setUsername(target.value)} />
-        </div>
-        <div>
-          Password:
-          <input type="password" value={password} name="password" onChange={({ target }) => setPassword(target.value)} />
-        </div>
-        <button type="submit">Login</button>
-      </form>
+    <div className="flex h-screen">
+      <div className="m-auto">
+        <h2 className="text-xl mb-4">Log in with your TMC account</h2>
+        <p>{errorMessage}</p>
+        <form onSubmit={handleLogin}>
+          <div className="flex flex-col mb-4">
+            <label>Username or email</label>
+            <input className="border rounded" type="text" value={username} name="username" onChange={({ target }) => setUsername(target.value)} />
+          </div>
+          <div className="flex flex-col mb-4">
+            <label>Password</label>
+            <input className="border rounded" type="password" value={password} name="password" onChange={({ target }) => setPassword(target.value)} />
+          </div>
+          <button className="bg-blue-600 w-full mt-2 rounded text-white p-1" type="submit">Login</button>
+        </form>
+      </div>
     </div>
   )
 }
