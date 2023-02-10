@@ -4,7 +4,7 @@ import requests
 courses = Blueprint("courses", __name__)
 
 
-@courses.route("/orgs/<org_id>", methods=["GET"])
+@courses.route("/<org_id>", methods=["GET"])
 def get_course(org_id):
     org_slug = org_id
     print("ok1")
