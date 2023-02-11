@@ -29,7 +29,7 @@ def authorize():
         },
     )
 
-    if response.status_code == 401:
+    if response.status_code != 200:
         return jsonify(error="invalid username or password"), 401
 
     token = f"{response.json()['token_type']} {response.json()['access_token']}"

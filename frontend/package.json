@@ -17,6 +17,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "cy:run": "cypress run -b chrome",
     "eject": "react-scripts eject",
     "lint": "eslint ."
   },
