@@ -6,6 +6,7 @@ from pages.auth import auth
 from pages.courses import courses
 from pages.main import main
 from pages.org import org
+from flask_sqlalchemy import SQLAlchemy
 
 # configure environment variables
 load_dotenv()
@@ -27,3 +28,7 @@ app.register_blueprint(main, url_prefix="/")
 app.register_blueprint(auth, url_prefix="/auth")
 app.register_blueprint(org, url_prefix="/org")
 app.register_blueprint(courses, url_prefix="/courses")
+
+# set up database connection
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+db = SQLAlchemy(app)
