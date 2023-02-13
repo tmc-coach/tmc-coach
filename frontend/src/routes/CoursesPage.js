@@ -8,8 +8,6 @@ const Courses_Page = () => {
   const [courses, setCourses] = useState([])
 
   const org_slug = useParams().slug
-  console.log('extracting slug')
-  console.log(org_slug)
 
   useEffect(() => {
     courseService.get_courses(org_slug).then(courses => setCourses(courses))
@@ -17,7 +15,7 @@ const Courses_Page = () => {
 
   return (
     <div>
-      hello
+      <h1 className='text-3xl font-medium text-center tracking-wide p-10'>Courses</h1>
       <Courses courses={courses} />
     </div>
   )
