@@ -12,4 +12,8 @@ describe('TMC-Coach login', () => {
       cy.visit('http://localhost:3000/login')
       cy.url().should('not.include', '/login')
     })
+    it('logged out user can not go to the front page', () => {
+      cy.visit('http://localhost:3000')
+      cy.url().should('include', '/login')
+    })
   })
