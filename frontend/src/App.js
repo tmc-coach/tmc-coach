@@ -17,14 +17,26 @@ function App() {
       localStorage.removeItem('token')
       return redirect('/login', { replace: true })
     }
+    return null
+  }
+
+  const checkLogin = async () => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      const user = await authService.getUser(token)
+      if (user.status && user.status === 200) {
+        return redirect('/', { replace: true })
+      }
+    }
+    return null
   }
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} loader={checkLogin}/>
         <Route path="/" element={<Home />} loader={checkAuth}/>
-        <Route path="/orgs" element={<Orgs />} loader={checkAuth} />
+        <Route path="/orgs" element={<Orgs />} loader={checkAuth}/>
         <Route path="/orgs/:slug" element={null} loader={checkAuth}/>
       </Route>
     )
