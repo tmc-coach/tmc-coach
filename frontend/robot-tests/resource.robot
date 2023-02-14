@@ -3,8 +3,8 @@ Library		SeleniumLibrary
 
 *** Variables ***
 ${SERVER}		http://127.0.0.1:3000
-${BROWSER}		chrome
-${DELAY}		0.2 seconds
+${BROWSER}		headlesschrome
+${DELAY}		0.1 seconds
 ${HOME URL}		${SERVER}/
 ${ORGS URL}		${SERVER}/orgs
 &{LOG CAPABILITY}	browser=ALL
