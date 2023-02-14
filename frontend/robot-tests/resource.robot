@@ -4,8 +4,9 @@ Library		SeleniumLibrary
 *** Variables ***
 ${SERVER}		http://127.0.0.1:3000
 ${BROWSER}		chrome
-${DELAY}		0.3 seconds
+${DELAY}		0.2 seconds
 ${HOME URL}		${SERVER}/
+${ORGS URL}		${SERVER}/orgs
 &{LOG CAPABILITY}	browser=ALL
 &{CAPABILITIES}	browserName=chrome	version=${EMPTY}	platform=ANY	goog:loggingPrefs=${LOG CAPABILITY}
 
@@ -24,8 +25,17 @@ Login Page Should Be Open
 	Page Should Contain  Login
 	Title Should Be      TMC-Coach
 
+Orgs Page Should Be Open
+	Page Should Contain  All organizations
+	Wait Until Page Contains	Aleksanteri Kenan koulu	timeout=15s
+	Page Should Contain  Aleksanteri Kenan koulu
+	Title Should Be      TMC-Coach
+
 Go To Login Page
 	Go To	${HOME URL}
+
+Go To Orgs Page
+	Go To	${ORGS URL}
 
 Get Browser Console Log Entries
 	${selenium}=		Get Library Instance	SeleniumLibrary
