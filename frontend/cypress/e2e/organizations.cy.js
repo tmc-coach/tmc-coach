@@ -37,4 +37,8 @@ describe('TMC-Coach login', { defaultCommandTimeout: 8000 }, () => {
     cy.visit('http://localhost:3000/orgs')
     cy.url().should('not.include', '/orgs')
   })
+  it('logged out user can not got to the course page', () => {
+    cy.visit('http://localhost:3000/orgs/aalto-biz')
+    cy.url().should('not.include', '/orgs')
+  })
 })
