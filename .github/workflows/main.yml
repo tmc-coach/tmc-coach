@@ -37,24 +37,19 @@ jobs:
   robot-tests:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v3
+      - uses: actions/checkout@v3
+      - uses: isbang/compose-action@v1.4.1
         with:
-          python-version: 3.11
-
-      - name: Install dependencies
-        run: |
-          cd backend/
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Start backend in background
-        run: |
-          cd backend/
-          python wsgi.py &
+          compose-file: "docker-compose.yml"
+        env:
+          TMCUSERNAME: ${{ secrets.TMCUSERNAME }}
+          TMCPASSWORD: ${{ secrets.TMCPASSWORD }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          TMC_URL: ${{ secrets.TMC_URL }}
+          EXAMPLE_TOKEN: ${{ secrets.EXAMPLE_TOKEN }}
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v3
