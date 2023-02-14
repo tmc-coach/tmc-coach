@@ -34,3 +34,9 @@ pip install -r requirements.txt
 robot --version   # to verify robot framework installation
 robot .
 ```
+
+### Cypress tests
+
+```sh
+npx cypress open
+```
