@@ -1,23 +1,36 @@
 import Login from './routes/Login'
 import Home from './routes/Home'
 import Orgs from './routes/Orgs'
-import Header from './components/Header'
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { RouterProvider, Route, redirect, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+import authService from './services/auth'
 
 function App() {
+  const checkAuth = async () => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      console.log('ok')
+      return redirect('/login', { replace: true })
+    }
+    const user = await authService.getUser(token)
+    if (user.status && user.status !== 200) {
+      localStorage.removeItem('token')
+      return redirect('/login', { replace: true })
+    }
+  }
 
-  return (
-    <Router>
-      <Header/>
-      <Routes>
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route>
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/orgs" element={<Orgs />} />
-        <Route path="/orgs/:slug" element={null} />
-      </Routes>
-    </Router>
+        <Route path="/" element={<Home />} loader={checkAuth}/>
+        <Route path="/orgs" element={<Orgs />} loader={checkAuth} />
+        <Route path="/orgs/:slug" element={null} loader={checkAuth}/>
+      </Route>
+    )
   )
+
+  return <RouterProvider router={router} />
 }
 
 export default App
