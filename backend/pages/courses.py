@@ -8,7 +8,10 @@ courses = Blueprint("courses", __name__)
 @courses.route("/<org_id>", methods=["GET"])
 def get_course(org_id):
     org_slug = org_id
-    token = decode_jwt(request.headers.get("Authorization", None))
+    auth_header = request.headers.get("Authorization", None)
+    if not auth_header:
+        return jsonify(error="Authorization header missing")
+    token = decode_jwt(auth_header)
     print(token)
     response = requests.get(
         f"https://tmc.mooc.fi/api/v8/core/org/{org_slug}/courses.json", headers={"Accept": "application/json", "Authorization": token["token"]}
