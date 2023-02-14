@@ -70,8 +70,8 @@ jobs:
 
       - name: Start MockTMC for robot
         env:
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.PASSWORD }}
+          TMCUSERNAME: ${{ secrets.TMCUSERNAME }}
+          TMCPASSWORD: ${{ secrets.TMCPASSWORD }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           TMC_URL: ${{ secrets.TMC_URL }}
@@ -90,8 +90,8 @@ jobs:
 
       - name: Run robot tests
         env:
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.PASSWORD }}
+          TMCUSERNAME: ${{ secrets.TMCUSERNAME }}
+          TMCPASSWORD: ${{ secrets.TMCPASSWORD }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
         run: |

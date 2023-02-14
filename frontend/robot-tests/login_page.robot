@@ -22,4 +22,4 @@ Set Username
 	Input Text	username	${TMCUSERNAME}
 
 Set Password
-	Input Text	password	${TMCPASSWORD} 
+	Input Password	password	${TMCPASSWORD} 
