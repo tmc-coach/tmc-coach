@@ -98,3 +98,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r frontend/robot-tests/requirements.txt
           robot frontend/robot-tests
+
+      - name: Upload Robot report and log
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: robot-report-log
+          path: |
+            /home/runner/work/tmc-coach/tmc-coach/*.html
+            /home/runner/work/tmc-coach/tmc-coach/selenium-screenshot-*.png
+          retention-days: 5   # Reduce file storage retention from 90 days to 5
