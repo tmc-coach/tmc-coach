@@ -33,4 +33,8 @@ describe('TMC-Coach login', { defaultCommandTimeout: 8000 }, () => {
     cy.contains('MOOC').click()
     cy.url().should('include', '/orgs/mooc')
   })
+  it('logged out user can not got to the organization page', () => {
+    cy.visit('http://localhost:3000/orgs')
+    cy.url().should('not.include', '/orgs')
+  })
 })
