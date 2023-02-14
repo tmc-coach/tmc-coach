@@ -302,3 +302,6 @@ output.xml
 report.html
 selenium-*.png
 videos/
+
+# cypress stuff
+cypress.env.json
