@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-describe('TMC-Coach login', () => {
+describe('TMC-Coach login', { defaultCommandTimeout: 8000 }, () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000')
   })
@@ -25,10 +25,8 @@ describe('TMC-Coach login', () => {
   it('user can search organizations on searchbar', () => {
     cy.visit('http://localhost:3000/orgs')
     cy.get('input[type=search]').type('mooc')
-    cy.wait(5000)
     cy.contains('Aalto BIZ').should('not.exist')
     cy.contains('MOOC').click()
-    cy.wait(5000)
     cy.url().should('include', '/orgs/mooc')
   })
 })
