@@ -1,15 +1,15 @@
 import Login from './routes/Login'
 import Home from './routes/Home'
 import Orgs from './routes/Orgs'
+import Header from './components/Header'
 import React from 'react'
-import { RouterProvider, Route, redirect, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+import { RouterProvider, redirect, createBrowserRouter, Outlet } from 'react-router-dom'
 import authService from './services/auth'
 
 function App() {
   const checkAuth = async () => {
     const token = localStorage.getItem('token')
     if (!token) {
-      console.log('ok')
       return redirect('/login', { replace: true })
     }
     const user = await authService.getUser(token)
@@ -30,18 +30,38 @@ function App() {
     }
     return null
   }
-
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <Route>
-        <Route path="/login" element={<Login />} loader={checkLogin}/>
-        <Route path="/" element={<Home />} loader={checkAuth}/>
-        <Route path="/orgs" element={<Orgs />} loader={checkAuth}/>
-        <Route path="/orgs/:slug" element={null} loader={checkAuth}/>
-      </Route>
-    )
+  const Layout = () => (
+    <>
+      <Header />
+      <Outlet />
+    </>
   )
-
+  const router = createBrowserRouter([
+    { element: <Layout />,
+      children: [
+        {
+          path: '/login',
+          element: <Login />,
+          loader: checkLogin
+        },
+        {
+          path: '/',
+          element: <Home />,
+          loader: checkAuth
+        },
+        {
+          path: '/orgs',
+          element: <Orgs />,
+          loader: checkAuth
+        },
+        {
+          path: 'orgs/:slug',
+          element: null,
+          loader: checkAuth
+        }
+      ]
+    }
+  ])
   return <RouterProvider router={router} />
 }
 
