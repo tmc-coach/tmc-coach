@@ -13,11 +13,4 @@ jobs:
     - name: Curl access_token
       uses: wei/curl@v1
       with:
-        args: |
-        -X POST --url https://tmc.mooc.fi/oauth/token \
-        --header 'Content-Type: application/x-www-form-urlencoded' \
-        --data client_id=${{ secrets.CLIENT_ID }} \
-        --data client_secret=${{ secrets.CLIENT_SECRET }} \
-        --data username=${{ secrets.TMCUSERNAME }} \
-        --data password=${{ secrets.TMCPASSWORD }} \
-        --data grant_type=password
+        args: -X POST --url https://tmc.mooc.fi/oauth/token --header 'Content-Type: application/x-www-form-urlencoded' --data client_id=${{ secrets.CLIENT_ID }} --data client_secret=${{ secrets.CLIENT_SECRET }} --data username=${{ secrets.TMCUSERNAME }} --data password=${{ secrets.TMCPASSWORD }} --data grant_type=password
