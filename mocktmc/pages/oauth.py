@@ -14,18 +14,16 @@ def authorize():
     for key, val in request_data.items():
         request_data_parsed[key] = str(val[0])
 
-    print("---")
-    print(request_data_parsed)
-    print("---")
-
     mock = MockTMC.get_instance()
 
-    response = mock.authorize((
-        request_data_parsed["grant_type"],
-        request_data_parsed["username"],
-        request_data_parsed["password"],
-        request_data_parsed["client_id"],
-        request_data_parsed["client_secret"],
-    ))
+    response = mock.authorize(
+        (
+            request_data_parsed["grant_type"],
+            request_data_parsed["username"],
+            request_data_parsed["password"],
+            request_data_parsed["client_id"],
+            request_data_parsed["client_secret"],
+        )
+    )
 
     return response

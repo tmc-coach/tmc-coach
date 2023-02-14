@@ -19,7 +19,7 @@ def authorize():
         return jsonify(error="password is required"), 400
 
     response = requests.post(
-        f"{os.getenv('AUTH_URL')}/oauth/token",
+        f"{os.getenv('TMC_URL')}/oauth/token",
         data={
             "client_id": os.getenv("CLIENT_ID"),
             "client_secret": os.getenv("CLIENT_SECRET"),
@@ -31,11 +31,6 @@ def authorize():
 
     if response.status_code == 401:
         return jsonify(error="invalid username or password"), 401
-
-    print("--- backend auth response ---")
-    print(response.headers)
-    print(response.json())
-    print("--- backend auth response ---")
 
     token = f"{response.json()['token_type']} {response.json()['access_token']}"
     encoded_jwt = encode_jwt(username, token)
@@ -54,7 +49,7 @@ def get_user():
         return jsonify(error="Invalid token"), 401
 
     headers = {"Authorization": decoded_jwt["username"]}
-    response = requests.get("https://tmc.mooc.fi/api/v8/users/current", headers=headers)
+    response = requests.get(f"{os.getenv('TMC_URL')}/api/v8/users/current", headers=headers)
 
     if response.status_code != 200:
         return (
