@@ -22,7 +22,11 @@ describe('TMC-Coach login', { defaultCommandTimeout: 8000 }, () => {
     cy.contains('Aalto BIZ').click()
     cy.url().should('include', '/orgs/aalto-biz')
   })
-  it('user can search organizations on searchbar', () => {
+  it('logged in user can search organizations on searchbar', () => {
+    cy.get('input[name=username]').type(Cypress.env('tmcusername'))
+    cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
+    cy.get('button[type=submit]').click()
+    cy.url().should('not.include', '/login')
     cy.visit('http://localhost:3000/orgs')
     cy.get('input[type=search]').type('mooc')
     cy.contains('Aalto BIZ').should('not.exist')
