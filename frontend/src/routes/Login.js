@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import authService from '../services/auth'
 
@@ -26,21 +26,6 @@ const Login = () => {
       console.log(exception)
     }
   }
-
-  const checkAuth = async () => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      const user = await authService.getUser(token)
-      if (user.status && user.status === 200) {
-        return navigate('/', { replace: true })
-      }
-    }
-  }
-
-  useEffect(() => {
-    checkAuth()
-  }, [])
-
   return (
     <div className="flex h-screen">
       <div className="m-auto">
