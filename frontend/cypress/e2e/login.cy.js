@@ -24,4 +24,12 @@ describe('TMC-Coach login', () => {
     cy.get('button[type=submit]').click()
     cy.url().should('not.include', '/login')
   })
+  it('sign out -button directs to the login page', () => {
+    cy.get('input[name=username]').type(Cypress.env('tmcusername'))
+    cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
+    cy.get('button[type=submit]').click()
+    cy.url().should('not.include', '/login')
+    cy.get('button[type=submit]').click()
+    cy.url().should('include', '/login')
+  })
 })
