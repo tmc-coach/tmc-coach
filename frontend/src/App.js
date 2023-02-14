@@ -3,33 +3,10 @@ import Home from './routes/Home'
 import Orgs from './routes/Orgs'
 import Header from './components/Header'
 import React from 'react'
-import { RouterProvider, redirect, createBrowserRouter, Outlet } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter, Outlet } from 'react-router-dom'
 import authService from './services/auth'
 
 function App() {
-  const checkAuth = async () => {
-    const token = localStorage.getItem('token')
-    if (!token) {
-      return redirect('/login', { replace: true })
-    }
-    const user = await authService.getUser(token)
-    if (user.status && user.status !== 200) {
-      localStorage.removeItem('token')
-      return redirect('/login', { replace: true })
-    }
-    return null
-  }
-
-  const checkLogin = async () => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      const user = await authService.getUser(token)
-      if (user.status && user.status === 200) {
-        return redirect('/', { replace: true })
-      }
-    }
-    return null
-  }
   const Layout = () => (
     <>
       <Header />
@@ -42,22 +19,22 @@ function App() {
         {
           path: '/login',
           element: <Login />,
-          loader: checkLogin
+          loader: authService.checkLogin
         },
         {
           path: '/',
           element: <Home />,
-          loader: checkAuth
+          loader: authService.checkAuth
         },
         {
           path: '/orgs',
           element: <Orgs />,
-          loader: checkAuth
+          loader: authService.checkAuth
         },
         {
           path: 'orgs/:slug',
           element: null,
-          loader: checkAuth
+          loader: authService.checkAuth
         }
       ]
     }
