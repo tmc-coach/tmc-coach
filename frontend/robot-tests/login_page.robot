@@ -11,11 +11,11 @@ User Can Open Login Page
 	Log		${TMCUSERNAME}
 	Login Page Should Be Open
 
-# User Can Login With Valid Credentials
-# 	Set Username
-# 	Set Password
-# 	Click Button	Login
-# 	Wait Until Page Contains	Your courses	timeout=5s
+User Can Login With Valid Credentials
+	Set Username
+	Set Password
+	Click Button	Login
+	Wait Until Page Contains	Sign out	timeout=5s
 
 *** Keywords ***
 Set Username
