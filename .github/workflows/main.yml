@@ -51,11 +51,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Start backend for robot
+      - name: Start backend in background
         run: |
           cd backend/
           python wsgi.py &
-          sleep 2
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v3
@@ -68,7 +67,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Start MockTMC for robot
+      - name: Start MockTMC in background
         env:
           TMCUSERNAME: ${{ secrets.TMCUSERNAME }}
           TMCPASSWORD: ${{ secrets.TMCPASSWORD }}
@@ -79,14 +78,12 @@ jobs:
         run: |
           cd mocktmc/
           python wsgi.py &
-          sleep 2
 
       - name: Start frontend for robot
         run: |
           cd frontend/
           npm install
           npm start &
-          sleep 4
 
       - name: Run robot tests
         env:
