@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import missing from '../assets/missing.png'
 
 const Organization = ({ organization }) => (
