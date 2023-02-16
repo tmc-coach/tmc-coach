@@ -4,17 +4,68 @@
 
 ### Container
 
+Setup the database and network with
+
+```sh
+docker pull postgres:alpine
+docker network create my-network
+docker run -d --name postgres-db \
+           -e POSTGRES_USER=<username> \
+           -e POSTGRES_PASSWORD=<password> \
+           -e POSTGRES_DB=<database_name> \
+           --network my-network \
+           -v postgres-db-data:/var/lib/postgresql/data \
+           -p 5432:5432 \
+           postgres:alpine
+```
+
+Then build and run the container with
+
 ```sh
 docker build . -t backend
-docker run -d -p 5000:5000 backend
+docker run -d --name backend \
+           --network my-network \
+           -p 5000:5000 \
+           backend
+```
+
+Enter the container to intialize the database with
+
+```sh
+docker exec -it backend bash
+python
+>>> from app import db
+>>> db.create_all()
+```
+
+Database can be accessed manually with
+
+```sh
+docker exec -it postgres-db bash
+psql -U <username> -d <database_name>
 ```
 
 ### Without the container
+
+Setup the virtual environment and install the requirements with
 
 ```sh
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+```
+
+Setup your local postgresql-server and create a database for the application. Then set the environment variables `POSTGRES_USER`, `POSTGRES_PASSWORD` and `POSTGRES_DB` to match the database credentials. Initialize the database tables with
+
+```sh
+python
+>>> from app import db
+>>> db.create_all()
+```
+
+Run the application with
+
+```sh
 python wsgi.py
 ```
 
