@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 const Courses = ({ courses }) => (
 
   <div>
@@ -10,6 +12,9 @@ const Courses = ({ courses }) => (
           </div>
           <div>
             {course.description !== '' ? course.description : 'A mysterious course without description.'}
+          </div>
+          <div>
+            <Link to={`/orgs/${course.name}/set_deadline`}>Set deadline</Link>
           </div>
         </div>)}
   </div>
