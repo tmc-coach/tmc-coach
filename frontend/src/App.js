@@ -40,7 +40,7 @@ function App() {
           loader: authService.checkAuth
         },
         {
-          path: 'orgs/:name/set_deadline',
+          path: 'orgs/:id/set_deadline',
           element: <SettingDeadline />,
           loader: authService.checkAuth
         }

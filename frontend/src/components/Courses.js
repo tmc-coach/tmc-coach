@@ -14,7 +14,7 @@ const Courses = ({ courses }) => (
             {course.description !== '' ? course.description : 'A mysterious course without description.'}
           </div>
           <div>
-            <Link to={`/orgs/${course.name}/set_deadline`}>Set deadline</Link>
+            <Link to={`/orgs/${course.id}/set_deadline`}>Set deadline</Link>
           </div>
         </div>)}
   </div>
