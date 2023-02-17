@@ -35,6 +35,6 @@ def get_exercises(course_id):
     
     course_title = response_name.json()
     
-    results = [{"awarded_points": awarded_points, "maximum_exercises": maximum_exercises, "course_title": course_title['title']}]
+    results = [{"completed_percentage": round((awarded_points / maximum_exercises) * 100, 1) ,"awarded_points": awarded_points, "maximum_exercises": maximum_exercises, "course_title": course_title['title']}]
 
     return json.dumps(results)
