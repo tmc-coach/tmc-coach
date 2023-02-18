@@ -4,65 +4,69 @@ describe('TMC-Coach login', { defaultCommandTimeout: 8000 }, () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000')
   })
-  it('logged in user can go to the organization page', () => {
+  it('logged in user can see sign out button on home page', () => {
     cy.get('input[name=username]').type(Cypress.env('tmcusername'))
     cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
     cy.get('button[type=submit]').click()
     cy.url().should('not.include', '/login')
-    cy.contains('Organizations').click()
-    cy.url().should('include', '/orgs')
+    cy.contains('Sign out')
   })
-  it('logged in user can click a organization', () => {
+  it('logged in user can see sign out button on organizations page', () => {
     cy.get('input[name=username]').type(Cypress.env('tmcusername'))
     cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
     cy.get('button[type=submit]').click()
     cy.url().should('not.include', '/login')
-    cy.contains('Organizations').click()
+    cy.visit('http://localhost:3000/orgs')
     cy.url().should('include', '/orgs')
-    cy.contains('Aalto BIZ').click()
+    cy.contains('Sign out')
+  })
+  it('logged in user can see sign out button on course page', () => {
+    cy.get('input[name=username]').type(Cypress.env('tmcusername'))
+    cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
+    cy.get('button[type=submit]').click()
+    cy.url().should('not.include', '/login')
+    cy.visit('http://localhost:3000/orgs/aalto-biz')
     cy.url().should('include', '/orgs/aalto-biz')
+    cy.contains('Sign out')
   })
-  it('logged in user can search organizations on searchbar', () => {
+  it('logged out user can not see sign out button on login page', () => {
+    cy.url().should('include', '/login')
+    cy.contains('Sign out').should('not.exist')
+  })
+  it('logged in user on organizations page can click header link to get to home page', () => {
     cy.get('input[name=username]').type(Cypress.env('tmcusername'))
     cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
     cy.get('button[type=submit]').click()
-    cy.url().should('not.include', '/login')
     cy.visit('http://localhost:3000/orgs')
-    cy.get('input[type=search]').type('mooc')
-    cy.contains('Aalto BIZ').should('not.exist')
-    cy.contains('MOOC').click()
-    cy.url().should('include', '/orgs/mooc')
-  })
-  it('logged out user can not go to the organization page', () => {
-    cy.visit('http://localhost:3000/orgs')
+    cy.contains('TMC Coach').click()
     cy.url().should('not.include', '/orgs')
   })
-  it('logged out user is directed to login if on organization page', () => {
-    cy.visit('http://localhost:3000/orgs')
-    cy.url().should('include', '/login')
-  })
-  it('logged out user can not go to the course page', () => {
+  it('logged in user on course page can click header link to get to home page', () => {
+    cy.get('input[name=username]').type(Cypress.env('tmcusername'))
+    cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
+    cy.get('button[type=submit]').click()
     cy.visit('http://localhost:3000/orgs/aalto-biz')
+    cy.contains('TMC Coach').click()
     cy.url().should('not.include', '/orgs/aalto-biz')
   })
-  it('logged out user is directed to login if on course page', () => {
-    cy.visit('http://localhost:3000/orgs/aalto-biz')
-    cy.url().should('include', '/login')
-  })
-  it('logged in user can go to the organization page', () => {
+  it('logged in user can use sign out button on organizations page', () => {
     cy.get('input[name=username]').type(Cypress.env('tmcusername'))
     cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
     cy.get('button[type=submit]').click()
     cy.url().should('not.include', '/login')
     cy.visit('http://localhost:3000/orgs')
     cy.url().should('include', '/orgs')
-  })
-  it('logged in user can go to the course page', () => {
+    cy.contains('Sign out').click()
+    cy.url().should('include', '/login')
+  }) 
+  it('logged in user can use sign out button on course page', () => {
     cy.get('input[name=username]').type(Cypress.env('tmcusername'))
     cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
     cy.get('button[type=submit]').click()
     cy.url().should('not.include', '/login')
     cy.visit('http://localhost:3000/orgs/aalto-biz')
     cy.url().should('include', '/orgs/aalto-biz')
-  })
+    cy.contains('Sign out').click()
+    cy.url().should('include', '/login')
+  }) 
 })
