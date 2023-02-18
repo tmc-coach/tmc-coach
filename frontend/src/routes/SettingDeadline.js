@@ -17,13 +17,18 @@ const SettingDeadline = () => {
 
   const handleSetting = async (event) => {
     event.preventDefault()
+
+    const now = new Date()
+    console.log(now.getFullYear)
+    console.log(date)
+
     const username = localStorage.getItem('loggedInUser')
 
     try {
       settingService.set_deadline({ course_id, username, date })
       console.log('nappia painettu')
     } catch (exception) {
-      console.log('ei onnistunu')
+      console.log('adding a deadline was unsuccesfull')
     }
   }
 
@@ -31,7 +36,7 @@ const SettingDeadline = () => {
     <div>
       <p>Set deadline for course {info.title}</p>
       <p>Click the date to choose deadline for this course</p>
-      <DatePicker selected={date} onChange={(newDate) => setDate(newDate)} />
+      <DatePicker selected={date} onChange={(newDate) => setDate(newDate)} minDate={new Date()} />
       <button onClick={handleSetting}>Set deadline</button>
     </div>
   )
