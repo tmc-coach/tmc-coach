@@ -1,10 +1,8 @@
 import { useParams } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
-import DatePicker from 'react-datepicker'
 import courseService from '../services/course'
 import settingService from '../services/settingDeadline'
-
-import 'react-datepicker/dist/react-datepicker.css'
+import DeadlineSetting from '../components/DeadlineSetting'
 
 const SettingDeadline = () => {
   const course_id = useParams().id
@@ -17,27 +15,22 @@ const SettingDeadline = () => {
 
   const handleSetting = async (event) => {
     event.preventDefault()
-
-    const now = new Date()
-    console.log(now.getFullYear)
     console.log(date)
 
     const username = localStorage.getItem('loggedInUser')
 
     try {
       settingService.set_deadline({ course_id, username, date })
-      console.log('nappia painettu')
+      console.log('setting deadline was successful')
     } catch (exception) {
-      console.log('adding a deadline was unsuccesfull')
+      console.log('adding a deadline was unsuccessful')
     }
   }
 
   return (
     <div>
-      <p>Set deadline for course {info.title}</p>
-      <p>Click the date to choose deadline for this course</p>
-      <DatePicker selected={date} onChange={(newDate) => setDate(newDate)} minDate={new Date()} />
-      <button onClick={handleSetting}>Set deadline</button>
+      <h1  className='text-3xl font-medium text-center tracking-wide p-10'>Set deadline for course {info.title}</h1>
+      <DeadlineSetting date={date} setDate={setDate} handleSetting={handleSetting} />
     </div>
   )
 }
