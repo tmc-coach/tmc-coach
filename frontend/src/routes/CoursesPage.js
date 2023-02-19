@@ -20,11 +20,7 @@ const Courses_Page = () => {
 
   useEffect(() => {
     orgService.get_org(org_slug).then(org => setOrg({ ...org, name: org[0].name, information: org[0].information, logo_path: org[0].logo_path }))
-    console.log('returned org')
-    console.log(org)
     courseService.get_courses(org_slug).then(courses => setCourses(courses))
-    console.log('returned courses')
-    console.log(courses)
   }, [])
 
   const coursesToShow = (filter.length === 0) ? courses : courses.filter(course => course.title.toLowerCase().includes(filter.toLowerCase()))
