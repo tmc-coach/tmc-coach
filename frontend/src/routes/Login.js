@@ -30,7 +30,7 @@ const Login = () => {
     <div className="flex h-screen">
       <div className="m-auto">
         <h2 className="text-xl mb-4">Log in with your TMC account</h2>
-        <p>{errorMessage}</p>
+        <p className="error">{errorMessage}</p>
         <form onSubmit={handleLogin}>
           <div className="flex flex-col mb-4">
             <label>Username or email</label>
