@@ -20,3 +20,5 @@ cd $projectpath/frontend
 echo $(pwd)
 
 $projectpath/frontend/node_modules/.bin/cypress run --browser chrome --env tmcusername=$TMCUSERNAME,tmcpassword=$TMCPASSWORD
+
+docker compose stop
