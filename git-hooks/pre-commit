@@ -1,0 +1,15 @@
+#!/bin/sh
+
+currentfile=$(readlink -f "$0")
+hookspath=$(dirname "$currentfile")
+gitpath=$(dirname "$hookspath")
+projectpath=$(dirname "$gitpath")
+
+echo "$projectpath"
+
+echo "Running docker compose"
+# echo "docker compose -f $projectpath/docker-compose.yml up --build"
+# docker compose -f "$projectpath/docker-compose.yml" up --build &
+
+echo "Running e2e tests"
+# $projectpath/frontend/node_modules/.bin/cypress run --browser /usr/bin/chromium --env tmcusername=$TMCUSERNAME,tmcpassword=$TMCPASSWORD
