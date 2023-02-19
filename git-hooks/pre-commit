@@ -1,24 +1,27 @@
 #!/bin/sh
+#
+# Run tests before commit. Pre-commit expects application to be running on port 3000 and backend on port 5000.
 
 currentfile=$(readlink -f "$0")
 hookspath=$(dirname "$currentfile")
 projectpath=$(dirname "$hookspath")
 
-echo "$projectpath"
+if ! lsof -Pi :3000 -sTCP:LISTEN -t >/dev/null; then
+	echo "Frontend is not running"
+	exit 1
+fi
 
-echo "Running docker compose"
-docker compose -f "$projectpath/docker-compose.yml" up --build &
-
-sleep 30
+if ! lsof -Pi :5000 -sTCP:LISTEN -t >/dev/null; then
+	echo "Backend is not running"
+	exit 1
+fi
 
 echo "Running e2e tests"
+
+# Set environment variables
 export $(grep -v '^#' backend/.env | xargs -d '\n')
-echo $TMCUSERNAME 
 
 cd $projectpath/frontend
 
-echo $(pwd)
-
+# Run cypress tests
 $projectpath/frontend/node_modules/.bin/cypress run --browser chrome --env tmcusername=$TMCUSERNAME,tmcpassword=$TMCPASSWORD
-
-docker compose stop
