@@ -2,14 +2,21 @@
 
 currentfile=$(readlink -f "$0")
 hookspath=$(dirname "$currentfile")
-gitpath=$(dirname "$hookspath")
-projectpath=$(dirname "$gitpath")
+projectpath=$(dirname "$hookspath")
 
 echo "$projectpath"
 
 echo "Running docker compose"
-# echo "docker compose -f $projectpath/docker-compose.yml up --build"
-# docker compose -f "$projectpath/docker-compose.yml" up --build &
+docker compose -f "$projectpath/docker-compose.yml" up --build &
+
+sleep 30
 
 echo "Running e2e tests"
-# $projectpath/frontend/node_modules/.bin/cypress run --browser /usr/bin/chromium --env tmcusername=$TMCUSERNAME,tmcpassword=$TMCPASSWORD
+export $(grep -v '^#' backend/.env | xargs -d '\n')
+echo $TMCUSERNAME 
+
+cd $projectpath/frontend
+
+echo $(pwd)
+
+$projectpath/frontend/node_modules/.bin/cypress run --browser chrome --env tmcusername=$TMCUSERNAME,tmcpassword=$TMCPASSWORD
