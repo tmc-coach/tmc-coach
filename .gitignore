@@ -301,4 +301,11 @@ log.html
 output.xml
 report.html
 selenium-*.png
-videos/
+
+# Cypress files
+*/cypress/results/*
+*/cypress/reports/*
+*/cypress/screenshots/*
+*/cypress/videos/*
+*/cypress/downloads/*
+
