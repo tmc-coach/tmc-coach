@@ -3,6 +3,7 @@ from modules.user import encode_jwt, decode_jwt
 import requests
 from app import db
 from sqlalchemy.sql import text
+import json
 
 deadline = Blueprint("deadline", __name__)
 
@@ -22,12 +23,12 @@ def set_deadline():
 def get_deadlines(username):
     sql = "SELECT * FROM deadlines WHERE username=:username"
     result = db.session.execute(text(sql), {"username":username})
-    #sql = "SELECT * FROM deadlines WHERE course_id=:course_id"
-    #result = db.session.execute(text(sql), {"course_id":course_id})
-    print("TULOSTA")
-    response = result.fetchall() 
-    print(response)
-    return response.json()
+    deadlines = result.fetchall() 
+    response = {"deadlines": deadlines}
+    response = {}
+    for i in range(len(deadlines)):
+        response[i] = {"id": deadlines[i][0], "username": deadlines[i][1], "course_id": deadlines[i][2], "date": deadlines[i][3]}
+    return json.dumps(response, default=str)
 
 # Database model demo
 class deadlines(db.Model):
