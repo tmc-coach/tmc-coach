@@ -1,3 +1,4 @@
+import ExercisesPage from './routes/ExercisePage'
 import Login from './routes/Login'
 import Home from './routes/Home'
 import Orgs from './routes/Orgs'
@@ -36,6 +37,11 @@ function App() {
         {
           path: 'orgs/:slug',
           element: <CoursesPage />,
+          loader: authService.checkAuth
+        },
+        {
+          path: '/orgs/courses/:course_id',
+          element: <ExercisesPage />,
           loader: authService.checkAuth
         }
       ]

@@ -12,10 +12,10 @@ def get_course(org_id):
     if not auth_header:
         return jsonify(error="Authorization header missing")
     token = decode_jwt(auth_header)
-    print(token)
     response = requests.get(
-        f"https://tmc.mooc.fi/api/v8/core/org/{org_slug}/courses.json", headers={"Accept": "application/json", "Authorization": token["token"]}
-        )
+        f"https://tmc.mooc.fi/api/v8/core/org/{org_slug}/courses.json",
+        headers={"Accept": "application/json", "Authorization": token["token"]},
+    )
     if response.status_code == 403:
         return jsonify(error="Forbidden"), 403
     if response.status_code == 404:

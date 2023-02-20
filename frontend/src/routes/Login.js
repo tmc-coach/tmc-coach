@@ -30,7 +30,7 @@ const Login = () => {
     <div className="flex h-screen">
       <div className="m-auto">
         <h2 className="text-xl mb-4">Log in with your TMC account</h2>
-        <p>{errorMessage}</p>
+        <p className="error">{errorMessage}</p>
         <form onSubmit={handleLogin}>
           <div className="flex flex-col mb-4">
             <label>Username or email</label>
@@ -40,7 +40,7 @@ const Login = () => {
             <label>Password</label>
             <input className="border rounded" type="password" value={password} name="password" onChange={({ target }) => setPassword(target.value)} />
           </div>
-          <button className="bg-blue-600 w-full mt-2 rounded text-white p-1" type="submit">Login</button>
+          <button className="bg-blue-600 hover:bg-blue-700 w-full mt-2 rounded text-white p-1" type="submit">Login</button>
         </form>
       </div>
     </div>
