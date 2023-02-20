@@ -17,9 +17,6 @@ const SettingDeadline = () => {
 
   useEffect(() => {
     courseService.get_course_info(course_id).then(course => setInfo(course.course))
-  }, [])
-
-  useEffect(() => {
     deadlineService.get_deadlines({ username }).then(deadlines => setDeadlines(deadlines))
   }, [])
 
@@ -30,6 +27,7 @@ const SettingDeadline = () => {
 
     try {
       settingService.set_deadline({ course_id, username, date })
+      deadlineService.get_deadlines({ username }).then(dls => setDeadlines(dls))
       setMessage('Setting deadline was successful!')
       setTimeout(() => {
         setMessage(null)
@@ -41,6 +39,9 @@ const SettingDeadline = () => {
       }, 10000)
     }
   }
+  useEffect(() => {
+    deadlineService.get_deadlines({ username }).then(deadlines => setDeadlines(deadlines))
+  }, [handleSetting])
 
   return (
     <div>
