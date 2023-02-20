@@ -8,6 +8,8 @@ const get_deadlines = async username => {
 
   const response = await axios.get(`${baseUrl}${username.username}`, { headers: { Authorization: localStorage.getItem('token') } })
 
+  console.log(response.data)
+
   return response.data
 }
 
