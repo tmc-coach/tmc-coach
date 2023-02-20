@@ -58,7 +58,7 @@ describe('TMC-Coach login', { defaultCommandTimeout: 8000 }, () => {
     cy.url().should('include', '/orgs')
     cy.contains('Sign out').click()
     cy.url().should('include', '/login')
-  }) 
+  })
   it('logged in user can use sign out button on course page', () => {
     cy.get('input[name=username]').type(Cypress.env('tmcusername'))
     cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
@@ -68,5 +68,5 @@ describe('TMC-Coach login', { defaultCommandTimeout: 8000 }, () => {
     cy.url().should('include', '/orgs/aalto-biz')
     cy.contains('Sign out').click()
     cy.url().should('include', '/login')
-  }) 
+  })
 })
