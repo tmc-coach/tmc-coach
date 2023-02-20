@@ -13,20 +13,17 @@ const SettingDeadline = () => {
   const [deadlines, setDeadlines] = useState([])
 
   const username = localStorage.getItem('loggedInUser')
-  console.log(parseInt(course_id))
 
   useEffect(() => {
     courseService.get_course_info(course_id).then(course => setInfo(course.course))
   }, [])
 
   useEffect(() => {
-    //deadlineService.get_deadlines({ username }).then(deadline => { if (parseInt(deadline.course_id) === parseInt(course_id)) { setDeadlines(deadlines.concat(deadline))}})
     deadlineService.get_deadlines({ username }).then(deadlines => setDeadlines(deadlines))
   }, [])
 
   const handleSetting = async (event) => {
     event.preventDefault()
-    console.log(date)
 
     const username = localStorage.getItem('loggedInUser')
 
@@ -40,13 +37,9 @@ const SettingDeadline = () => {
 
   return (
     <div>
-      <h1  className='text-3xl font-medium text-center tracking-wide p-10'>Set deadline for course {info.title}</h1>
-      <div>
-
-      </div>
+      <h1 className='text-3xl font-medium text-center tracking-wide p-10'>Set deadline for course {info.title}</h1>
       <Deadlines deadlines={deadlines} course_id={course_id} />
       <DeadlineSetting date={date} setDate={setDate} handleSetting={handleSetting} />
-      <p>{console.log(deadlines)}</p>
     </div>
   )
 }
