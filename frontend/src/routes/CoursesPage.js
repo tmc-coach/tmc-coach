@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import orgService from '../services/org'
-import courseService from '../services/courses'
 import Organization from '../components/Organization'
 import Filter from '../components/Filter'
 import Courses from '../components/Courses'
@@ -20,7 +19,7 @@ const Courses_Page = () => {
 
   useEffect(() => {
     orgService.get_org(org_slug).then(org => setOrg({ ...org, name: org[0].name, information: org[0].information, logo_path: org[0].logo_path }))
-    courseService.get_courses(org_slug).then(courses => setCourses(courses))
+    orgService.get_courses(org_slug).then(courses => setCourses(courses))
   }, [])
 
   const coursesToShow = (filter.length === 0) ? courses : courses.filter(course => course.title.toLowerCase().includes(filter.toLowerCase()))

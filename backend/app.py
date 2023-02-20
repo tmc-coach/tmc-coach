@@ -27,7 +27,6 @@ app.app_context().push()
 # import blueprints
 from pages.auth import auth
 from pages.courses import courses
-from pages.exercises import exercises
 from pages.main import main
 from pages.org import org
 
@@ -36,4 +35,3 @@ app.register_blueprint(main, url_prefix="/")
 app.register_blueprint(auth, url_prefix="/auth")
 app.register_blueprint(org, url_prefix="/org")
 app.register_blueprint(courses, url_prefix="/courses")
-app.register_blueprint(exercises, url_prefix="/exercises")
