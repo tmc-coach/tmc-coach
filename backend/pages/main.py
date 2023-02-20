@@ -17,20 +17,19 @@ def techdemo():
 # Database demo
 @main.route("/dbdemo")
 def dbdemo():
-    target = target_date(username="Arnold", course="Judgment Day", date="2016-08-29")
+    target = TargetDate(username="Arnold", course="Judgment Day", date="2016-08-29")
     db.session.add(target)
     db.session.commit()
     return jsonify(message="Database demo successful!")
 
 
 # Database model demo
-class target_date(db.Model):
-    __tablename__ = 'target_date'
+class TargetDate(db.Model):
+    __tablename__ = "target_date"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False)
     course = db.Column(db.String, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
-
 
     def __repr__(self):
         return f"target_date('{self.date}')"
