@@ -18,6 +18,17 @@ def set_deadline():
     db.session.commit()
     return jsonify(message="Deadline added succesfully!")
 
+@deadline.route("/<username>", methods=["GET"])
+def get_deadlines(username):
+    sql = "SELECT * FROM deadlines WHERE username=:username"
+    result = db.session.execute(text(sql), {"username":username})
+    #sql = "SELECT * FROM deadlines WHERE course_id=:course_id"
+    #result = db.session.execute(text(sql), {"course_id":course_id})
+    print("TULOSTA")
+    response = result.fetchall() 
+    print(response)
+    return response.json()
+
 # Database model demo
 class deadlines(db.Model):
     __tablename__ = 'deadlines'
