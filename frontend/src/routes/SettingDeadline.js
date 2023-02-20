@@ -7,6 +7,7 @@ import deadlineService from '../services/gettingDeadlines'
 import Deadlines from '../components/Deadlines'
 
 const SettingDeadline = () => {
+  const [message, setMessage] = useState('')
   const course_id = useParams().id
   const [date, setDate] = useState(new Date())
   const [info, setInfo] = useState('')
@@ -29,15 +30,22 @@ const SettingDeadline = () => {
 
     try {
       settingService.set_deadline({ course_id, username, date })
-      console.log('setting deadline was successful')
+      setMessage('Setting deadline was successful!')
+      setTimeout(() => {
+        setMessage(null)
+      }, 10000)
     } catch (exception) {
-      console.log('adding a deadline was unsuccessful')
+      setMessage('adding a deadline was unsuccessful')
+      setTimeout(() => {
+        setMessage(null)
+      }, 10000)
     }
   }
 
   return (
     <div>
       <h1 className='text-3xl font-medium text-center tracking-wide p-10'>Set deadline for course {info.title}</h1>
+      {message}
       <Deadlines deadlines={deadlines} course_id={course_id} />
       <DeadlineSetting date={date} setDate={setDate} handleSetting={handleSetting} />
     </div>
