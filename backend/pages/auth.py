@@ -48,7 +48,7 @@ def get_user():
     except jwt.DecodeError:
         return jsonify(error="Invalid token"), 401
 
-    headers = {"Authorization": decoded_jwt["username"]}
+    headers = {"Authorization": decoded_jwt["token"]}
     response = requests.get("https://tmc.mooc.fi/api/v8/users/current", headers=headers)
 
     if response.status_code != 200:
