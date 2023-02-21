@@ -23,7 +23,6 @@ const Login = () => {
       setTimeout(() => {
         setErrorMessage(null)
       }, 10000)
-      console.log(exception)
     }
   }
   return (
