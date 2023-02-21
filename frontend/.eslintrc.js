@@ -8,7 +8,8 @@ module.exports = {
     },
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "plugin:cypress/recommended"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -18,7 +19,9 @@ module.exports = {
         "sourceType": "module"
     },
     "plugins": [
-        "react", "jest"
+        "react",
+        "jest",
+        "cypress"
     ],
     "rules": {
         "indent": [
@@ -45,7 +48,7 @@ module.exports = {
         "arrow-spacing": [
             "error", { "before": true, "after": true }
         ],
-        "no-console": 0,
+        "no-console": 1,
         "react/prop-types": 0,
         "react/react-in-jsx-scope": "off"
     },

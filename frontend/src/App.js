@@ -1,3 +1,4 @@
+import ExercisesPage from './routes/ExercisePage'
 import Login from './routes/Login'
 import Home from './routes/Home'
 import Orgs from './routes/Orgs'
@@ -42,6 +43,11 @@ function App() {
         {
           path: 'orgs/:id/set_deadline',
           element: <SettingDeadline />,
+          loader: authService.checkAuth
+        },
+        {
+          path: '/orgs/courses/:course_id',
+          element: <ExercisesPage />,
           loader: authService.checkAuth
         }
       ]
