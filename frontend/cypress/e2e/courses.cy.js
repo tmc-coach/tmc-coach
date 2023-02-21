@@ -6,7 +6,6 @@ describe('TMC-Coach courses, logged in user', () => {
     cy.get('input[name=username]').type(Cypress.env('tmcusername'))
     cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
     cy.get('button[type=submit]').click()
-    cy.wait(300)
     cy.contains('Organizations').click()
   })
   it('can access courses page', () => {
@@ -18,7 +17,6 @@ describe('TMC-Coach courses, logged in user', () => {
   })
   it('can click on a course', () => {
     cy.contains('Helsingin Yliopisto').click()
-    cy.wait(300)
     cy.contains('Tilastotiede ja R tutuksi I, kevät 2023').click()
     cy.url().should('include', '/courses/1169')
   })
@@ -30,10 +28,9 @@ describe('TMC-Coach courses, logged in user', () => {
   })
   it('searchbar is not visible if only one course', () => {
     cy.contains('Aalto BIZ').click()
-    cy.wait(300)
     cy.contains('Search').should('not.exist')
   })
-  it.only('no courses is indicated', () => {
+  it('no courses is indicated', () => {
     cy.contains('Abdullah Gul University').click()
     cy.contains('No available courses')
   })

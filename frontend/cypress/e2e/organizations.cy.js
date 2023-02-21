@@ -8,7 +8,7 @@ describe('TMC-Coach login, logged in user', { defaultCommandTimeout: 8000 }, () 
     cy.get('button[type=submit]').click()
     cy.url().should('not.include', '/login')
   })
-  it('logged in user can go to the organization page', () => {    
+  it('logged in user can go to the organization page', () => {
     cy.contains('Organizations').click()
     cy.url().should('include', '/orgs')
   })
