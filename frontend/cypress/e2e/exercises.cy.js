@@ -8,8 +8,10 @@ describe('TMC-Coach course exercises, user signed in', () => {
     cy.get('button[type=submit]').click()
     cy.contains('Organizations').click()
     cy.url().should('include', '/orgs')
+    /* eslint-disable cypress/no-unnecessary-waiting */
     cy.wait(7000)
     cy.contains('Helsingin Yliopisto').click()
+    /* eslint-disable cypress/no-unnecessary-waiting */
     cy.wait(7000)
     cy.url().should('include', '/orgs/hy')
     cy.contains('Helsingin Yliopisto')
