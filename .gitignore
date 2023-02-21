@@ -183,6 +183,7 @@ sketch
 .env.development.local
 .env.test.local
 .env.production.local
+/frontend/cypress.env.json
 
 npm-debug.log*
 yarn-debug.log*
