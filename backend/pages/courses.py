@@ -32,9 +32,12 @@ def get_exercises(course_id):
     for item in data:
         maximum_exercises += len(item['available_points'])
         awarded_points += len(item['awarded_points'])
-    
+
+    if maximum_exercises == 0:
+        maximum_exercises = -1
+
     course_title = response_name.json()
-    
+
     results = [{"completed_percentage": round((awarded_points / maximum_exercises) * 100, 1) ,"awarded_points": awarded_points, "maximum_exercises": maximum_exercises, "course_title": course_title['title']}]
 
     return json.dumps(results)
