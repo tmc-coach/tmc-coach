@@ -1,10 +1,6 @@
 /// <reference types="Cypress" />
 
-describe('TMC-Coach login', () => {
-  before(() => {
-    cy.visit('http://localhost:3000')
-    cy.get('a.text-white').should('be.visible')
-  })
+describe('TMC-Coach login', { defaultCommandTimeout: 8000 }, () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000')
   })
@@ -34,6 +30,18 @@ describe('TMC-Coach login', () => {
     cy.get('button[type=submit]').click()
     cy.url().should('not.include', '/login')
     cy.get('button[type=submit]').click()
+    cy.url().should('include', '/login')
+  })
+  it('logged in user can not go to the login page', () => {
+    cy.get('input[name=username]').type(Cypress.env('tmcusername'))
+    cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
+    cy.get('button[type=submit]').click()
+    cy.url().should('not.include', '/login')
+    cy.visit('http://localhost:3000/login')
+    cy.url().should('not.include', '/login')
+  })
+  it('logged out user can not go to the front page', () => {
+    cy.visit('http://localhost:3000')
     cy.url().should('include', '/login')
   })
 })

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Exercises from '../components/Exercises'
-import exercisesService from '../services/exercises'
+//import exercisesService from '../services/exercises'
+import courseService from '../services/courses'
 
 const ExercisesPage = () => {
 
@@ -10,7 +11,7 @@ const ExercisesPage = () => {
   const course_id = useParams().course_id
 
   useEffect(() => {
-    exercisesService.get_exercises(course_id).then(exercises => setExercises(exercises))
+    courseService.get_exercises(course_id).then(exercises => setExercises(exercises))
   }, [])
 
   return (
