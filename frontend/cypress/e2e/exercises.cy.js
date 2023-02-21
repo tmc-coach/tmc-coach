@@ -8,6 +8,7 @@ describe('TMC-Coach course exercises, user signed in', () => {
       cy.get('button[type=submit]').click()
       cy.contains('Organizations').click()
       cy.url().should('include', '/orgs')
+      cy.wait(7000)
       cy.contains('Helsingin Yliopisto').click()
       cy.wait(7000)
       cy.url().should('include', '/orgs/hy')
