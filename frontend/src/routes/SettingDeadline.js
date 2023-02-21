@@ -12,6 +12,7 @@ const SettingDeadline = () => {
   const [date, setDate] = useState(new Date())
   const [info, setInfo] = useState('')
   const [deadlines, setDeadlines] = useState([])
+  const [newDeadlineAdded, setNew] = useState(false)
 
   const username = localStorage.getItem('loggedInUser')
 
@@ -20,6 +21,14 @@ const SettingDeadline = () => {
     deadlineService.get_deadlines({ username }).then(deadlines => setDeadlines(deadlines))
   }, [])
 
+  useEffect(() => {
+    if (newDeadlineAdded) {
+      deadlineService.get_deadlines({ username }).then(deadlines => setDeadlines(deadlines))
+      setNew(false)
+    }
+  }, [newDeadlineAdded])
+
+
   const handleSetting = async (event) => {
     event.preventDefault()
 
@@ -27,7 +36,7 @@ const SettingDeadline = () => {
 
     try {
       settingService.set_deadline({ course_id, username, date })
-      deadlineService.get_deadlines({ username }).then(dls => setDeadlines(dls))
+      setNew(true)
       setMessage('Setting deadline was successful!')
       setTimeout(() => {
         setMessage(null)
@@ -39,15 +48,12 @@ const SettingDeadline = () => {
       }, 10000)
     }
   }
-  useEffect(() => {
-    deadlineService.get_deadlines({ username }).then(deadlines => setDeadlines(deadlines))
-  }, [handleSetting])
 
   return (
     <div>
       <h1 className='text-3xl font-medium text-center tracking-wide p-10'>Set deadline for course {info.title}</h1>
       {message}
-      <Deadlines deadlines={deadlines} course_id={course_id} />
+      <Deadlines deadlines={deadlines} course_id={course_id} onChange={handleSetting} />
       <DeadlineSetting date={date} setDate={setDate} handleSetting={handleSetting} />
     </div>
   )
