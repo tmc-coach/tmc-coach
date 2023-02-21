@@ -6,7 +6,7 @@ const DeadlineSetting = ({ date, handleSetting, setDate }) => {
     <div>
       <p>Choose the deadline for this course</p>
       <DatePicker selected={date} onChange={(newDate) => setDate(newDate)} minDate={new Date()} inline />
-      <button onClick={handleSetting}>Set deadline</button>
+      <button onClick={handleSetting} value="set_deadline">Set deadline</button>
     </div>
   )
 }

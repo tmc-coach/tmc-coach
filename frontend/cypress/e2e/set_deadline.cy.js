@@ -19,4 +19,16 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
     cy.visit('http://localhost:3000/orgs/courses/277/set_deadline')
     cy.url().should('include', '/login')
   })
+  it('logged in user can set deadline', () => {
+    cy.get('input[name=username]').type(Cypress.env('tmcusername'))
+    cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
+    cy.get('button[type=submit]').click()
+    cy.url().should('not.include', '/login')
+    cy.visit('http://localhost:3000/orgs/courses/277/set_deadline')
+    cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
+    cy.contains('4').click()
+    cy.get('button[value=set_deadline]').click()
+    expect(localStorage.getItem('loggedInUser')).to.eq(Cypress.env('tmcusername'))
+
+  })
 })
