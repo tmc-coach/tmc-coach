@@ -25,6 +25,7 @@ const checkAuth = async () => {
   const user = await getUser(token)
   if (user.status && user.status !== 200) {
     localStorage.removeItem('token')
+    localStorage.removeItem('loggedInUser')
     return redirect('/login', { replace: true })
   }
   return null

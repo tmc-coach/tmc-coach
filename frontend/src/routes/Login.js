@@ -17,6 +17,7 @@ const Login = () => {
     try {
       const user = await authService.login({ username, password })
       localStorage.setItem('token', user)
+      localStorage.setItem('loggedInUser', username)
       navigate('/')
     } catch (exception) {
       setErrorMessage('Invalid credentials. Try again.')
