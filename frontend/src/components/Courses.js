@@ -18,7 +18,7 @@ const Courses = ({ courses }) => (
             </div>
           </Link>
           <div>
-            <Link to={`/orgs/${course.id}/set_deadline`}>Set deadline</Link>
+            <Link to={`/orgs/courses/${course.id}/set_deadline`}>Set deadline</Link>
           </div>
         </div>
       )}
