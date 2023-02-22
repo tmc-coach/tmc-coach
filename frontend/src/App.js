@@ -7,6 +7,7 @@ import Header from './components/Header'
 import React from 'react'
 import { RouterProvider, createBrowserRouter, Outlet } from 'react-router-dom'
 import authService from './services/auth'
+import SettingDeadline from './routes/SettingDeadline'
 
 function App() {
 
@@ -37,6 +38,11 @@ function App() {
         {
           path: 'orgs/:slug',
           element: <CoursesPage />,
+          loader: authService.checkAuth
+        },
+        {
+          path: 'orgs/courses/:id/set_deadline',
+          element: <SettingDeadline />,
           loader: authService.checkAuth
         },
         {
