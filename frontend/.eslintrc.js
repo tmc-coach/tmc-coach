@@ -40,6 +40,8 @@ module.exports = {
             "error",
             "never"
         ],
+        "cypress/no-unnecessary-waiting": ["off"
+        ],
         "eqeqeq": "error",
         "no-trailing-spaces": "error",
         "object-curly-spacing": [
