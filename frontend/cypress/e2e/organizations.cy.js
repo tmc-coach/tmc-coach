@@ -29,6 +29,18 @@ describe('TMC-Coach login, logged in user', { defaultCommandTimeout: 8000 }, () 
     cy.contains('MOOC').click()
     cy.url().should('include', '/orgs/mooc')
   })
+  it('logged in user can see MOOC under frequently used organizations', () => {
+    cy.visit('http://localhost:3000/orgs')
+    cy.contains('Aalto BIZ').should('be.visible')
+    cy.get('div').eq(4).contains('MOOC')
+    cy.get('div').eq(13).contains('MOOC')
+  })
+  it('logged in user can see Helsingin Yliopiso under frequently used organizations', () => {
+    cy.visit('http://localhost:3000/orgs')
+    cy.contains('Aalto BIZ').should('be.visible')
+    cy.get('div').eq(4).contains('Helsingin Yliopisto')
+    cy.get('div').eq(13).contains('Helsingin Yliopisto')
+  })
 })
 
 describe('TMC-organizations, logged out user', () => {
