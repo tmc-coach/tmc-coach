@@ -3,6 +3,7 @@ from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 # configure environment variables
 load_dotenv()
@@ -22,6 +23,7 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 # set up database connection
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 db: SQLAlchemy = SQLAlchemy(app)
+migrate = Migrate(app, db)
 app.app_context().push()
 
 # import blueprints
