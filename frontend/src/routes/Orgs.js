@@ -3,6 +3,15 @@ import Organizations from '../components/Organizations'
 import orgService from '../services/org'
 import Filter from '../components/Filter'
 
+const FrequentlyUsedOrgs = ({ orgs }) => {
+  const frequentlyUsed = orgs.filter(org => org.name===('MOOC') || org.name===('Helsingin Yliopisto'))
+  return (
+    <div>
+      <h1 className='text-3xl font-medium text-center tracking-wide p-10'>Frequently Used Organizations</h1>
+      <Organizations organizations={frequentlyUsed} />
+    </div>
+  )
+}
 
 const Orgs = () => {
 
@@ -14,13 +23,9 @@ const Orgs = () => {
   }, [])
 
   const organizationsToShow = (filter.length === 0) ? orgs : orgs.filter(org => org.name.toLowerCase().includes(filter.toLowerCase()))
-  const frequentlyUsed = orgs.filter(org => org.name===('MOOC') || org.name===('Helsingin Yliopisto'))
   return (
     <div>
-      <div>
-        <h1 className='text-3xl font-medium text-center tracking-wide p-10'>Frequently Used Organizations</h1>
-        <Organizations organizations={frequentlyUsed} />
-      </div>
+      <FrequentlyUsedOrgs orgs={orgs} />
       <div>
         <h1 className='text-3xl font-medium text-center tracking-wide p-10'>All organizations</h1>
         <Filter value={filter} handleChange={({ target }) => setFilter(target.value)} />
