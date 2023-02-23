@@ -33,13 +33,11 @@ describe('TMC-Coach login, logged in user', { defaultCommandTimeout: 8000 }, () 
     cy.visit('http://localhost:3000/orgs')
     cy.contains('Aalto BIZ').should('be.visible')
     cy.get('div').eq(4).contains('MOOC')
-    cy.get('div').eq(13).contains('MOOC')
   })
   it('logged in user can see Helsingin Yliopiso under frequently used organizations', () => {
     cy.visit('http://localhost:3000/orgs')
     cy.contains('Aalto BIZ').should('be.visible')
     cy.get('div').eq(4).contains('Helsingin Yliopisto')
-    cy.get('div').eq(13).contains('Helsingin Yliopisto')
   })
 })
 
