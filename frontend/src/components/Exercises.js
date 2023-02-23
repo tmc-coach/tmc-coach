@@ -1,4 +1,6 @@
-const Exercises = ({ exercises }) => (
+import { Link } from 'react-router-dom'
+
+const Exercises = ({ exercises, course_id }) => (
 
   <div>
     {exercises.map(exercise => (
@@ -10,6 +12,9 @@ const Exercises = ({ exercises }) => (
               Awarded points: {exercise.completed_percentage} %
             </div>
             <h3>Total completed exercises from the course: {exercise.awarded_points} / {exercise.maximum_exercises}</h3>
+            <div>
+              <Link to={`/orgs/courses/${course_id}/set_deadline`}>Set deadline</Link>
+            </div>
           </>
         ) : (
           <p>No exercises on this course</p>
