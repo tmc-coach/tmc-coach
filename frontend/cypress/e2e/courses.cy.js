@@ -22,7 +22,7 @@ describe('TMC-Coach courses, logged in user', () => {
   })
   it('can find a course using searchbar', () => {
     cy.contains('Helsingin Yliopisto').click()
-    cy.get('input[type=search]').type('ad')
+    cy.get('input[type=search]').should('be.visible').type('ad')
     cy.contains('Introduction to Artificial Intelligence').should('not.exist')
     cy.contains('Advanced Course in Programming, autumn 2022, Online Exam 4')
   })
