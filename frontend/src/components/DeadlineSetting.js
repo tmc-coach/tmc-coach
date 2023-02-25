@@ -4,9 +4,13 @@ import 'react-datepicker/dist/react-datepicker.css'
 const DeadlineSetting = ({ date, handleSetting, setDate }) => {
   return (
     <div>
-      <p>Choose the deadline for this course</p>
-      <DatePicker selected={date} onChange={(newDate) => setDate(newDate)} minDate={new Date()} inline />
-      <button onClick={handleSetting} value="set_deadline">Set deadline</button>
+      <p className="flex justify-center px-5 m-5">Choose the deadline for this course</p>
+      <div className="flex justify-center px-5 m-5">
+        <DatePicker selected={date} onChange={(newDate) => setDate(newDate)} minDate={new Date()} inline />
+      </div>
+      <div className="flex justify-center px-5 m-5">
+        <button onClick={handleSetting} value="set_deadline" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Set deadline</button>
+      </div>
     </div>
   )
 }

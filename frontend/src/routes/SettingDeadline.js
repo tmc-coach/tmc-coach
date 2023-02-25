@@ -52,7 +52,7 @@ const SettingDeadline = () => {
   return (
     <div>
       <h1 className='text-3xl font-medium text-center tracking-wide p-10'>Set deadline for course {info.title}</h1>
-      {message}
+      <p className="flex justify-center px-5 m-5">{message}</p>
       <Deadlines deadlines={deadlines} course_id={course_id} onChange={handleSetting} />
       <DeadlineSetting date={date} setDate={setDate} handleSetting={handleSetting} />
     </div>
