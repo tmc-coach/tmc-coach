@@ -23,6 +23,8 @@ echo "------------------------------"
 echo "Running the pre-push e2e tests"
 echo "------------------------------"
 
+cd $projectpath/frontend
+
 # Run Cypress tests with headless chrome
 $projectpath/frontend/node_modules/.bin/cypress run --browser chrome
 
