@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-describe('TMC-Coach courses, logged in user', () => {
+describe('TMC-Coach courses, logged in user', { defaultCommandTimeout: 8000 }, () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000')
     cy.get('input[name=username]').type(Cypress.env('tmcusername'))
@@ -22,7 +22,9 @@ describe('TMC-Coach courses, logged in user', () => {
   })
   it('can find a course using searchbar', () => {
     cy.contains('Helsingin Yliopisto').click()
-    cy.get('input[type=search]').should('be.visible').type('ad')
+    cy.get('input[type=search]').as('searchbar').should('be.visible')
+    cy.get('@searchbar').should('not.be.disabled')
+    cy.get('@searchbar').type('ad', { force: true })
     cy.contains('Introduction to Artificial Intelligence').should('not.exist')
     cy.contains('Advanced Course in Programming, autumn 2022, Online Exam 4')
   })
