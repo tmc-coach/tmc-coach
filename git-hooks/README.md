@@ -4,7 +4,7 @@ Pre-push hook runs Cypress E2E tests before accepting the push.
 
 ## Prerequisites
 
-Pre-push hook expects application to run on port 3000 and backend on port 5000.
+Pre-push hook expects frontend application to run on port 3000 and backend on port 5000.
 
 `cypress.env.json` should contain environment variables for `tmcusername` and `tmcpassword`.
 

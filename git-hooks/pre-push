@@ -27,5 +27,4 @@ cd $projectpath/frontend
 
 # Run Cypress tests with headless chrome
 $projectpath/frontend/node_modules/.bin/cypress run \
-	--spec "$projectpath/frontend/cypress/e2e/fail.cy.js" \
 	--browser chrome
