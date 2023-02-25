@@ -26,6 +26,6 @@ echo "------------------------------"
 cd $projectpath/frontend
 
 # Run Cypress tests with headless chrome
-$projectpath/frontend/node_modules/.bin/cypress run --browser chrome
-
-exit 0
+$projectpath/frontend/node_modules/.bin/cypress run \
+	--spec "$projectpath/frontend/cypress/e2e/fail.cy.js" \
+	--browser chrome
