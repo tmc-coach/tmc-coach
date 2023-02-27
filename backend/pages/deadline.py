@@ -5,6 +5,7 @@ from app import db
 from sqlalchemy.sql import text
 import json
 from database_functions.set_deadline import set_deadline_function
+from database_functions.get_deadlines import get_deadlines_function
 
 deadline = Blueprint("deadline", __name__)
 
@@ -19,14 +20,8 @@ def set_deadline():
 
 @deadline.route("/<username>", methods=["GET"])
 def get_deadlines(username):
-    sql = "SELECT * FROM deadlines WHERE username=:username"
-    result = db.session.execute(text(sql), {"username":username})
-    deadlines = result.fetchall() 
-    response = {"deadlines": deadlines}
-    response = {}
-    for i in range(len(deadlines)):
-        response[i] = {"id": deadlines[i][0], "username": deadlines[i][1], "course_id": deadlines[i][2], "date": deadlines[i][3]}
-    return json.dumps(response, default=str)
+    deadlines = get_deadlines_function(username)
+    return deadlines
 
 # Database model demo
 class deadlines(db.Model):
