@@ -24,6 +24,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 db: SQLAlchemy = SQLAlchemy(app)
 app.app_context().push()
 
+#pylint: disable=wrong-import-position
+
 # import blueprints
 from pages.auth import auth
 from pages.courses import courses
@@ -31,6 +33,8 @@ from pages.main import main
 from pages.org import org
 from pages.course import course
 from pages.deadline import deadline
+
+#pylint: enable=wrong-import-position
 
 # register blueprints
 app.register_blueprint(main, url_prefix="/")
