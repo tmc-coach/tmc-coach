@@ -37,6 +37,14 @@ robot .
 
 ### Cypress tests
 
+Open Cypress test suite
+
 ```sh
 npx cypress open
+```
+
+Run Cypress tests headless with Chrome
+
+```sh
+npx cypress run --browser chrome
 ```
