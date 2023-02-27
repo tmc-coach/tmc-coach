@@ -1,17 +1,19 @@
-from flask import Blueprint, jsonify, request
-from modules.user import encode_jwt, decode_jwt
 from app import db
 from sqlalchemy.sql import text
 import json
 import datetime
 
-def set_deadline(username, date, course_id):
-    date_now = datetime.datetime.now()
-    target = deadlines(username=username, course_id=course_id, date=date, created_at=date_now)
-    db.session.add(target)
-    #sql = "INSERT INTO deadlines (username, course_id, date) VALUES (:username, :course_id, :date)"
-    #db.session.execute(text(sql), {"username":username, "course_id":course_id, "date":date})
-    db.session.commit()
+def set_deadline_function(username, date, course_id):
+    try:
+        date_now = datetime.datetime.now()
+        target = deadlines(username=username, course_id=course_id, date=date, created_at=date_now)
+        db.session.add(target)
+        #sql = "INSERT INTO deadlines (username, course_id, date) VALUES (:username, :course_id, :date)"
+        #db.session.execute(text(sql), {"username":username, "course_id":course_id, "date":date})
+        db.session.commit()
+        return "Deadline added succesfully!"
+    except:
+        return "Adding deadline was unsuccessful"
     return jsonify(message="Deadline added succesfully!")
 
 class deadlines(db.Model):

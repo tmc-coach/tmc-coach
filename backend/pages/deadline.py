@@ -4,6 +4,7 @@ import requests
 from app import db
 from sqlalchemy.sql import text
 import json
+from database_functions.set_deadline import set_deadline_function
 
 deadline = Blueprint("deadline", __name__)
 
@@ -12,12 +13,9 @@ def set_deadline():
     username = request.json.get("username")
     date = request.json.get("date")
     course_id = request.json.get("course_id")
-    target = deadlines(username=username, course_id=course_id, date=date)
-    db.session.add(target)
-    #sql = "INSERT INTO deadlines (username, course_id, date) VALUES (:username, :course_id, :date)"
-    #db.session.execute(text(sql), {"username":username, "course_id":course_id, "date":date})
-    db.session.commit()
-    return jsonify(message="Deadline added succesfully!")
+    message = set_deadline_function(username, date, course_id)
+    print(message)
+    return jsonify(message=message)
 
 @deadline.route("/<username>", methods=["GET"])
 def get_deadlines(username):
