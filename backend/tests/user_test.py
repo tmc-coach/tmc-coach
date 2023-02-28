@@ -17,7 +17,7 @@ class UserTestCase(TestCase):
         self.assertNotEqual(self._username, encoded_jwt)
 
     def test_decode(self):
-        encoded_jwt = encode_jwt(str(self._token), str(self._username))
+        encoded_jwt = encode_jwt(str(self._username), str(self._token))
         decoded_jwt = decode_jwt(encoded_jwt)
         self.assertEqual(
             {"username": self._username, "token": self._token}, decoded_jwt
