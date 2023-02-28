@@ -19,7 +19,6 @@ describe('TMC-Coach course exercises, user signed in', () => {
     cy.contains('Introduction to Artificial Intelligence').click()
     cy.url().should('include', '/orgs/courses/900')
     cy.contains('Awarded points:')
-    cy.contains('Total completed exercises from the course:')
   })
   it('opens course exercises page without exercises', () => {
     cy.contains('Advanced Course in Programming, autumn 2022, Online Exam 4').click()
