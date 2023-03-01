@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const prod = process.env.NODE_ENV === 'production'
-const baseUrl = prod ? '/api/org/' : process.env.REACT_APP_BASEURL + '/org/'
+const baseUrl = prod ? '/api/org' : process.env.REACT_APP_BASEURL + '/org'
 
 const get_orgs = async () => {
   const response = await axios.get(baseUrl, {
@@ -19,7 +19,7 @@ const get_org = async (org_slug) => {
 }
 
 const get_courses = async (org_slug) => {
-  const response = await axios.get(`${baseUrl}${org_slug}/courses`, {
+  const response = await axios.get(`${baseUrl}/${org_slug}/courses`, {
     headers: { Authorization: localStorage.getItem('token') },
   })
 

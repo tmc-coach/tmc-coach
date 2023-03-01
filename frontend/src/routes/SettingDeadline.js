@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
-import courseService from '../services/course'
-import settingService from '../services/settingDeadline'
+import courseService from '../services/courses'
+
 import DeadlineSetting from '../components/DeadlineSetting'
-import deadlineService from '../services/gettingDeadlines'
+import deadlineService from '../services/deadlines'
 import Deadlines from '../components/Deadlines'
 
 const SettingDeadline = () => {
@@ -35,7 +35,7 @@ const SettingDeadline = () => {
     const username = localStorage.getItem('loggedInUser')
 
     try {
-      settingService.set_deadline({ course_id, username, date })
+      deadlineService.set_deadline({ course_id, username, date })
       setNew(true)
       setMessage('Setting deadline was successful!')
       setTimeout(() => {

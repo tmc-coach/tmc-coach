@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Exercises from '../components/Exercises'
-//import exercisesService from '../services/exercises'
 import courseService from '../services/courses'
 
 const ExercisesPage = () => {
