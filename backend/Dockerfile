@@ -5,10 +5,9 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-ENV FLASK_APP=hello_world
-ENV FLASK_DEBUG=production
+ENV FLASK_DEBUG=1
 
 EXPOSE 5000
 
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:create_app()"]
