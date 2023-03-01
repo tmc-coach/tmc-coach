@@ -3,6 +3,7 @@ from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 # configure environment variables
 load_dotenv()
@@ -23,6 +24,8 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 db: SQLAlchemy = SQLAlchemy(app)
 app.app_context().push()
+migrate = Migrate(app, db)
+
 
 #pylint: disable=wrong-import-position
 
