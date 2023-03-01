@@ -7,6 +7,7 @@ from flask_migrate import Migrate
 
 db = SQLAlchemy()
 
+
 def create_app():
     # create Flask app instance
     app = Flask(__name__)
@@ -31,7 +32,7 @@ def create_app():
     # enable CORS
     CORS(app)
 
-    #pylint: disable=wrong-import-position
+    # pylint: disable=wrong-import-position
     # import and register blueprints
     from pages.auth import auth
     from pages.courses import courses
@@ -39,8 +40,8 @@ def create_app():
     from pages.org import org
     from pages.course import course
     from pages.deadline import deadline
-    
-    #pylint: enable=wrong-import-position
+
+    # pylint: enable=wrong-import-position
 
     app.register_blueprint(main, url_prefix="/")
     app.register_blueprint(auth, url_prefix="/auth")
@@ -48,5 +49,11 @@ def create_app():
     app.register_blueprint(courses, url_prefix="/courses")
     app.register_blueprint(course, url_prefix="/course")
     app.register_blueprint(deadline, url_prefix="/deadline")
+
+    # import models and register with db
+    from app.models import User
+
+    with app.app_context():
+        db.create_all()
 
     return app
