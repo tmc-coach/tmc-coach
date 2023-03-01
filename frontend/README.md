@@ -20,21 +20,6 @@ Launches the test runner in the interactive watch mode.
 
 Builds the app for production to the `build` folder.
 
-### Robot Framework tests
-
-Robot Framework tests uses TMC Credentials stored in `/robot-tests/login_resource.robot`. Use the file `/robot-tests/login_resource.example.robot` as a template for credential variables.
-
-Run Robot Framework tests by starting the frontend and backend application, and running following commands
-
-```sh
-cd robot-tests
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-robot --version   # to verify robot framework installation
-robot .
-```
-
 ### Cypress tests
 
 Open Cypress test suite
