@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 db = SQLAlchemy()
-
+migrate = Migrate()
 
 def create_app():
     # create Flask app instance
@@ -27,7 +27,7 @@ def create_app():
     # set up database connection
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
     db.init_app(app)
-    migrate = Migrate(app, db)
+    migrate.init_app(app, db)
 
     # enable CORS
     CORS(app)
@@ -49,11 +49,5 @@ def create_app():
     app.register_blueprint(courses, url_prefix="/courses")
     app.register_blueprint(course, url_prefix="/course")
     app.register_blueprint(deadline, url_prefix="/deadline")
-
-    # import models and register with db
-    from app.models import User
-
-    with app.app_context():
-        db.create_all()
 
     return app

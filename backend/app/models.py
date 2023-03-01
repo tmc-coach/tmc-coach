@@ -14,11 +14,12 @@ class deadlines(db.Model):
 
 # Database model demo
 class TargetDate(db.Model):
-    __tablename__ = "target_date"
+    __tablename__ = "judgment_day"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False)
     course = db.Column(db.String, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
+    # test = db.Column(db.String, nullable=True)
 
     def __repr__(self):
-        return f"target_date('{self.date}')"
+        return f"judgement_day('{self.date}')"
