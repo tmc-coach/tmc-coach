@@ -3,10 +3,8 @@ from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 
 db = SQLAlchemy()
-migrate = Migrate()
 
 def create_app():
     # create Flask app instance
@@ -27,7 +25,6 @@ def create_app():
     # set up database connection
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
     db.init_app(app)
-    migrate.init_app(app, db)
 
     # enable CORS
     CORS(app)
