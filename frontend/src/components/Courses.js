@@ -6,18 +6,19 @@ const Courses = ({ courses }) => (
     {courses
       .sort((a, b) => a.name.localeCompare(b.name))
       .map(course =>
-        <div key={course.id}>
-          <Link to={`/orgs/courses/${course.id}`} className='flex border-gray-300 p-5 m-5 border rounded mx-10 hover:bg-stone-100'>
-            <div className='text-2xl font-medium'>
+        <Link key={course.id} to={`/orgs/courses/${course.id}`} className='flex flex-col border border-gray-400 p-5 m-5 rounded mx-10 hover:bg-stone-100 text-left hover:shadow-sm hover:shadow-gray-800'>
+          <div className='flex'>
+            <div className='text-2xl font-medium pb-1'>
               {course.title}
             </div>
-            <div className="flex-initial w-100 px-2"></div>
-            <h2 className='text-lg font-medium'>{course.name}</h2>
-            <div>
-              {course.description !== '' ? course.description : 'A mysterious course without description.'}
+            <div className='text-lg font-normal text-gray-500 ml-2'>
+              ({course.name})
             </div>
-          </Link>
-        </div>
+          </div>
+          <div className='text-base font-normal'>
+            {course.description !== '' ? course.description : 'A mysterious course without description.'}
+          </div>
+        </Link>
       )}
   </div>
 )

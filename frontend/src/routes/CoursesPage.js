@@ -34,7 +34,6 @@ const Courses_Page = () => {
       </div>
     </div>
   )
-
 }
 
 export default Courses_Page
