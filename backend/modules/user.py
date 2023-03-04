@@ -9,9 +9,9 @@ def decode_jwt(encoded_jwt):
         return None
 
 
-def encode_jwt(username, token):
+def encode_jwt(username, token, user_id):
     return jwt.encode(
-        {"username": username, "token": token},
+        {"username": username, "token": token, "id": user_id},
         os.getenv("JWT_SECRET"),
         algorithm="HS256",
     )
