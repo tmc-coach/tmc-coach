@@ -3,11 +3,7 @@
 describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
   context('logged in user', () => {
     beforeEach(() => {
-      cy.visit('http://localhost:3000')
-      cy.get('input[name=username]').type(Cypress.env('tmcusername'))
-      cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
-      cy.get('button[type=submit]').click()
-      cy.url().should('not.include', '/login')
+      cy.login()
     })
     it('can go to the set deadline page', () => {
       cy.contains('Organizations').should('be.visible').click()

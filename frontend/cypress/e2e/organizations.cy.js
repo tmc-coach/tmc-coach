@@ -2,10 +2,7 @@
 
 describe('TMC-Coach login, logged in user', { defaultCommandTimeout: 8000 }, () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000')
-    cy.get('input[name=username]').type(Cypress.env('tmcusername'))
-    cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
-    cy.get('button[type=submit]').click()
+    cy.login()
     cy.url().should('not.include', '/login')
   })
   it('logged in user can go to the organization page', () => {
