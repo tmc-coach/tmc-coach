@@ -24,24 +24,24 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 Cypress.Commands.add('login', () => {
-    cy.visit('http://localhost:3000')
-    cy.get('input[name=username]').type(Cypress.env('tmcusername'))
-    cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
-    cy.get('button[type=submit]').click()
-    cy.url().should('not.include', '/login')
+  cy.visit('http://localhost:3000')
+  cy.get('input[name=username]').type(Cypress.env('tmcusername'))
+  cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
+  cy.get('button[type=submit]').click()
+  cy.url().should('not.include', '/login')
 })
 Cypress.Commands.add('homepage', () => {
-    cy.visit('http://localhost:3000')
+  cy.visit('http://localhost:3000')
 })
 Cypress.Commands.add('orgspage', () => {
-    cy.visit('http://localhost:3000/orgs')
+  cy.visit('http://localhost:3000/orgs')
 })
 Cypress.Commands.add('coursepage', () => {
-    cy.visit('http://localhost:3000/orgs/aalto-biz')
-})  
+  cy.visit('http://localhost:3000/orgs/aalto-biz')
+})
 Cypress.Commands.add('loginpage', () => {
-    cy.visit('http://localhost:3000/login')
+  cy.visit('http://localhost:3000/login')
 })
 Cypress.Commands.add('setdeadlinepage', () => {
-    cy.visit('http://localhost:3000/orgs/courses/277/set_deadline')
+  cy.visit('http://localhost:3000/orgs/courses/277/set_deadline')
 })
