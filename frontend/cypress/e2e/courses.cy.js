@@ -3,7 +3,6 @@
 describe('TMC-Coach courses', { defaultCommandTimeout: 8000 }, () => {
   context('logged in user', () => {
     before(() => {
-      cy.clearLocalStorageSnapshot()
       cy.login()
       cy.saveLocalStorage()
     })
