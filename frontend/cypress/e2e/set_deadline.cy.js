@@ -3,7 +3,6 @@
 describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
   context('logged in user', () => {
     before(() => {
-      cy.clearLocalStorageSnapshot()
       cy.login()
       cy.saveLocalStorage()
     })
@@ -11,6 +10,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.restoreLocalStorage()
     })
     it('can go to the set deadline page', () => {
+      cy.homepage()
       cy.contains('Organizations').should('be.visible').click()
       cy.get('input[type=search]').type('mooc')
       cy.contains('MOOC').should('be.visible').click()
@@ -36,13 +36,13 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--previous').click()
       cy.contains('28').click()
     })
-    it('set deadline -page will show no deadlines is there is none', () => {
+    it('set deadline -page will show no deadlines if there is none', () => {
       cy.visit('http://localhost:3000/orgs/courses/1113/set_deadline')
       cy.contains('No deadlines chosen for this course').should('exist')
     })
   })
   context('logged out user', () => {
-    it('can not go to the set deadline page', () => {
+    it('is directed to login page and cant go to set_deadline page', () => {
       cy.setdeadlinepage()
       cy.url().should('include', '/login')
     })

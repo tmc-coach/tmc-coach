@@ -2,25 +2,11 @@
 describe('TMC-Coach header', { defaultCommandTimeout: 8000 }, () => {
   context('logged in user', () => {
     before(() => {
-      cy.clearLocalStorageSnapshot()
       cy.login()
       cy.saveLocalStorage()
     })
     beforeEach(() => {
       cy.restoreLocalStorage()
-    })
-    it('can see sign out button on home page', () => {
-      cy.homepage()
-      cy.contains('Sign out')
-    })
-    it('can see sign out button on organizations page', () => {
-      cy.orgspage()
-      cy.contains('Sign out')
-    })
-    it('can see sign out button on course page', () => {
-      cy.coursepage()
-      cy.url().should('include', '/orgs/aalto-biz')
-      cy.contains('Sign out')
     })
     it('on organizations page can click header link to get to home page', () => {
       cy.orgspage()
@@ -32,14 +18,24 @@ describe('TMC-Coach header', { defaultCommandTimeout: 8000 }, () => {
       cy.contains('TMC Coach').click()
       cy.url().should('not.include', '/orgs/aalto-biz')
     })
-    it('can use sign out button on organizations page', () => {
+    it('can use sign out button and is directed to loginpage on homepage', () => {
+      cy.homepage()
+      cy.contains('Sign out').click()
+      cy.url().should('include', '/login')
+    })
+    it('can use sign out button and is directed to loginpage on organizationspage', () => {
       cy.orgspage()
       cy.contains('Sign out').click()
       cy.url().should('include', '/login')
     })
-    it('can use sign out button on course page', () => {
+    it('can use sign out button and is directed to loginpage on coursepage', () => {
       cy.coursepage()
       cy.url().should('include', '/orgs/aalto-biz')
+      cy.contains('Sign out').click()
+      cy.url().should('include', '/login')
+    })
+    it('can use sign out button and is directed to loginpage from courses exercises page', () => {
+      cy.visit('http://localhost:3000/orgs/courses/900')
       cy.contains('Sign out').click()
       cy.url().should('include', '/login')
     })
