@@ -2,7 +2,7 @@
 
 describe('TMC-Coach login', { defaultCommandTimeout: 8000 }, () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000')
+    cy.homepage()
   })
   it('opens the login page', () => {
     cy.url().should('include', '/login')
@@ -19,29 +19,22 @@ describe('TMC-Coach login', { defaultCommandTimeout: 8000 }, () => {
     cy.get('.error').should('be.visible')
   })
   it('able to login with valid credentials', () => {
-    cy.get('input[name=username]').type(Cypress.env('tmcusername'))
-    cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
-    cy.get('button[type=submit]').click()
-    cy.url().should('not.include', '/login')
+    cy.login()
+    cy.saveLocalStorage()
   })
   it('sign out -button directs to the login page', () => {
-    cy.get('input[name=username]').type(Cypress.env('tmcusername'))
-    cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
-    cy.get('button[type=submit]').click()
-    cy.url().should('not.include', '/login')
+    cy.restoreLocalStorage()
+    cy.homepage()
     cy.get('button[type=submit]').click()
     cy.url().should('include', '/login')
   })
   it('logged in user can not go to the login page', () => {
-    cy.get('input[name=username]').type(Cypress.env('tmcusername'))
-    cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
-    cy.get('button[type=submit]').click()
-    cy.url().should('not.include', '/login')
-    cy.visit('http://localhost:3000/login')
+    cy.restoreLocalStorage()
+    cy.loginpage()
     cy.url().should('not.include', '/login')
   })
   it('logged out user can not go to the front page', () => {
-    cy.visit('http://localhost:3000')
+    cy.homepage()
     cy.url().should('include', '/login')
   })
 })

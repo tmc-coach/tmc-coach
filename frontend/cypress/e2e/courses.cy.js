@@ -1,12 +1,14 @@
 /// <reference types="Cypress" />
 
 describe('TMC-Coach courses, logged in user', { defaultCommandTimeout: 8000 }, () => {
+  before(() => {
+    cy.clearLocalStorageSnapshot()
+    cy.login()
+    cy.saveLocalStorage()
+  })
   beforeEach(() => {
-    cy.visit('http://localhost:3000')
-    cy.get('input[name=username]').type(Cypress.env('tmcusername'))
-    cy.get('input[name=password]').type(Cypress.env('tmcpassword'))
-    cy.get('button[type=submit]').click()
-    cy.contains('Organizations').click()
+    cy.restoreLocalStorage()
+    cy.orgspage()
   })
   it('can access courses page', () => {
     cy.contains('Helsingin Yliopisto').click()
@@ -45,14 +47,12 @@ describe('TMC-Coach courses, logged in user', { defaultCommandTimeout: 8000 }, (
 
 describe('TMC-Coach courses, logged out user', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000')
+    cy.coursepage()
   })
   it('cannot open courses page', () => {
-    cy.visit('http://localhost:3000/orgs/aalto-biz')
     cy.url().should('not.include', '/orgs/aalto-biz')
   })
   it('user is directed to login page', () => {
-    cy.visit('http://localhost:3000/orgs/aalto-biz')
     cy.url().should('not.include', '/orgs/aalto-biz')
     cy.url().should('include', '/login')
   })

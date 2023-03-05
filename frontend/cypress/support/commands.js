@@ -35,12 +35,13 @@ Cypress.Commands.add('homepage', () => {
 })
 Cypress.Commands.add('orgspage', () => {
     cy.visit('http://localhost:3000/orgs')
-    cy.url().should('include', '/orgs')
 })
 Cypress.Commands.add('coursepage', () => {
     cy.visit('http://localhost:3000/orgs/aalto-biz')
-    cy.url().should('include', '/orgs/aalto-biz')
 })  
 Cypress.Commands.add('loginpage', () => {
     cy.visit('http://localhost:3000/login')
+})
+Cypress.Commands.add('setdeadlinepage', () => {
+    cy.visit('http://localhost:3000/orgs/courses/277/set_deadline')
 })

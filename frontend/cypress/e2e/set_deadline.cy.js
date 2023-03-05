@@ -2,8 +2,13 @@
 
 describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
   context('logged in user', () => {
-    beforeEach(() => {
+    before(() => {
+      cy.clearLocalStorageSnapshot()
       cy.login()
+      cy.saveLocalStorage()
+    })
+    beforeEach(() => {
+      cy.restoreLocalStorage()
     })
     it('can go to the set deadline page', () => {
       cy.contains('Organizations').should('be.visible').click()
@@ -15,11 +20,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.contains('Choose the deadline for this course').should('exist')
     })
     it('can set deadline', () => {
-      cy.contains('Organizations').should('be.visible').click()
-      cy.get('input[type=search]').type('mooc')
-      cy.contains('MOOC').should('be.visible').click()
-      cy.get('a[href="/orgs/courses/277"]').should('be.visible').click()
-      cy.get('a[href="/orgs/courses/277/set_deadline"]').should('be.visible').click()
+      cy.setdeadlinepage()
       cy.contains('Set deadline for course 2013 Object-oriented programming, part 1').should('exist')
       cy.contains('Choose the deadline for this course').should('exist')
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
@@ -29,7 +30,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.contains('2023-03-04').should('exist')
     })
     it('datapicker can be clicked', () => {
-      cy.visit('http://localhost:3000/orgs/courses/277/set_deadline')
+      cy.setdeadlinepage()
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click().click()
       cy.contains('18').click()
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--previous').click()
@@ -42,7 +43,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
   })
   context('logged out user', () => {
     it('can not go to the set deadline page', () => {
-      cy.visit('http://localhost:3000/orgs/courses/277/set_deadline')
+      cy.setdeadlinepage()
       cy.url().should('include', '/login')
     })
   })

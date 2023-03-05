@@ -1,11 +1,16 @@
 /// <reference types="Cypress" />
-
 describe('TMC-Coach header', { defaultCommandTimeout: 8000 }, () => {
   context('logged in user', () => {
-  beforeEach(() => {
+    before(() => {
+      cy.clearLocalStorageSnapshot()
       cy.login()
+      cy.saveLocalStorage()
+    })
+    beforeEach(() => {
+      cy.restoreLocalStorage()
     })
     it('can see sign out button on home page', () => {
+      cy.homepage()
       cy.contains('Sign out')
     })
     it('can see sign out button on organizations page', () => {
@@ -41,6 +46,7 @@ describe('TMC-Coach header', { defaultCommandTimeout: 8000 }, () => {
   })
   context('logged out user', () => {
     it('can not see sign out button on login page', () => {
+      cy.loginpage()
       cy.contains('Sign out').should('not.exist')
     })
   })
