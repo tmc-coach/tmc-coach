@@ -14,6 +14,7 @@ def set_deadline():
         return jsonify(error="Authorization header missing")
 
     username = get_user(auth_header)
+
     if not username:
         return jsonify(error="Forbidden"), 403
 
@@ -24,7 +25,8 @@ def set_deadline():
     if not username or not date or not course_id:
         return jsonify(message="Missing fields"), 400
     
-    target = deadlines(course_id=course_id, date=date)
+    
+    target = deadlines(username=username, course_id=course_id, date=date)
     db.session.add(target)
     #sql = "INSERT INTO deadlines (username, course_id, date) VALUES (:username, :course_id, :date)"
     #db.session.execute(text(sql), {"username":username, "course_id":course_id, "date":date})
@@ -39,11 +41,14 @@ def get_deadlines():
         return jsonify(error="Authorization header missing")
 
     username = get_user(auth_header)
+
     if not username:
         return jsonify(error="Forbidden"), 403
-    
-    sql = "SELECT * FROM deadlines WHERE username=:username"
-    result = db.session.execute(text(sql), {"username":username})
+
+    course_id = request.headers.get("Courseid")
+
+    sql = "SELECT * FROM deadlines WHERE username=:username AND course_id=:course_id ORDER BY id DESC LIMIT 1"
+    result = db.session.execute(text(sql), {"username":username, "course_id":course_id})
     deadlines = result.fetchall() 
     response = {"deadlines": deadlines}
     response = {}

@@ -18,12 +18,12 @@ const SettingDeadline = () => {
 
   useEffect(() => {
     courseService.get_course_info(course_id).then(course => setInfo(course.course))
-    deadlineService.get_deadlines().then(deadlines => setDeadlines(deadlines))
+    deadlineService.get_deadlines(course_id).then(deadlines => setDeadlines(deadlines))
   }, [])
 
   useEffect(() => {
     if (newDeadlineAdded) {
-      deadlineService.get_deadlines().then(deadlines => setDeadlines(deadlines))
+      deadlineService.get_deadlines(course_id).then(deadlines => setDeadlines(deadlines))
       setNew(false)
     }
   }, [newDeadlineAdded])
