@@ -20,7 +20,7 @@ jobs:
           pip install -r requirements.txt
       - name: Analysing the code with pylint
         run: |
-          pylint ./app.py
+          pylint ./tmc_coach.py
 
   frontend-build:
     runs-on: ubuntu-latest
