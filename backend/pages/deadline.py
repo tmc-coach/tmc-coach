@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from modules.user import encode_jwt, decode_jwt
+from modules.user import get_user
 import requests
 from app import db
 from sqlalchemy.sql import text
@@ -7,20 +7,41 @@ import json
 
 deadline = Blueprint("deadline", __name__)
 
-@deadline.route("/set_deadline", methods=["POST"])
+@deadline.route("/", methods=["POST"])
 def set_deadline():
-    username = request.json.get("username")
+    auth_header = request.headers.get("Authorization", None)
+    if not auth_header:
+        return jsonify(error="Authorization header missing")
+
+    username = get_user(auth_header)
+    if not username:
+        return jsonify(error="Forbidden"), 403
+
+
     date = request.json.get("date")
     course_id = request.json.get("course_id")
-    target = deadlines(username=username, course_id=course_id, date=date)
+    
+    if not username or not date or not course_id:
+        return jsonify(message="Missing fields"), 400
+    
+    target = deadlines(course_id=course_id, date=date)
     db.session.add(target)
     #sql = "INSERT INTO deadlines (username, course_id, date) VALUES (:username, :course_id, :date)"
     #db.session.execute(text(sql), {"username":username, "course_id":course_id, "date":date})
     db.session.commit()
     return jsonify(message="Deadline added succesfully!")
 
-@deadline.route("/<username>", methods=["GET"])
-def get_deadlines(username):
+@deadline.route("/", methods=["GET"])
+def get_deadlines():
+
+    auth_header = request.headers.get("Authorization", None)
+    if not auth_header:
+        return jsonify(error="Authorization header missing")
+
+    username = get_user(auth_header)
+    if not username:
+        return jsonify(error="Forbidden"), 403
+    
     sql = "SELECT * FROM deadlines WHERE username=:username"
     result = db.session.execute(text(sql), {"username":username})
     deadlines = result.fetchall() 

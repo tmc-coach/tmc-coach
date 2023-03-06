@@ -14,16 +14,16 @@ const SettingDeadline = () => {
   const [deadlines, setDeadlines] = useState([])
   const [newDeadlineAdded, setNew] = useState(false)
 
-  const username = localStorage.getItem('loggedInUser')
+  //const username = localStorage.getItem('loggedInUser')
 
   useEffect(() => {
     courseService.get_course_info(course_id).then(course => setInfo(course.course))
-    deadlineService.get_deadlines({ username }).then(deadlines => setDeadlines(deadlines))
+    deadlineService.get_deadlines().then(deadlines => setDeadlines(deadlines))
   }, [])
 
   useEffect(() => {
     if (newDeadlineAdded) {
-      deadlineService.get_deadlines({ username }).then(deadlines => setDeadlines(deadlines))
+      deadlineService.get_deadlines().then(deadlines => setDeadlines(deadlines))
       setNew(false)
     }
   }, [newDeadlineAdded])
