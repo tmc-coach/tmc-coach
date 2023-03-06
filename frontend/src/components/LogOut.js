@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom'
 const Logout = () => {
 
   const logout = () => {
-    localStorage.removeItem('token')
+    localStorage.removeItem('user')
     localStorage.removeItem('loggedInUser')
     return <Navigate to="/login" replace/>
   }
