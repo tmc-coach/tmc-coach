@@ -21,7 +21,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
     })
     it('can set deadline correctly on 06.02.2023', () => {
       cy.setdeadlinepage()
-      const now = new Date(Date.parse("2023-02-06")).getTime()
+      const now = new Date(Date.parse('2023-02-06')).getTime()
       cy.clock(now, ['Date'])
       cy.contains('February 2023').should('be.visible')
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
@@ -32,7 +32,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
     })
     it('can set deadline correctly on 07.04.2023', () => {
       cy.setdeadlinepage()
-      const now = new Date(Date.parse("2023-04-07")).getTime()
+      const now = new Date(Date.parse('2023-04-07')).getTime()
       cy.clock(now, ['Date'])
       cy.contains('April 2023').should('be.visible')
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
