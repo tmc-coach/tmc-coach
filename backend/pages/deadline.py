@@ -1,19 +1,53 @@
 from flask import Blueprint, jsonify, request
 from database_functions.set_deadline import set_deadline_function
 from database_functions.get_deadlines import get_deadlines_function
+from modules.user import get_user
+from app import db
 
 deadline = Blueprint("deadline", __name__)
 
-@deadline.route("/set_deadline", methods=["POST"])
+@deadline.route("/", methods=["POST"])
 def set_deadline():
-    username = request.json.get("username")
+    auth_header = request.headers.get("Authorization", None)
+    if not auth_header:
+        return jsonify(error="Authorization header missing")
+
+    username = get_user(auth_header)
+    if not username:
+        return jsonify(error="Forbidden"), 403
+
     date = request.json.get("date")
     course_id = request.json.get("course_id")
+
+    if not username or not date or not course_id:
+        return jsonify(message="Missing fields"), 400
+
     message = set_deadline_function(username, date, course_id)
     print(message)
     return jsonify(message=message)
 
-@deadline.route("/<username>", methods=["GET"])
-def get_deadlines(username):
+@deadline.route("/", methods=["GET"])
+def get_deadlines():
+
+    auth_header = request.headers.get("Authorization", None)
+    if not auth_header:
+        return jsonify(error="Authorization header missing")
+
+    username = get_user(auth_header)
+    if not username:
+        return jsonify(error="Forbidden"), 403
+    
     deadlines = get_deadlines_function(username)
     return deadlines
+
+# Database model demo
+class deadlines(db.Model):
+    __tablename__ = 'deadlines'
+    __table_args__ = {'extend_existing': True} 
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String, nullable=False)
+    course_id = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+
+    def __repr__(self):
+        return f"deadlines('{self.date}')"

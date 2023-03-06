@@ -7,7 +7,7 @@ const Organizations = ({ organizations }) => (
       .sort((a, b) => a.name.localeCompare(b.name))
       .map(org =>
         <div key={org.slug}>
-          <Link to={`/orgs/${org.slug}`} className='flex border-gray-300 p-5 m-5 border rounded mx-10 hover:bg-stone-100'>
+          <Link to={`/orgs/${org.slug}`} className='flex border-gray-300 p-5 m-5 border rounded mx-10 hover:shadow-sm hover:shadow-gray-800'>
             <div className='flex shrink-0 items-center w-16 object-center'>
               <img width={50} height={60} src={org.logo_path !== 'missing.png' ? `https://tmc.mooc.fi${org.logo_path}` : missing} />
             </div>
