@@ -8,6 +8,7 @@ import json
 
 deadline = Blueprint("deadline", __name__)
 
+
 @deadline.route("/", methods=["POST"])
 def set_deadline():
     auth_header = request.headers.get("Authorization", None)
@@ -18,13 +19,12 @@ def set_deadline():
     if not username:
         return jsonify(error="Forbidden"), 403
 
-
     date = request.json.get("date")
     course_id = request.json.get("course_id")
-    
+
     if not username or not date or not course_id:
         return jsonify(message="Missing fields"), 400
-    
+
     target = deadlines(course_id=course_id, date=date)
     db.session.add(target)
     # sql = "INSERT INTO deadlines (username, course_id, date) VALUES (:username, :course_id, :date)"
@@ -32,9 +32,9 @@ def set_deadline():
     db.session.commit()
     return jsonify(message="Deadline added succesfully!")
 
+
 @deadline.route("/", methods=["GET"])
 def get_deadlines():
-
     auth_header = request.headers.get("Authorization", None)
     if not auth_header:
         return jsonify(error="Authorization header missing")
@@ -42,10 +42,7 @@ def get_deadlines():
     username = get_user(auth_header)
     if not username:
         return jsonify(error="Forbidden"), 403
-    
 
-@deadline.route("/<username>", methods=["GET"])
-def get_deadlines(username):
     sql = "SELECT * FROM deadlines WHERE username=:username"
     result = db.session.execute(text(sql), {"username": username})
     deadlines = result.fetchall()
