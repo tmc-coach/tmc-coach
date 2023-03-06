@@ -28,16 +28,14 @@ class DeadlinesTestCase(TestCase):
 
     def test_set_deadlines_adds_a_deadline_to_database(self):
         username = os.getenv("TMCUSERNAME")
-        deadlines = get_deadlines_function(username)
         course_id = 1169
-
         date_for_deadline = datetime.datetime(2025, 2, 18)
 
         sql = "SELECT * FROM deadlines WHERE date=:date"
         result = db.session.execute(text(sql), {"date":date_for_deadline})
         deadlines = result.fetchall() 
 
-        self.assertEqual(len(deadlines), 0)  
+        self.assertEqual(len(deadlines), 0)
 
         set_deadline_function(username, date_for_deadline, course_id)
 
@@ -56,7 +54,3 @@ class DeadlinesTestCase(TestCase):
         deadlines = result.fetchall()
  
         self.assertEqual(len(deadlines), 0)  
-        
-        
-
-
