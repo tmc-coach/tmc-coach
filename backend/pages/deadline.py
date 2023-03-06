@@ -8,6 +8,7 @@ import json
 
 deadline = Blueprint("deadline", __name__)
 
+
 @deadline.route("/set_deadline", methods=["POST"])
 def set_deadline():
     username = request.json.get("username")
@@ -15,18 +16,24 @@ def set_deadline():
     course_id = request.json.get("course_id")
     target = deadlines(username=username, course_id=course_id, date=date)
     db.session.add(target)
-    #sql = "INSERT INTO deadlines (username, course_id, date) VALUES (:username, :course_id, :date)"
-    #db.session.execute(text(sql), {"username":username, "course_id":course_id, "date":date})
+    # sql = "INSERT INTO deadlines (username, course_id, date) VALUES (:username, :course_id, :date)"
+    # db.session.execute(text(sql), {"username":username, "course_id":course_id, "date":date})
     db.session.commit()
     return jsonify(message="Deadline added succesfully!")
+
 
 @deadline.route("/<username>", methods=["GET"])
 def get_deadlines(username):
     sql = "SELECT * FROM deadlines WHERE username=:username"
-    result = db.session.execute(text(sql), {"username":username})
-    deadlines = result.fetchall() 
+    result = db.session.execute(text(sql), {"username": username})
+    deadlines = result.fetchall()
     response = {"deadlines": deadlines}
     response = {}
     for i in range(len(deadlines)):
-        response[i] = {"id": deadlines[i][0], "username": deadlines[i][1], "course_id": deadlines[i][2], "date": deadlines[i][3]}
+        response[i] = {
+            "id": deadlines[i][0],
+            "username": deadlines[i][1],
+            "course_id": deadlines[i][2],
+            "date": deadlines[i][3],
+        }
     return json.dumps(response, default=str)

@@ -4,6 +4,7 @@ import requests
 
 course = Blueprint("course", __name__)
 
+
 @course.route("/<course_id>", methods=["GET"])
 def get_course_info(course_id):
     auth_header = request.headers.get("Authorization", None)
@@ -12,8 +13,9 @@ def get_course_info(course_id):
     token = decode_jwt(auth_header)
     print(token)
     response = requests.get(
-        f"https://tmc.mooc.fi/api/v8/core/courses/{course_id}", headers={"Accept": "application/json", "Authorization": token["token"]}
-        )
+        f"https://tmc.mooc.fi/api/v8/core/courses/{course_id}",
+        headers={"Accept": "application/json", "Authorization": token["token"]},
+    )
     if response.status_code == 403:
         return jsonify(error="Forbidden"), 403
     if response.status_code == 404:
