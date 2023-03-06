@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 
 const Exercises = ({ exercises, course_id }) => (
-
   <div>
     {exercises.map(exercise => (
       <div key={exercise.id}>
@@ -11,7 +10,11 @@ const Exercises = ({ exercises, course_id }) => (
             <div className='text-2xl font-medium'>
               Awarded points: {exercise.completed_percentage} %
             </div>
-            <h3>Total completed exercises from the course: {exercise.awarded_points} / {exercise.maximum_exercises}</h3>
+            <br></br>
+            <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+              <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: `${ (exercise.completed_percentage < 5) ? 5 : exercise.completed_percentage }` + '%' }} >{exercise.completed_percentage} %</div>
+            </div>
+            <br></br>
             <div>
               <Link to={`/orgs/courses/${course_id}/set_deadline`}>Set deadline</Link>
             </div>

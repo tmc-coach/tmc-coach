@@ -33,7 +33,9 @@ def authorize():
         return jsonify(error="invalid username or password"), 401
 
     token = f"{response.json()['token_type']} {response.json()['access_token']}"
-    encoded_jwt = encode_jwt(username, token)
+    
+    user = requests.get("https://tmc.mooc.fi/api/v8/users/current", headers={"Authorization": token})
+    encoded_jwt = encode_jwt(username, token, user.json()["id"])
     return jsonify(jwt=encoded_jwt)
 
 

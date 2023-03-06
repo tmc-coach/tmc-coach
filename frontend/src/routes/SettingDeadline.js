@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
-import courseService from '../services/course'
-import settingService from '../services/settingDeadline'
+import courseService from '../services/courses'
+
 import DeadlineSetting from '../components/DeadlineSetting'
-import deadlineService from '../services/gettingDeadlines'
+import deadlineService from '../services/deadlines'
 import Deadlines from '../components/Deadlines'
 
 const SettingDeadline = () => {
@@ -14,16 +14,16 @@ const SettingDeadline = () => {
   const [deadlines, setDeadlines] = useState([])
   const [newDeadlineAdded, setNew] = useState(false)
 
-  const username = localStorage.getItem('loggedInUser')
+  //const username = localStorage.getItem('loggedInUser')
 
   useEffect(() => {
     courseService.get_course_info(course_id).then(course => setInfo(course.course))
-    deadlineService.get_deadlines({ username }).then(deadlines => setDeadlines(deadlines))
+    deadlineService.get_deadlines().then(deadlines => setDeadlines(deadlines))
   }, [])
 
   useEffect(() => {
     if (newDeadlineAdded) {
-      deadlineService.get_deadlines({ username }).then(deadlines => setDeadlines(deadlines))
+      deadlineService.get_deadlines().then(deadlines => setDeadlines(deadlines))
       setNew(false)
     }
   }, [newDeadlineAdded])
@@ -35,7 +35,7 @@ const SettingDeadline = () => {
     const username = localStorage.getItem('loggedInUser')
 
     try {
-      settingService.set_deadline({ course_id, username, date })
+      deadlineService.set_deadline({ course_id, username, date })
       setNew(true)
       setMessage('Setting deadline was successful!')
       setTimeout(() => {
