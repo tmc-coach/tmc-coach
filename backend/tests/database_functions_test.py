@@ -6,8 +6,8 @@ from app import db
 from sqlalchemy.sql import text
 from datetime import date
 from dotenv import load_dotenv
-from database_functions.get_deadlines import get_deadlines_function
-from database_functions.set_deadline import set_deadline_function
+from database_functions.deadline_functions import get_deadlines_function
+from database_functions.deadline_functions import set_deadline_function
 import datetime
 
 
