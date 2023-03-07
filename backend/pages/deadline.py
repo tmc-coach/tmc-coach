@@ -1,8 +1,7 @@
 import json
 from flask import Blueprint, jsonify, request
 from sqlalchemy import text
-from database_functions.deadline_functions import set_deadline_function
-from database_functions.deadline_functions import get_deadlines_function
+from database_functions.deadline_functions import set_deadline_function, get_deadlines_function
 from modules.user import get_user
 from app import db
 
@@ -54,6 +53,9 @@ def get_deadline(course_id):
     sql = "SELECT * FROM deadlines WHERE user_id=:user_id AND course_id=:course_id ORDER BY id DESC LIMIT 1"
     result = db.session.execute(text(sql), {"user_id": user["id"], "course_id": course_id})
     deadline = result.fetchone()
+    
+    if not deadline:
+        return json.dumps([], default=str)
     
     response = {
         "id": deadline[0],
