@@ -9,6 +9,8 @@ from sqlalchemy.sql import text
 from datetime import date
 from dotenv import load_dotenv
 import requests
+from backend.pages.deadline import deadline
+from backend.pages.auth import auth
 
 
 class DeadlineTestCase(TestCase):
@@ -30,9 +32,6 @@ class DeadlineTestCase(TestCase):
         app.config["CLIENT_SECRET"] = os.getenv("CLIENT_SECRET")
         #app.config["USERNAME"] = os.getenv("TMCUSERNAME")
         #app.config["PASSWORD"] = os.getenv("TMCPASSWORD")
-
-        from backend.pages.deadline import deadline
-        from backend.pages.auth import auth
 
         app.register_blueprint(deadline, url_prefix="/deadline")
         app.register_blueprint(auth, url_prefix="/auth")
