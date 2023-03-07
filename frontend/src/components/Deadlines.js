@@ -1,6 +1,4 @@
 const Deadlines = ({ deadlines }) => {
-  console.log(deadlines.length)
-
   if (deadlines.length === 0) {
     return (
       <div>
