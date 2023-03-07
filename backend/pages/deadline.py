@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
-from database_functions.set_deadline import set_deadline_function
-from database_functions.get_deadlines import get_deadlines_function
+from database_functions.deadline_functions import set_deadline_function
+from database_functions.deadline_functions import get_deadlines_function
 from modules.user import get_user
 from app import db
 
