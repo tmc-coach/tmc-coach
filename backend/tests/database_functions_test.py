@@ -15,7 +15,7 @@ import datetime
 class DeadlinesTestCase(TestCase):
     def test_get_deadlines_only_gets_deadlines_that_have_been_made_by_the_user(self):
         #username = os.getenv("TMCUSERNAME")
-        user_id = 619104
+        user_id = os.getenv("TMCUSERID")
         deadlines = get_deadlines_function(user_id)
         dictionary = json.loads(deadlines)
 
@@ -29,7 +29,7 @@ class DeadlinesTestCase(TestCase):
 
     def test_set_deadlines_adds_a_deadline_to_database(self):
         #username = os.getenv("TMCUSERNAME")
-        user_id = 619104
+        user_id = os.getenv("TMCUSERID")
         course_id = 1169
         date_for_deadline = datetime.datetime(2025, 2, 18)
 
@@ -59,7 +59,7 @@ class DeadlinesTestCase(TestCase):
 
     def test_set_deadline_has_created_at_column(self):
         #username = os.getenv("TMCUSERNAME")
-        user_id = 619104
+        user_id = os.getenv("TMCUSERID")
         course_id = 1169
         date_for_deadline = datetime.datetime(2028, 5, 27)
         date_now = datetime.datetime.now().date()
