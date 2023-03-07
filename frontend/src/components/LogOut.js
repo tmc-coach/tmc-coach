@@ -4,7 +4,6 @@ const Logout = () => {
 
   const logout = () => {
     localStorage.removeItem('user')
-    
     return <Navigate to="/login" replace/>
   }
   return(
