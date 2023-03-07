@@ -18,21 +18,20 @@ const getUser = async token => {
 }
 
 const checkAuth = async () => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('user')
   if (!token) {
     return redirect('/login', { replace: true })
   }
   const user = await getUser(token)
   if (user.status && user.status !== 200) {
-    localStorage.removeItem('token')
-    localStorage.removeItem('loggedInUser')
+    localStorage.removeItem('user')
     return redirect('/login', { replace: true })
   }
   return null
 }
 
 const checkLogin = async () => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('user')
   if (token) {
     const user = await getUser(token)
     if (user.status && user.status === 200) {
