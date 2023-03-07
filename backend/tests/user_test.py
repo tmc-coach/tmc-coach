@@ -8,7 +8,7 @@ class UserTestCase(TestCase):
         os.environ["JWT_SECRET"] = "StaticJWTSecretForTestingPurposes"
         self._username = "testikayttaja@osoite.fi"
         self._token = "StaticTestTokenForTesting"
-        self._user_id = 00
+        self._user_id = os.getenv("TMCUSERID")
 
     def tearDown(self) -> None:
         del os.environ["JWT_SECRET"]
