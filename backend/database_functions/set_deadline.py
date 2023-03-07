@@ -6,6 +6,8 @@ import datetime
 def set_deadline_function(username, date, course_id):
     try:
         date_now = datetime.datetime.now()
+        #print(date_now)
+        #print(date)
         target = deadlines(username=username, course_id=course_id, date=date, created_at=date_now)
         db.session.add(target)
         #sql = "INSERT INTO deadlines (username, course_id, date) VALUES (:username, :course_id, :date)"
@@ -14,7 +16,6 @@ def set_deadline_function(username, date, course_id):
         return "Deadline added succesfully!"
     except:
         return "Adding deadline was unsuccessful"
-    return jsonify(message="Deadline added succesfully!")
 
 class deadlines(db.Model):
     __tablename__ = 'deadlines'
