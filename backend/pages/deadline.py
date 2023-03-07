@@ -44,10 +44,10 @@ def get_deadlines():
     result = db.session.execute(text(sql), {"user_id": user["id"]})
     deadlines = result.fetchall()
 
-    response = {"deadlines": deadlines}
     response = {}
     for i in range(len(deadlines)):
         response[i] = {"id": deadlines[i][0], "username": deadlines[i][1], "course_id": deadlines[i][2], "date": deadlines[i][3]}
+        
     return json.dumps(response, default=str)
 
 # Database model demo
