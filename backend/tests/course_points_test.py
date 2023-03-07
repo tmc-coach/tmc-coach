@@ -47,8 +47,12 @@ class TestCoursesPoints(unittest.TestCase):
         if response.status_code != 200:
             return jsonify(error="invalid username or password"), 401
 
+        
         self.token = f"{response.json()['token_type']} {response.json()['access_token']}"
-        self.encoded_jwt = encode_jwt(self.app.config["USERNAME"], self.token)
+        self.user = requests.get("https://tmc.mooc.fi/api/v8/users/current", headers={"Authorization": self.token})
+        self.user_id = self.user.json()["id"]
+
+        self.encoded_jwt = encode_jwt(self.app.config["USERNAME"], self.token, self.user_id)
         self.headers = {"Authorization": self.encoded_jwt}
 
         self.app.config["TESTING"] = True
