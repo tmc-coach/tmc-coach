@@ -20,7 +20,7 @@ def get_user(token):
     valid = decode_jwt(token)
     
     if valid:
-        return valid["username"]
-    
+        return valid
+        
     return None
     

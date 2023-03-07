@@ -14,7 +14,7 @@ const set_deadline = async data => {
   data.date.setMinutes(0)
   data.date.setSeconds(0)
 
-  const response = await axios.post(`${baseUrl}/`, data, { headers: { Authorization: localStorage.getItem('token') } })
+  const response = await axios.post(`${baseUrl}/`, data, { headers: { Authorization: localStorage.getItem('user') } })
 
   return response.data
 }
