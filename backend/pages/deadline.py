@@ -23,7 +23,6 @@ def set_deadline():
         return jsonify(message="Missing fields"), 400
 
     message = set_deadline_function(user["id"], date, course_id)
-    print(message)
     return jsonify(message=message)
 
 @deadline.route("/", methods=["GET"])
