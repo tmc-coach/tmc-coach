@@ -54,3 +54,22 @@ class DeadlinesTestCase(TestCase):
         deadlines = result.fetchall()
  
         self.assertEqual(len(deadlines), 0)  
+
+    def test_set_deadline_has_created_at_column(self):
+        username = os.getenv("TMCUSERNAME")
+        course_id = 1169
+        date_for_deadline = datetime.datetime(2028, 5, 27)
+        date_now = datetime.datetime.now().date()
+
+        set_deadline_function(username, date_for_deadline, course_id)
+
+        sql = "SELECT * FROM deadlines WHERE date=:date AND created_at=:created_at"
+        result = db.session.execute(text(sql), {"date":date_for_deadline, "created_at":date_now})
+        deadlines = result.fetchall()
+
+        self.assertEqual(len(deadlines), 1)
+
+        sql = "DELETE FROM deadlines WHERE date=:date AND created_at=:created_at"
+        result = db.session.execute(text(sql), {"date":date_for_deadline, "created_at":date_now})
+        db.session.commit()
+        
