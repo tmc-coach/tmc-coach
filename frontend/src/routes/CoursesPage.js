@@ -30,7 +30,7 @@ const Courses_Page = () => {
         <Organization organization={org} />
         <h1 className='text-3xl font-medium text-center tracking-wide px-10 pb-10'>Courses</h1>
         {courses.length >= 2 && <Filter value={filter} handleChange={({ target }) => setFilter(target.value)} />}
-        {courses.length > 0 ? <Courses courses={coursesToShow} /> : 'No available courses'}
+        {courses.length > 0 ? <Courses courses={coursesToShow} /> : 'Loading...'}
       </div>
     </div>
   )

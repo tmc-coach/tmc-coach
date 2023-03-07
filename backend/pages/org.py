@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from modules.user import decode_jwt
 import requests
+import json
 
 org = Blueprint("org", __name__)
 
@@ -32,4 +33,7 @@ def get_course(org_slug):
         return jsonify(error="Forbidden"), 403
     if response.status_code == 404:
         return jsonify(error="Not Found"), 404
+    if (len(response.json()) == 0):
+        courses = [{"name": -1}]
+        return json.dumps(courses)
     return response.json()
