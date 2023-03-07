@@ -1,4 +1,6 @@
+import json
 from flask import Blueprint, jsonify, request
+from sqlalchemy import text
 from database_functions.deadline_functions import set_deadline_function
 from database_functions.deadline_functions import get_deadlines_function
 from modules.user import get_user
@@ -59,4 +61,5 @@ def get_deadline(course_id):
         "course_id": deadline[2],
         "date": deadline[3]
         }
+
     return json.dumps(response, default=str)
