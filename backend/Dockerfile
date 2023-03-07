@@ -10,4 +10,4 @@ ENV FLASK_DEBUG=1
 
 EXPOSE 5000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:create_app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "tmc_coach:create_app()"]
