@@ -12,17 +12,17 @@ def set_deadline():
     if not auth_header:
         return jsonify(error="Authorization header missing")
 
-    username = get_user(auth_header)
-    if not username:
+    user = get_user(auth_header)
+    if not user:
         return jsonify(error="Forbidden"), 403
 
     date = request.json.get("date")
     course_id = request.json.get("course_id")
-
-    if not username or not date or not course_id:
+    
+    if not date or not course_id:
         return jsonify(message="Missing fields"), 400
 
-    message = set_deadline_function(username, date, course_id)
+    message = set_deadline_function(user["id"], date, course_id)
     print(message)
     return jsonify(message=message)
 
@@ -33,9 +33,9 @@ def get_deadlines():
     if not auth_header:
         return jsonify(error="Authorization header missing")
 
-    username = get_user(auth_header)
-    if not username:
+    user = get_user(auth_header)
+    if not user:
         return jsonify(error="Forbidden"), 403
     
-    deadlines = get_deadlines_function(username)
+    deadlines = get_deadlines_function(user["id"])
     return deadlines
