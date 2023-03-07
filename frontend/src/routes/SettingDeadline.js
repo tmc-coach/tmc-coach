@@ -14,8 +14,6 @@ const SettingDeadline = () => {
   const [deadlines, setDeadlines] = useState([])
   const [newDeadlineAdded, setNew] = useState(false)
 
-  //const username = localStorage.getItem('loggedInUser')
-
   useEffect(() => {
     courseService.get_course_info(course_id).then(course => setInfo(course.course))
     deadlineService.get_deadlines().then(deadlines => setDeadlines(deadlines))
@@ -32,10 +30,8 @@ const SettingDeadline = () => {
   const handleSetting = async (event) => {
     event.preventDefault()
 
-    const username = localStorage.getItem('loggedInUser')
-
     try {
-      deadlineService.set_deadline({ course_id, username, date })
+      deadlineService.set_deadline({ course_id, date })
       setNew(true)
       setMessage('Setting deadline was successful!')
       setTimeout(() => {
