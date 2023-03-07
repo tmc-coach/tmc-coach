@@ -26,7 +26,20 @@ def set_deadline():
     return jsonify(message=message)
 
 @deadline.route("/", methods=["GET"])
-def get_deadlines():
+def get_all_deadlines():
+    auth_header = request.headers.get("Authorization", None)
+    if not auth_header:
+        return jsonify(error="Authorization header missing")
+
+    user = get_user(auth_header)
+    if not user:
+        return jsonify(error="Forbidden"), 403
+      
+    deadlines = get_deadlines_function(user["id"])
+    return deadlines
+
+@deadline.route("/<course_id>", methods=["GET"])
+def get_deadline(course_id):
 
     auth_header = request.headers.get("Authorization", None)
     if not auth_header:
@@ -35,6 +48,15 @@ def get_deadlines():
     user = get_user(auth_header)
     if not user:
         return jsonify(error="Forbidden"), 403
+
+    sql = "SELECT * FROM deadlines WHERE user_id=:user_id AND course_id=:course_id ORDER BY id DESC LIMIT 1"
+    result = db.session.execute(text(sql), {"user_id": user["id"], "course_id": course_id})
+    deadline = result.fetchone()
     
-    deadlines = get_deadlines_function(user["id"])
-    return deadlines
+    response = {
+        "id": deadline[0],
+        "user_id": deadline[1],
+        "course_id": deadline[2],
+        "date": deadline[3]
+        }
+    return json.dumps(response, default=str)

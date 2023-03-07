@@ -8,7 +8,7 @@ class UserTestCase(TestCase):
         os.environ["JWT_SECRET"] = "StaticJWTSecretForTestingPurposes"
         self._username = "testikayttaja@osoite.fi"
         self._token = "StaticTestTokenForTesting"
-        self._user_id = 12345
+        self._user_id = os.getenv("TMCUSERID")
 
     def tearDown(self) -> None:
         del os.environ["JWT_SECRET"]
@@ -21,5 +21,5 @@ class UserTestCase(TestCase):
         encoded_jwt = encode_jwt(str(self._username), str(self._token), self._user_id)
         decoded_jwt = decode_jwt(encoded_jwt)
         self.assertEqual(
-            {"token": self._token, "username": self._username, "id": self._user_id}, decoded_jwt
+            {"username": self._username, "token": self._token, "id": self._user_id}, decoded_jwt
         )
