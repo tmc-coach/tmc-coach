@@ -4,6 +4,7 @@ import orgService from '../services/org'
 import Organization from '../components/Organization'
 import Filter from '../components/Filter'
 import Courses from '../components/Courses'
+import Loading from '../components/Loading'
 
 const Courses_Page = () => {
 
@@ -26,12 +27,15 @@ const Courses_Page = () => {
 
   return (
     <div className='flex justify-center mx-5'>
-      <div className='flex justify-center flex-col w-100 max-w-screen-lg text-center'>
+      {courses.length > 0 ? (<div className='flex justify-center flex-col w-100 max-w-screen-lg text-center'>
         <Organization organization={org} />
         <h1 className='text-3xl font-medium text-center tracking-wide px-10 pb-10'>Courses</h1>
         {courses.length >= 2 && <Filter value={filter} handleChange={({ target }) => setFilter(target.value)} />}
-        {courses.length > 0 ? <Courses courses={coursesToShow} /> : 'Loading...'}
-      </div>
+        <Courses courses={coursesToShow} />
+      </div>) : (
+        <Loading />
+      )
+      }
     </div>
   )
 }
