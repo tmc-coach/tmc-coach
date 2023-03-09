@@ -22,7 +22,7 @@ const Courses = ({ courses }) => (
               </div>
             </Link>
           ) : (
-            <p>No courses available</p>
+            <p>No available courses</p>
           )}
         </div>
       )}
