@@ -3,9 +3,13 @@ from flask import Blueprint, jsonify, request
 from sqlalchemy import text
 from database_functions.deadline_functions import set_deadline_function, get_deadlines_function
 from modules.user import get_user
+from app.models import deadlines
 from app import db
+from sqlalchemy.sql import text
+import json
 
 deadline = Blueprint("deadline", __name__)
+
 
 @deadline.route("/", methods=["POST"])
 def set_deadline():
@@ -25,6 +29,7 @@ def set_deadline():
 
     message = set_deadline_function(user["id"], date, course_id)
     return jsonify(message=message)
+
 
 @deadline.route("/", methods=["GET"])
 def get_all_deadlines():

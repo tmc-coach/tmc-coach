@@ -25,8 +25,7 @@ def get_course(org_slug):
     token = decode_jwt(auth_header)
     response = requests.get(
         f"https://tmc.mooc.fi/api/v8/core/org/{org_slug}/courses.json",
-        headers={"Accept": "application/json",
-                 "Authorization": token["token"]},
+        headers={"Accept": "application/json", "Authorization": token["token"]},
     )
     if response.status_code == 403:
         return jsonify(error="Forbidden"), 403

@@ -38,7 +38,7 @@ class DeadlineTestCase(TestCase):
         app.config["TESTING"] = True
         return app
 
-    #def setUp(self):
+        # def setUp(self):
         try:
             sql = "SELECT * FROM deadlines"
             db.session.execute(text(sql))

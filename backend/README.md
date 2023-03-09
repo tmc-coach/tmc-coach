@@ -33,9 +33,17 @@ Enter the container to intialize the database with
 
 ```sh
 docker exec -it backend bash
-python
->>> from app import db
->>> db.create_all()
+python -m flask db init
+python -m flask db migrate -m "Initial migration"
+python -m flask db upgrade
+```
+
+After changing the database models, the database can be updated with
+
+```sh
+docker exec -it backend bash
+python -m flask db migrate -m "Optional message"
+python -m flask db upgrade
 ```
 
 Database can be accessed manually with
@@ -58,15 +66,24 @@ pip install -r requirements.txt
 Setup your local postgresql-server and create a database for the application. Then set the environment variables `POSTGRES_USER`, `POSTGRES_PASSWORD` and `POSTGRES_DB` to match the database credentials. Initialize the database tables with
 
 ```sh
-python
->>> from app import db
->>> db.create_all()
+export FLASK_APP=tmc_coach.py
+python -m flask db init
+python -m flask db migrate -m "Initial migration"
+python -m flask db upgrade
+```
+
+After changing the database models, the database can be updated with
+
+```sh
+export FLASK_APP=tmc_coach.py
+python -m flask db migrate -m "Optional message"
+python -m flask db upgrade
 ```
 
 Run the application with
 
 ```sh
-python wsgi.py
+python tmc_coach.py
 ```
 
 ## Analyzing the code with pylint
@@ -74,7 +91,7 @@ python wsgi.py
 After activating the virtual environment and installing all the requirements the code can be analyzed with command
 
 ```sh
-pylint wsgi.py
+pylint tmc_coach.py
 ```
 
 ## Type checking with Mypy
@@ -82,7 +99,7 @@ pylint wsgi.py
 After activating the virtual environment and installing all the requirements the code can be type checked with
 
 ```sh
-mypy wsgi.py
+mypy tmc_coach.py
 ```
 
 ## Format code with Black
