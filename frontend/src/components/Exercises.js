@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 const Exercises = ({ exercises, course_id }) => (
   <div>
     {exercises.map(exercise => (
-      <div key={exercise.id}>
+      <div key={course_id}>
         <h1 className='text-3xl font-medium text-center tracking-wide p-10'>{exercise.course_title}</h1>
         {exercise.maximum_exercises > -1 ? (
           <>
