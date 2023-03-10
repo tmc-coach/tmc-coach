@@ -3,6 +3,7 @@ from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+from apscheduler.schedulers.background import BackgroundScheduler
 
 db = SQLAlchemy()
 
@@ -30,6 +31,16 @@ def create_app():
     # enable CORS
     CORS(app)
 
+    # import and register blueprints
+    register_blueprints(app)
+
+    # set up scheduler
+    schedule()
+
+    return app
+
+
+def register_blueprints(app):
     # pylint: disable=wrong-import-position
     # import and register blueprints
     from pages.auth import auth
@@ -46,4 +57,12 @@ def create_app():
     app.register_blueprint(courses, url_prefix="/courses")
     app.register_blueprint(deadline, url_prefix="/deadline")
 
-    return app
+
+def schedule():
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(do_stuff, "cron", hour=4, minute=20)
+    scheduler.start()
+
+
+def do_stuff():
+    print("Hello Scheduler!")
