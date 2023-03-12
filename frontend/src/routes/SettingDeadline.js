@@ -30,18 +30,20 @@ const SettingDeadline = () => {
   const handleSetting = async (event) => {
     event.preventDefault()
 
-    try {
-      deadlineService.set_deadline({ course_id, date })
-      setNew(true)
-      setMessage('Setting deadline was successful!')
-      setTimeout(() => {
-        setMessage(null)
-      }, 10000)
-    } catch (exception) {
-      setMessage('adding a deadline was unsuccessful')
-      setTimeout(() => {
-        setMessage(null)
-      }, 10000)
+    if (confirm('Do you want to change the deadline you have set for this course?') === true) {
+      try {
+        deadlineService.set_deadline({ course_id, date })
+        setNew(true)
+        setMessage('Setting deadline was successful!')
+        setTimeout(() => {
+          setMessage(null)
+        }, 10000)
+      } catch (exception) {
+        setMessage('adding a deadline was unsuccessful')
+        setTimeout(() => {
+          setMessage(null)
+        }, 10000)
+      }
     }
   }
 
