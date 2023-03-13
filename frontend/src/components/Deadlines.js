@@ -1,42 +1,42 @@
 import React, { useState, useEffect } from 'react'
-import courseService from '../services/courses'
+//import courseService from '../services/courses'
 import deadlineService from '../services/deadlines'
 
 import SetDeadline from './SetDeadline'
 import Deadline from './Deadline'
 
 const Deadlines = ({ course_id }) => {
-  const [message, setMessage] = useState('')
   const [date, setDate] = useState(new Date())
-  const [info, setInfo] = useState('')
+  //const [course, setCourse] = useState('')
   const [deadlines, setDeadlines] = useState([])
-  const [newDeadlineAdded, setNew] = useState(false)
+  const [newDeadlineAdded, setNewDeadline] = useState(false)
+  const [message, setMessage] = useState(null)
+  const [showSetDeadline, setShowSetDeadline] = useState(false)
 
   useEffect(() => {
-    courseService.get_course_info(course_id).then(course => setInfo(course.course))
+    //courseService.get_course_info(course_id).then(course => setCourse(course.course))
     deadlineService.get_deadline(course_id).then(deadlines => setDeadlines(deadlines))
   }, [])
 
   useEffect(() => {
     if (newDeadlineAdded) {
       deadlineService.get_deadline(course_id).then(deadlines => setDeadlines(deadlines))
-      setNew(false)
+      setNewDeadline(false)
     }
   }, [newDeadlineAdded])
 
-
-  const handleSetting = async (event) => {
+  const handleSetDeadline = async (event) => {
     event.preventDefault()
 
     try {
       deadlineService.set_deadline({ course_id, date })
-      setNew(true)
-      setMessage('Setting deadline was successful!')
+      setNewDeadline(true)
+      setMessage('Deadline was set successfully')
       setTimeout(() => {
         setMessage(null)
       }, 10000)
     } catch (exception) {
-      setMessage('adding a deadline was unsuccessful')
+      setMessage('Deadline could not be set')
       setTimeout(() => {
         setMessage(null)
       }, 10000)
@@ -45,10 +45,9 @@ const Deadlines = ({ course_id }) => {
 
   return (
     <div>
-      <h1 className='text-3xl font-medium text-center tracking-wide p-10'>Set deadline for course {info.title}</h1>
-      <p className="flex justify-center px-5 m-5">{message}</p>
-      <Deadline deadlines={deadlines} onChange={handleSetting} />
-      <SetDeadline date={date} setDate={setDate} handleSetting={handleSetting} />
+      <Deadline deadlines={deadlines} onChange={handleSetDeadline} />
+      <button onClick={() => setShowSetDeadline(!showSetDeadline)} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{showSetDeadline ? 'Close menu' : 'Set a deadline'}</button>
+      {showSetDeadline ? <SetDeadline date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} /> : null}
     </div>
   )
 }
