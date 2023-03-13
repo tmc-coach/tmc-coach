@@ -3,8 +3,6 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 const SetDeadline = ({ date, handleSetting, setDate }) => {
 
-  
-
   return (
     <div>
       <p className="flex justify-center px-5 m-5">Choose the deadline for this course</p>

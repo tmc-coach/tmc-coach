@@ -2,9 +2,9 @@ import { useParams } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
 import courseService from '../services/courses'
 
-import DeadlineSetting from '../components/DeadlineSetting'
+import SetDeadline from '../components/SetDeadline'
 import deadlineService from '../services/deadlines'
-import Deadlines from '../components/Deadlines'
+import Deadline from '../components/Deadline'
 
 const SettingDeadline = () => {
   const [message, setMessage] = useState('')
@@ -49,8 +49,8 @@ const SettingDeadline = () => {
     <div>
       <h1 className='text-3xl font-medium text-center tracking-wide p-10'>Set deadline for course {info.title}</h1>
       <p className="flex justify-center px-5 m-5">{message}</p>
-      <Deadlines deadlines={deadlines} onChange={handleSetting} />
-      <DeadlineSetting date={date} setDate={setDate} handleSetting={handleSetting} />
+      <Deadline deadlines={deadlines} onChange={handleSetting} />
+      <SetDeadline date={date} setDate={setDate} handleSetting={handleSetting} />
     </div>
   )
 }
