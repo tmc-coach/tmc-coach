@@ -52,6 +52,18 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.visit('http://localhost:3000/orgs/courses/1113/set_deadline')
       cy.contains('No deadlines chosen for this course').should('exist')
     })
+    it('set deadline -page shows a confirmation window', () => {
+      cy.setdeadlinepage()
+      cy.wait(5000)
+      cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
+      cy.get('div.react-datepicker__month-container').contains('18').click()
+      cy.get('button[value=set_deadline]').click()
+      cy.on('window:confirm', (text) => {
+        expect(text).to.contains('You have already set a deadline for this course.')
+      })
+      cy.wait(7000)
+      cy.contains('2023-04-18').should('exist')
+    })
   })
   context('logged out user', () => {
     it('is directed to login page and cant go to set_deadline page', () => {
