@@ -1,0 +1,8 @@
+.mypy_cache/
+.pytest_cache/
+tests/
+venv/
+__pycache__/
+.pylintrc
+mypy.ini
+pytest.ini

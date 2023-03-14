@@ -1,16 +1,16 @@
 import axios from 'axios'
 import { redirect } from 'react-router-dom'
 
-const baseUrl = process.env.REACT_APP_BASEURL
+const baseUrl = process.env.REACT_APP_BACKEND + '/auth'
 
 const login = async credentials => {
-  const response = await axios.post(baseUrl + '/auth/authorize', credentials)
+  const response = await axios.post(baseUrl + '/authorize', credentials)
   return response.data.jwt
 }
 
 const getUser = async token => {
   try {
-    const response = await axios.get(baseUrl + '/auth/user', { headers: { Authorization: token } })
+    const response = await axios.get(baseUrl + '/user', { headers: { Authorization: token } })
     return response
   } catch (error) {
     return error.response

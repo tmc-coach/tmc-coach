@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-const prod = process.env.NODE_ENV === 'production'
-const baseUrl = prod ? '/api/org' : process.env.REACT_APP_BASEURL + '/org'
+const baseUrl = process.env.REACT_APP_BACKEND + '/org'
 
 const get_orgs = async () => {
   const response = await axios.get(`${baseUrl}/`, {

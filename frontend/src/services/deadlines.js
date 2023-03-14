@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-const prod = process.env.NODE_ENV === 'production'
-const baseUrl = prod ? '/deadline' : process.env.REACT_APP_BASEURL + '/deadline'
+const baseUrl = process.env.REACT_APP_BACKEND + '/deadline'
 
 const get_all_deadlines = async () => {
   const response = await axios.get(`${baseUrl}/`, { headers: { Authorization: localStorage.getItem('user') } })
