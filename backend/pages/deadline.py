@@ -55,7 +55,7 @@ def get_deadline(course_id):
     if not user:
         return jsonify(error="Forbidden"), 403
 
-    sql = "SELECT * FROM deadlines WHERE user_id=:user_id AND course_id=:course_id ORDER BY id DESC LIMIT 1"
+    sql = "SELECT * FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
     result = db.session.execute(text(sql), {"user_id": user["id"], "course_id": course_id})
     deadline = result.fetchone()
     
