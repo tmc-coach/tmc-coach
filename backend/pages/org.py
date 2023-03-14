@@ -36,18 +36,13 @@ def get_one_org(org_slug):
 
     for item in data:
         if item["slug"] == org_slug:
-            result = [
-                {
+            result = {
                     "name": item["name"],
                     "logo_path": item["logo_path"],
                     "information": item["information"]
                 }
-            ]
 
-    print("result")
-    print(result)
     if result == -1:
-        print("feilasin")
         return jsonify(error="Not Found"), 404
     
     return json.dumps(result)
