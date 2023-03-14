@@ -31,26 +31,25 @@ const SettingDeadline = () => {
     event.preventDefault()
 
     let text = ''
-    if (deadlines.length === 0) {
-      text = 'Do you want to set ' + JSON.stringify(date.getFullYear()) + '.' + JSON.stringify(date.getMonth() + 1) + '.' + JSON.stringify(date.getDate()) + ' as your deadline for this course?'
-    } else {
+    if (deadlines.length !== 0) {
       text = 'You have already set a deadline for this course.\nDo you want to set ' + JSON.stringify(date.getFullYear()) + '.' + JSON.stringify(date.getMonth() + 1) + '.' + JSON.stringify(date.getDate()) + ' as your new deadline for this course?'
+      if (confirm(text) === false) {
+        return
+      }
     }
 
-    if (confirm(text) === true) {
-      try {
-        deadlineService.set_deadline({ course_id, date })
-        setNew(true)
-        setMessage('Setting deadline was successful!')
-        setTimeout(() => {
-          setMessage(null)
-        }, 10000)
-      } catch (exception) {
-        setMessage('adding a deadline was unsuccessful')
-        setTimeout(() => {
-          setMessage(null)
-        }, 10000)
-      }
+    try {
+      deadlineService.set_deadline({ course_id, date })
+      setNew(true)
+      setMessage('Setting deadline was successful!')
+      setTimeout(() => {
+        setMessage(null)
+      }, 10000)
+    } catch (exception) {
+      setMessage('adding a deadline was unsuccessful')
+      setTimeout(() => {
+        setMessage(null)
+      }, 10000)
     }
   }
 
