@@ -41,7 +41,7 @@ const Deadlines = ({ course_id }) => {
       }, 10000)
     }
   }
-
+  
   return (
     <div>
       <Deadline deadlines={deadlines} onChange={handleSetDeadline} />
