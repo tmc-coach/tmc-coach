@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-const prod = process.env.NODE_ENV === 'production'
-const baseUrl = prod ? '/api/courses' : process.env.REACT_APP_BASEURL + '/courses'
+const baseUrl = process.env.REACT_APP_BACKEND + '/courses'
 
 const get_course_info = async course_id => {
 
