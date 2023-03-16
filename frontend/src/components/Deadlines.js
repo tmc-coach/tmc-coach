@@ -11,7 +11,6 @@ const Deadlines = ({ course_id }) => {
   const [deadlines, setDeadlines] = useState([])
   const [newDeadlineAdded, setNewDeadline] = useState(false)
   const [message, setMessage] = useState(null)
-  const [showSetDeadline, setShowSetDeadline] = useState(false)
 
   useEffect(() => {
     //courseService.get_course_info(course_id).then(course => setCourse(course.course))
@@ -46,8 +45,7 @@ const Deadlines = ({ course_id }) => {
   return (
     <div>
       <Deadline deadlines={deadlines} onChange={handleSetDeadline} />
-      <button onClick={() => setShowSetDeadline(!showSetDeadline)} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{showSetDeadline ? 'Close menu' : 'Set a deadline'}</button>
-      {showSetDeadline ? <SetDeadline date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} /> : null}
+      <SetDeadline deadlines={deadlines} date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} />
     </div>
   )
 }
