@@ -7,7 +7,6 @@ import datetime
 def get_deadlines_function(user_id):
     deadlines_from_database = deadlines.query.filter_by(user_id=user_id).all()
     response = {}
-    print(deadlines_from_database[1])
     for i in range(len(deadlines_from_database)):
         response[i] = {"id": deadlines_from_database[i].id,
                        "user_id": deadlines_from_database[i].user_id,
@@ -71,7 +70,18 @@ def set_checkpoints_function(user_id, course_id, created_at, deadline, how_many_
             percent = checkpoint[1]
             target = checkpoints(user_id=user_id, course_id=course_id, checkpoint_date=date, checkpoint_percent=percent)
             db.session.add(target)
-        db.session.commit()        
+        db.session.commit()
         return "Checkpoints added to the database successfully"
     except:
         return "Adding checkpoints to the database was unsuccessful"
+    
+def get_checkpoints_function(user_id, course_id):
+    checkpoints_from_database = checkpoints.query.filter_by(user_id=user_id, course_id=course_id).all()
+    response = {}
+    for i in range(len(checkpoints_from_database)):
+        response[i] = {"id": checkpoints_from_database[i].id,
+                       "user_id": checkpoints_from_database[i].user_id,
+                       "course_id": checkpoints_from_database[i].course_id,
+                       "checkpoint_date": checkpoints_from_database[i].checkpoint_date,
+                       "checkpoint_percent": checkpoints_from_database[i].checkpoint_percent}
+    return json.dumps(response, default=str)
