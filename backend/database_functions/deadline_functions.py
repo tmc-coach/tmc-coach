@@ -64,5 +64,14 @@ def count_checkpoints(created_at, deadline, how_many_checkpoints):
 
     # Checkpointit pitäisi vielä tallentaa tietokantaan
 def set_checkpoints_function(user_id, course_id, created_at, deadline, how_many_checkpoints):
-    checkpoints = count_checkpoints(created_at, deadline, how_many_checkpoints)
-    print(checkpoints)
+    checkpoints_list = count_checkpoints(created_at, deadline, how_many_checkpoints)
+    try:
+        for checkpoint in checkpoints_list:
+            date = checkpoint[0]
+            percent = checkpoint[1]
+            target = checkpoints(user_id=user_id, course_id=course_id, checkpoint_date=date, checkpoint_percent=percent)
+            db.session.add(target)
+        db.session.commit()        
+        return "Checkpoints added to the database successfully"
+    except:
+        return "Adding checkpoints to the database was unsuccessful"
