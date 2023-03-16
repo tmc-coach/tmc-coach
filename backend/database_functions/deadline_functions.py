@@ -1,5 +1,5 @@
 from app import db
-from app.models import deadlines
+from app.models import deadlines, checkpoints
 import json
 from datetime import *
 import datetime
@@ -26,7 +26,8 @@ def set_deadline_function(user_id, date, course_id):
     except:
         return "Adding deadline was unsuccessful"
 
-def set_checkpoints(user_id, course_id, created_at, deadline, how_many_checkpoints):
+
+def count_checkpoints(created_at, deadline, how_many_checkpoints):
     deadline_as_list = deadline.split('/')
     deadline_as_date = datetime.date(int(deadline_as_list[2]), int(deadline_as_list[1]), int(deadline_as_list[0]))
 
@@ -36,6 +37,8 @@ def set_checkpoints(user_id, course_id, created_at, deadline, how_many_checkpoin
 
     days_apart = deadline_as_date - created_at
     days_apart = days_apart.days -1
+
+    checkpoints = []
 
     previous = created_at
     print("kun checkpointeja on ")
@@ -55,5 +58,11 @@ def set_checkpoints(user_id, course_id, created_at, deadline, how_many_checkpoin
             checkpoint_date = checkpoint_date + timedelta(days = 1)
         previous = checkpoint_date
         print(checkpoint_date)
+        checkpoints.append((checkpoint_date, percents))
+    
+    return checkpoints
 
     # Checkpointit pitäisi vielä tallentaa tietokantaan
+def set_checkpoints_function(user_id, course_id, created_at, deadline, how_many_checkpoints):
+    checkpoints = count_checkpoints(created_at, deadline, how_many_checkpoints)
+    print(checkpoints)
