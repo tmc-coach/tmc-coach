@@ -1,9 +1,9 @@
 import json
 from flask import Blueprint, jsonify, request
 from sqlalchemy import text
-from database_functions.deadline_functions import set_deadline_function, get_deadlines_function, set_checkpoints_function
+from database_functions.deadline_functions import set_deadline_function, get_deadlines_function
+from database_functions.checkpoint_functions import set_checkpoints_function
 from modules.user import get_user
-from app.models import deadlines
 from app import db
 from sqlalchemy.sql import text
 import json
