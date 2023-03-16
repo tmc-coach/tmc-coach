@@ -25,10 +25,9 @@ def set_deadline_function(user_id, date, course_id):
         db.session.commit()
         return "Deadline added succesfully!"
     elif isinstance(id, int):
-        x = db.session.query(deadlines).get(id)
-        #print(x.date, x.course_id)
-        x.date = date
-        x.created_at = date_now
+        target_dl = db.session.query(deadlines).get(id)
+        target_dl.date = date
+        target_dl.created_at = date_now
         db.session.commit()
         return "Deadline changed succesfully!"
     else:
@@ -39,7 +38,14 @@ def check_existing_deadline_function(user_id, course_id):
     result = db.session.execute(text(sql), {"user_id": user_id, "course_id": course_id})
     for id in result:
         if id != None:
-            #print(id[0])
             return int(id[0])
         else:
             return None
+        
+def delete_deadline_permanently_function(user_id, course_id):
+    try:
+        sql = "DELETE FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
+        db.session.execute(text(sql), {"user_id": user_id, "course_id": course_id})
+        return "Course deadline deleted succesfully!"
+    except:
+        return "Deleting course deadline was unsuccesful"
