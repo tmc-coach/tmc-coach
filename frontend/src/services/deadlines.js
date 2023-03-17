@@ -30,8 +30,8 @@ const set_deadline = async data => {
   return response.data
 }
 
-const delete_deadline = async () => {
-  const response = await axios.get(`${baseUrl}/delete`, { headers: { Authorization: localStorage.getItem('user') } })
+const delete_deadline = async course_id => {
+  const response = await axios.delete(`${baseUrl}/${course_id}`, { headers: { Authorization: localStorage.getItem('user') } })
 
   return response.data
 }

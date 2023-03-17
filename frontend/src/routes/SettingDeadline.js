@@ -46,10 +46,10 @@ const SettingDeadline = () => {
   }
 
   const handleDelete = async (event) => {
-    event.preventDefault
+    event.preventDefault()
 
     try {
-      await deadlineService.delete_deadline()
+      deadlineService.delete_deadline(course_id)
       setMessage('Deleting deadline was successful!')
       setTimeout(() => {
         setMessage(null)

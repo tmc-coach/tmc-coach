@@ -71,8 +71,8 @@ def get_deadline(course_id):
 
     return json.dumps(response, default=str)
 
-@deadline.route("/delete", methods=["GET"])
-def delete_deadline():
+@deadline.route("/<course_id>", methods=["DELETE"])
+def delete_deadline(course_id):
     auth_header = request.headers.get("Authorization", None)
     if not auth_header:
         return jsonify(error="Authorization header missing")
@@ -81,12 +81,9 @@ def delete_deadline():
     if not user:
         return jsonify(error="Forbidden"), 403
 
-    course_id = request.json.get("course_id")
-    print(course_id)
-
     if not course_id:
         return jsonify(message="Missing fields"), 400
 
     message = delete_deadline_permanently_function(user["id"], course_id)
-    print(message)
+
     return jsonify(message=message)

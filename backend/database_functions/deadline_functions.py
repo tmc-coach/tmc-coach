@@ -46,6 +46,7 @@ def delete_deadline_permanently_function(user_id, course_id):
     try:
         sql = "DELETE FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
         db.session.execute(text(sql), {"user_id": user_id, "course_id": course_id})
+        db.session.commit()
         return "Course deadline deleted succesfully!"
     except:
         return "Deleting course deadline was unsuccesful"
