@@ -1,4 +1,4 @@
-const Deadlines = ({ deadlines }) => {
+const Deadlines = ({ deadlines, onDelete }) => {
   if (deadlines.length === 0) {
     return (
       <div>
@@ -13,6 +13,7 @@ const Deadlines = ({ deadlines }) => {
       <div key={deadlines.id} className="flex justify-center px-5 m-5">
         {deadlines.date}
       </div>
+      <button onClick={onDelete} value="delete_deadline">Delete</button>
     </div>
   )
 }
