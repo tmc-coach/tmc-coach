@@ -48,18 +48,20 @@ const SettingDeadline = () => {
   const handleDelete = async (event) => {
     event.preventDefault()
 
-    try {
-      deadlineService.delete_deadline(course_id)
-      setMessage('Deleting deadline was successful!')
-      setTimeout(() => {
-        setMessage(null)
-      }, 10000)
-      setNew(true)
-    } catch (exception) {
-      setMessage('Deleting deadline was unsuccessful')
-      setTimeout(() => {
-        setMessage(null)
-      }, 10000)
+    if (confirm('Are you sure you want to delete the deadline you have set for this course?') === true) {
+      try {
+        deadlineService.delete_deadline(course_id)
+        setMessage('Deleting deadline was successful!')
+        setTimeout(() => {
+          setMessage(null)
+        }, 10000)
+        setNew(true)
+      } catch (exception) {
+        setMessage('Deleting deadline was unsuccessful')
+        setTimeout(() => {
+          setMessage(null)
+        }, 10000)
+      }
     }
   }
 
