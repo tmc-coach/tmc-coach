@@ -5,14 +5,11 @@ from datetime import *
 import datetime
 
 def count_checkpoints(created_at, deadline, how_many_checkpoints):
-    deadline_as_list = deadline.split('/')
-    deadline_as_date = datetime.date(int(deadline_as_list[2]), int(deadline_as_list[1]), int(deadline_as_list[0]))
-
-    if deadline_as_date < created_at + timedelta(days = how_many_checkpoints + 1):
+    if deadline < created_at + timedelta(days = how_many_checkpoints + 1):
         print("not good")
         return 
 
-    days_apart = deadline_as_date - created_at
+    days_apart = deadline - created_at
     days_apart = days_apart.days -1
 
     checkpoints = []

@@ -30,7 +30,9 @@ def set_deadline():
 
     message = set_deadline_function(user["id"], date, course_id)
 
-    set_checkpoints_function(user["id"], course_id, datetime.datetime.now().date(), date, 3)
+    deadline_as_list = date.split('/')
+    deadline_as_date = datetime.date(int(deadline_as_list[2]), int(deadline_as_list[1]), int(deadline_as_list[0]))
+    set_checkpoints_function(user["id"], course_id, datetime.datetime.now().date(), deadline_as_date, 3)
 
     return jsonify(message=message)
 
