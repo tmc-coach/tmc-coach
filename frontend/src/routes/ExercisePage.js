@@ -15,8 +15,8 @@ const ExercisesPage = () => {
   }, [])
 
   return (
-    <div className='flex justify-center m-10'>
-      <div className='flex justify-center flex-col w-100 max-w-screen-lg text-center'>
+    <div className='container container-fluid'>
+      <div className='flex justify-center text-center'>
         {exercises.length > 0 ? <Exercises exercises={exercises} course_id={course_id}/> : <Loading />}
       </div>
     </div>
