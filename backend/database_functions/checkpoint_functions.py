@@ -2,7 +2,9 @@ from app import db
 from app.models import checkpoints
 import json
 from datetime import *
+from sqlalchemy import text
 import datetime
+
 
 def count_checkpoints(created_at, deadline, how_many_checkpoints):
     deadline_as_list = deadline.split('/')
@@ -53,3 +55,11 @@ def get_checkpoints_function(user_id, course_id):
                        "checkpoint_date": checkpoints_from_database[i].checkpoint_date,
                        "checkpoint_percent": checkpoints_from_database[i].checkpoint_percent}
     return json.dumps(response, default=str)
+
+def delete_existing_checkpoints_for_course(user_id, course_id):
+    try:
+        sql = "DELETE FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
+        db.session.execute(text(sql), {"user_id": user_id, "course_id": course_id})
+        return "exisiting checkpoints for this course deleted succesfully"
+    except:
+        return "deleting existing checkpoints for this course was unsuccesful"

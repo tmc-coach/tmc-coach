@@ -4,7 +4,7 @@ import json
 from datetime import *
 import datetime
 from sqlalchemy import text
-from database_functions.checkpoint_functions import set_checkpoints_function
+from database_functions.checkpoint_functions import set_checkpoints_function, delete_existing_checkpoints_for_course
 
 def get_deadlines_function(user_id):
     deadlines_from_database = deadlines.query.filter_by(user_id=user_id).all()
@@ -30,6 +30,8 @@ def set_deadline_function(user_id, date, course_id):
         target_dl = db.session.query(deadlines).get(id)
         target_dl.date = date
         target_dl.created_at = date_now
+        delete_existing_checkpoints_for_course(user_id, course_id)
+        set_checkpoints_function(user_id, course_id, date_now, date, 3)
         db.session.commit()
         return "Deadline changed succesfully!"
     else:
