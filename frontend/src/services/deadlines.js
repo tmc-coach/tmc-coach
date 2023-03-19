@@ -33,4 +33,10 @@ const set_deadline = async data => {
   return response.data
 }
 
-export default { get_deadline, get_all_deadlines, set_deadline }
+const delete_deadline = async course_id => {
+  const response = await axios.delete(`${baseUrl}/${course_id}`, { headers: { Authorization: localStorage.getItem('user') } })
+
+  return response.data
+}
+
+export default { get_deadline, get_all_deadlines, set_deadline, delete_deadline }

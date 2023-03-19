@@ -45,11 +45,31 @@ const SettingDeadline = () => {
     }
   }
 
+  const handleDelete = async (event) => {
+    event.preventDefault()
+
+    if (confirm('Are you sure you want to delete the deadline you have set for this course?') === true) {
+      try {
+        deadlineService.delete_deadline(course_id)
+        setMessage('Deleting deadline was successful!')
+        setTimeout(() => {
+          setMessage(null)
+        }, 10000)
+        setNew(true)
+      } catch (exception) {
+        setMessage('Deleting deadline was unsuccessful')
+        setTimeout(() => {
+          setMessage(null)
+        }, 10000)
+      }
+    }
+  }
+
   return (
     <div>
       <h1 className='text-3xl font-medium text-center tracking-wide p-10'>Set deadline for course {info.title}</h1>
       <p className="flex justify-center px-5 m-5">{message}</p>
-      <Deadlines deadlines={deadlines} onChange={handleSetting} />
+      <Deadlines deadlines={deadlines} onChange={handleSetting} onDelete={handleDelete} />
       <DeadlineSetting date={date} setDate={setDate} handleSetting={handleSetting} />
     </div>
   )

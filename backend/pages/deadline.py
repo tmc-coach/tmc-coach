@@ -1,7 +1,7 @@
 import json
 from flask import Blueprint, jsonify, request
 from sqlalchemy import text
-from database_functions.deadline_functions import set_deadline_function, get_deadlines_function
+from database_functions.deadline_functions import set_deadline_function, get_deadlines_function, delete_deadline_permanently_function
 from modules.user import get_user
 from app import db
 from sqlalchemy.sql import text
@@ -71,3 +71,20 @@ def get_deadline(course_id):
         }
 
     return json.dumps(response, default=str)
+
+@deadline.route("/<course_id>", methods=["DELETE"])
+def delete_deadline(course_id):
+    auth_header = request.headers.get("Authorization", None)
+    if not auth_header:
+        return jsonify(error="Authorization header missing")
+
+    user = get_user(auth_header)
+    if not user:
+        return jsonify(error="Forbidden"), 403
+
+    if not course_id:
+        return jsonify(message="Missing fields"), 400
+
+    message = delete_deadline_permanently_function(user["id"], course_id)
+
+    return jsonify(message=message)
