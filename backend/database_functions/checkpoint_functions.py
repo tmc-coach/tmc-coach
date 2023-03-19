@@ -6,8 +6,7 @@ import datetime
 
 def count_checkpoints(created_at, deadline, how_many_checkpoints):
     deadline_as_list = deadline.split('/')
-    deadline_as_date = datetime.date(int(deadline_as_list[2]), int(deadline_as_list[1]), int(deadline_as_list[0]))
-
+    deadline_as_date = datetime.datetime(int(deadline_as_list[2]), int(deadline_as_list[1]), int(deadline_as_list[0]))
     if deadline_as_date < created_at + timedelta(days = how_many_checkpoints + 1):
         print("not good")
         return 
@@ -39,7 +38,7 @@ def set_checkpoints_function(user_id, course_id, created_at, deadline, how_many_
             percent = checkpoint[1]
             target = checkpoints(user_id=user_id, course_id=course_id, checkpoint_date=date, checkpoint_percent=percent)
             db.session.add(target)
-        db.session.commit()
+        #db.session.commit()
         return "Checkpoints added to the database successfully"
     except:
         return "Adding checkpoints to the database was unsuccessful"

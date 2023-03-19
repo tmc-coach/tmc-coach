@@ -4,6 +4,7 @@ import json
 from datetime import *
 import datetime
 from sqlalchemy import text
+from database_functions.checkpoint_functions import set_checkpoints_function
 
 def get_deadlines_function(user_id):
     deadlines_from_database = deadlines.query.filter_by(user_id=user_id).all()
@@ -22,6 +23,7 @@ def set_deadline_function(user_id, date, course_id):
     if id == None:
         target = deadlines(user_id=user_id, course_id=course_id, date=date, created_at=date_now)
         db.session.add(target)
+        set_checkpoints_function(user_id, course_id, date_now, date, 3)
         db.session.commit()
         return "Deadline added succesfully!"
     elif isinstance(id, int):
