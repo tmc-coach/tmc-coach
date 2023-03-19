@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-//import courseService from '../services/courses'
 import deadlineService from '../services/deadlines'
 
 import SetDeadline from './SetDeadline'
@@ -13,7 +12,6 @@ const Deadlines = ({ course_id }) => {
   const [message, setMessage] = useState(null)
 
   useEffect(() => {
-    //courseService.get_course_info(course_id).then(course => setCourse(course.course))
     deadlineService.get_deadline(course_id).then(deadlines => setDeadlines(deadlines))
   }, [])
 
