@@ -20,11 +20,18 @@ describe('TMC-Coach course exercises', () => {
       cy.url().should('include', '/orgs/courses/1189')
       cy.contains('No exercises on this course')
     })
+    it('404 page is shown if invalid page', () => {
+      cy.on('uncaught:exception', () => {
+        return false
+      })
+      cy.visit('http://localhost:3000/orgs/courses/none')
+      cy.contains('The page you were looking for does not exist.')
+    })
   })
 
   context('logged out user', () => {
     it('is directed to login page and cant go to courses exercises page', () => {
-      cy.visit('http://localhost:3000/orgs/courses/900')
+      cy.visit('http://localhost:3000/orgs/courses/aaaa')
       cy.url().should('include', '/login')
     })
   })

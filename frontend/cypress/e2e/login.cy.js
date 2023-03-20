@@ -23,4 +23,11 @@ describe('TMC-Coach login', { defaultCommandTimeout: 8000 }, () => {
     cy.loginpage()
     cy.url().should('not.include', '/login')
   })
+  it('404 page is shown if invalid page', () => {
+    cy.on('uncaught:exception', () => {
+      return false
+    })
+    cy.visit('http://localhost:3000/none')
+    cy.contains('The page you were looking for does not exist.')
+  })
 })
