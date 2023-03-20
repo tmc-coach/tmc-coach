@@ -25,7 +25,7 @@ def set_deadline_function(user_id, date, course_id):
         db.session.commit()
         return "Deadline added succesfully!"
     elif isinstance(id, int):
-        target_dl = db.session.query(deadlines).get(id)
+        target_dl = db.session.get(deadlines, id)
         target_dl.date = date
         target_dl.created_at = date_now
         db.session.commit()
