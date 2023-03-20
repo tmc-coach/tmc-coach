@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
+@layer base {
   h1 {
     @apply text-3xl font-medium text-center tracking-wide pt-4 pb-4 md:pb-10;
   }
@@ -37,13 +37,47 @@ code {
   padding-bottom: 0.5rem;
 }
 
+.react-datepicker .react-datepicker__day--selected {
+  background-color: #2563eb; /* tailwind blue-600 */
+}
+
+.react-datepicker .react-datepicker__day-name,
+.react-datepicker .react-datepicker__day {
+  width: 12vw;
+}
+
+.react-datepicker .react-datepicker__day {
+  line-height: 2.6rem;
+}
+
+@media screen and (min-width: 540px) {
+  .react-datepicker .react-datepicker__day-name,
+  .react-datepicker .react-datepicker__day {
+    width: 2.7rem;
+  }
+
+  .react-datepicker .react-datepicker__day {
+    line-height: 2.7rem;
+  }
+}
+
 @media screen and (min-width: 960px) {
   .main {
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
   }
+
   .nav {
     padding-top: 1rem;
     padding-bottom: 1rem;
+  }
+
+  .react-datepicker .react-datepicker__day-name,
+  .react-datepicker .react-datepicker__day {
+    width: 2rem;
+  }
+
+  .react-datepicker .react-datepicker__day {
+    line-height: 2rem;
   }
 }
