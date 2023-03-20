@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  h1 {
+    @apply text-3xl font-medium text-center tracking-wide pt-4 pb-4 md:pb-10;
+  }
+}
+
 html {
   width: 100%;
 }
@@ -19,4 +25,25 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.main {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.nav {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+@media screen and (min-width: 960px) {
+  .main {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+  .nav {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
 }

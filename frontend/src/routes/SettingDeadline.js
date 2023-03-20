@@ -46,8 +46,8 @@ const SettingDeadline = () => {
   }
 
   return (
-    <div className='container container-fluid'>
-      <h1 className='text-3xl font-medium text-center tracking-wide py-10'>Set deadline for course {info.title}</h1>
+    <div className='main container container-fluid'>
+      <h1>Set deadline for course {info.title}</h1>
       {message && <p className="flex justify-center my-5">{message}</p>}
       <Deadlines deadlines={deadlines} onChange={handleSetting} />
       <DeadlineSetting date={date} setDate={setDate} handleSetting={handleSetting} />

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 const Exercises = ({ exercises, course_id }) => (
   <div key={exercises[0].course_id} className='w-full'>
-    <h1 className='text-3xl font-medium text-center tracking-wide p-10'>{exercises[0].course_title}</h1>
+    <h1>{exercises[0].course_title}</h1>
     {exercises[0].maximum_exercises > -1 ? (
       <>
         <div className='text-2xl font-medium pb-5'>

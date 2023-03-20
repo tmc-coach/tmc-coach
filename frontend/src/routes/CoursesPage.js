@@ -26,10 +26,10 @@ const Courses_Page = () => {
   const coursesToShow = (filter.length === 0) ? courses : courses.filter(course => course.title.toLowerCase().includes(filter.toLowerCase()))
 
   return (
-    <div className='container container-fluid'>
+    <div className='main container container-fluid'>
       {courses.length > 0 ? (<div className='flex flex-col w-100 text-center'>
         <Organization organization={org} />
-        <h1 className='text-3xl font-medium text-center tracking-wide py-10'>Courses</h1>
+        <h1>Courses</h1>
         {courses.length >= 2 && <Filter value={filter} handleChange={({ target }) => setFilter(target.value)} />}
         <Courses courses={coursesToShow} />
       </div>) : (
