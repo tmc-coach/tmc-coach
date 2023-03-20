@@ -52,7 +52,7 @@ const Deadlines = ({ course_id }) => {
         }, 10000)
         setNewDeadline(true)
       } catch (exception) {
-        setMessage('Deleting deadline was unsuccessful. \n Please try again.')
+        setMessage('Deleting deadline was unsuccessful. Please try again.')
         setTimeout(() => {
           setMessage(null)
         }, 10000)
