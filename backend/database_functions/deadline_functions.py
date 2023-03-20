@@ -8,6 +8,7 @@ from database_functions.checkpoint_functions import set_checkpoints_function, de
 import requests
 from flask import request
 from modules.user import decode_jwt
+
 def get_deadlines_function(user_id):
     deadlines_from_database = deadlines.query.filter_by(user_id=user_id).all()
     response = {}
@@ -38,20 +39,23 @@ def get_current_point_and_available_point_values_for_deadline(course_id):
 
 def set_deadline_function(user_id, date, course_id):
     points_for_deadline = get_current_point_and_available_point_values_for_deadline(course_id)
+    current_points=points_for_deadline["current_points"]
+    available_points=points_for_deadline["available_points"]
     id = check_existing_deadline_function(user_id, course_id)
     date_now = datetime.datetime.now()
     if id == None:
-        target = deadlines(user_id=user_id, course_id=course_id, date=date, created_at=date_now)
+        target = deadlines(user_id=user_id, course_id=course_id, date=date, created_at=date_now, current_points=current_points, available_points=available_points)
         db.session.add(target)
-        set_checkpoints_function(user_id, course_id, date_now, date, 3, points_for_deadline['current_points'], points_for_deadline['available_points'])
+        set_checkpoints_function(user_id, course_id, date_now, date, 3, current_points, available_points)
         db.session.commit()
         return "Deadline added succesfully!"
     elif isinstance(id, int):
         target_dl = db.session.query(deadlines).get(id)
         target_dl.date = date
         target_dl.created_at = date_now
+        target_dl.current_points = current_points
         delete_existing_checkpoints_for_course(user_id, course_id)
-        set_checkpoints_function(user_id, course_id, date_now, date, 3, points_for_deadline['current_points'], points_for_deadline['available_points'])
+        set_checkpoints_function(user_id, course_id, date_now, date, 3, current_points, available_points)
         db.session.commit()
         return "Deadline changed succesfully!"
     else:

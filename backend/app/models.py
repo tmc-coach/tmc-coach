@@ -9,6 +9,8 @@ class deadlines(db.Model):
     course_id = db.Column(db.Integer, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
+    current_points = db.Column(db.Integer, nullable=False)
+    available_points = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return f"deadlines('{self.date}')"
