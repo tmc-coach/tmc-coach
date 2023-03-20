@@ -5,7 +5,9 @@ from datetime import *
 import datetime
 from sqlalchemy import text
 from database_functions.checkpoint_functions import set_checkpoints_function, delete_existing_checkpoints_for_course
-
+import requests
+from flask import request
+from modules.user import decode_jwt
 def get_deadlines_function(user_id):
     deadlines_from_database = deadlines.query.filter_by(user_id=user_id).all()
     response = {}
@@ -17,13 +19,31 @@ def get_deadlines_function(user_id):
                        "created_at": deadlines_from_database[i].created_at}
     return json.dumps(response, default=str)
 
+def get_current_point_and_available_point_values_for_deadline(course_id):
+    auth_header = request.headers.get("Authorization", None)
+    token = decode_jwt(auth_header)
+    response_exercises = requests.get(
+        f"https://tmc.mooc.fi/api/v8/courses/{course_id}/exercises",
+        headers={"Accept": "application/json", "Authorization": token["token"]},
+    )
+    data = response_exercises.json()
+    current_points = 0
+    available_points = 0
+
+    for item in data:
+        available_points += len(item["available_points"])
+        current_points += len(item["awarded_points"])
+
+    return {"current_points": current_points, "available_points": available_points}
+
 def set_deadline_function(user_id, date, course_id):
+    points_for_deadline = get_current_point_and_available_point_values_for_deadline(course_id)
     id = check_existing_deadline_function(user_id, course_id)
     date_now = datetime.datetime.now()
     if id == None:
         target = deadlines(user_id=user_id, course_id=course_id, date=date, created_at=date_now)
         db.session.add(target)
-        set_checkpoints_function(user_id, course_id, date_now, date, 3)
+        set_checkpoints_function(user_id, course_id, date_now, date, 3, points_for_deadline['current_points'], points_for_deadline['available_points'])
         db.session.commit()
         return "Deadline added succesfully!"
     elif isinstance(id, int):
@@ -31,7 +51,7 @@ def set_deadline_function(user_id, date, course_id):
         target_dl.date = date
         target_dl.created_at = date_now
         delete_existing_checkpoints_for_course(user_id, course_id)
-        set_checkpoints_function(user_id, course_id, date_now, date, 3)
+        set_checkpoints_function(user_id, course_id, date_now, date, 3, points_for_deadline['current_points'], points_for_deadline['available_points'])
         db.session.commit()
         return "Deadline changed succesfully!"
     else:

@@ -37,15 +37,15 @@ def count_desired_points_for_checkpoints(current_points, available_points, how_m
     for i in range(how_many_checkpoints):
         percents = (100 // (how_many_checkpoints + 1)) * (i + 1)
         points = remaining_points * (percents / 100)
-        desired_points=remaining_points+points
+        desired_points=current_points+points
         desired_points_for_checkpoints.append((percents, desired_points))
 
     return desired_points_for_checkpoints
         
 
-def set_checkpoints_function(user_id, course_id, created_at, deadline, how_many_checkpoints):
+def set_checkpoints_function(user_id, course_id, created_at, deadline, how_many_checkpoints, current_points, available_points):
     checkpoints_list = count_checkpoints(created_at, deadline, how_many_checkpoints)
-    checkpoint_points = count_desired_points_for_checkpoints(50, 100, how_many_checkpoints)
+    checkpoint_points = count_desired_points_for_checkpoints(current_points, available_points, how_many_checkpoints)
     print(checkpoint_points)
     try:
         for checkpoint in checkpoints_list:
