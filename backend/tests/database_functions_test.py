@@ -22,8 +22,7 @@ class DeadlinesTestCase(TestCase):
 
         dictionary = json.loads(deadlines)
 
-        i = 0
-        while True:
+        for i in range (len(dictionary)):
             try:
                 deadline = dictionary[i]
                 self.assertEqual(deadline["user_id"], user_id)
