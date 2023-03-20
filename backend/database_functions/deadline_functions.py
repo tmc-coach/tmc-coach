@@ -4,6 +4,23 @@ from sqlalchemy import text
 import json
 import datetime
 
+def get_deadline_function(user_id, course_id):
+    deadline = deadlines.query.filter_by(user_id=user_id, course_id=course_id).all()
+    deadline = deadline[0]
+
+    if not deadline:
+        return json.dumps([], default=str)
+        
+    response = {
+        "id": deadline.id,
+        "user_id": deadline.user_id,
+        "course_id": deadline.course_id,
+        "date": deadline.date
+        }
+
+    return json.dumps(response, default=str)
+
+
 def get_deadlines_function(user_id):
     deadlines_from_database = deadlines.query.filter_by(user_id=user_id).all()
     response = {}
