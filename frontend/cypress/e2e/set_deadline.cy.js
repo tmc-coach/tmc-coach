@@ -52,6 +52,13 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.visit('http://localhost:3000/orgs/courses/1113/set_deadline')
       cy.contains('No deadlines chosen for this course').should('exist')
     })
+    it('404 page is shown if invalid page', () => {
+      cy.on('uncaught:exception', () => {
+        return false
+      })
+      cy.visit('http://localhost:3000/orgs/courses/1169/set')
+      cy.contains('The page you were looking for does not exist.')
+    })
   })
   context('logged out user', () => {
     it('is directed to login page and cant go to set_deadline page', () => {

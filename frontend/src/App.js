@@ -4,6 +4,7 @@ import Home from './routes/Home'
 import Orgs from './routes/Orgs'
 import CoursesPage from './routes/CoursesPage'
 import Header from './components/Header'
+import ErrorBoundary from './components/ErrorBoundary'
 import React from 'react'
 import { RouterProvider, createBrowserRouter, Outlet } from 'react-router-dom'
 import authService from './services/auth'
@@ -18,7 +19,9 @@ function App() {
     </>
   )
   const router = createBrowserRouter([
-    { element: <Layout />,
+    {
+      element: <Layout />,
+      errorElement: <ErrorBoundary />,
       children: [
         {
           path: '/login',
