@@ -46,12 +46,12 @@ def count_desired_points_for_checkpoints(current_points, available_points, how_m
 def set_checkpoints_function(user_id, course_id, created_at, deadline, how_many_checkpoints, current_points, available_points):
     checkpoints_list = count_checkpoints(created_at, deadline, how_many_checkpoints)
     checkpoint_points = count_desired_points_for_checkpoints(current_points, available_points, how_many_checkpoints)
-    print(checkpoint_points)
     try:
-        for checkpoint in checkpoints_list:
-            date = checkpoint[0]
-            percent = checkpoint[1]
-            target = checkpoints(user_id=user_id, course_id=course_id, checkpoint_date=date, checkpoint_percent=percent)
+        for i in range(len(checkpoints_list)):
+            date = checkpoints_list[i][0]
+            percent = checkpoints_list[i][1]
+            desired_points = checkpoint_points[i][1]
+            target = checkpoints(user_id=user_id, course_id=course_id, checkpoint_date=date, checkpoint_percent=percent, desired_points=desired_points)
             db.session.add(target)
         #db.session.commit()
         return "Checkpoints added to the database successfully"
