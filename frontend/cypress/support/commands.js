@@ -43,5 +43,5 @@ Cypress.Commands.add('loginpage', () => {
   cy.visit('http://localhost:3000/login')
 })
 Cypress.Commands.add('setdeadlinepage', () => {
-  cy.visit('http://localhost:3000/orgs/courses/277/set_deadline')
+  cy.visit('http://localhost:3000/orgs/courses/277')
 })

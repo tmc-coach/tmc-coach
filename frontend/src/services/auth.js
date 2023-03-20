@@ -35,7 +35,7 @@ const checkLogin = async () => {
   if (token) {
     const user = await getUser(token)
     if (user.status && user.status === 200) {
-      return redirect('/', { replace: true })
+      return redirect('/orgs', { replace: true })
     }
   }
   return null
