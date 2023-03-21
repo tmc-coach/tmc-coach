@@ -67,10 +67,10 @@ const Deadlines = ({ course_id }) => {
   }
 
   return (
-    <div>
-      <Deadline deadlines={deadlines} onChange={handleSetDeadline} onDelete={handleDelete}/>
+    <>
+      <Deadline deadlines={deadlines} onChange={handleSetDeadline} onDelete={handleDelete} />
       <SetDeadline deadlines={deadlines} date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} />
-    </div>
+    </>
   )
 }
 
