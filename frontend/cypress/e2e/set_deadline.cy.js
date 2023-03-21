@@ -106,6 +106,33 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       })
       cy.contains('2023-04-21').should('not.exist')
     })
+    it('confirm-window will show up if the deadline is too close', () => {
+      cy.setdeadlinepage()
+      const now = new Date(Date.parse('2023-02-15')).getTime()
+      cy.clock(now, ['Date'])
+      cy.contains('February 2023').should('be.visible')
+      cy.get('div.react-datepicker__month-container').contains('18').click()
+      cy.get('button[value=set_deadline]').click()
+      cy.on('window:confirm', (text) => {
+        //expect(text).to.contains('Why do you want to set a deadline that is under four days away???')
+        expect(text).to.contains('You have already set a deadline for this course.')
+        return true
+      })
+      cy.contains('2023-02-18').should('exist')
+    })
+    it('a new deadline will not be set if the cancel-button is pressed', () => {
+      cy.setdeadlinepage()
+      const now = new Date(Date.parse('2023-02-15')).getTime()
+      cy.clock(now, ['Date'])
+      cy.contains('February 2023').should('be.visible')
+      cy.get('div.react-datepicker__month-container').contains('17').click()
+      cy.get('button[value=set_deadline]').click()
+      cy.on('window:confirm', (text) => {
+        expect(text).to.contains('Why do you want to set a deadline that is under four days away???')
+        return false
+      })
+      cy.contains('2023-02-17').should('not.exist')
+    })
   })
   context('logged out user', () => {
     it('is directed to login page and cant go to set_deadline page', () => {

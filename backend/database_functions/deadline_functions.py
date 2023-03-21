@@ -2,6 +2,7 @@ from app import db
 from app.models import deadlines
 from sqlalchemy import text
 import json
+from datetime import *
 import datetime
 
 def get_deadline_function(user_id, course_id):
