@@ -1,7 +1,6 @@
 import json
 from flask import Blueprint, jsonify, request
 from sqlalchemy import text
-from database_functions.deadline_functions import set_deadline_function, get_deadlines_function
 from database_functions.deadline_functions import set_deadline_function, get_deadlines_function, delete_deadline_permanently_function, get_deadline_function
 from modules.user import get_user
 from app import db
