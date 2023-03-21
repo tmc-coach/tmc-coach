@@ -208,3 +208,5 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(len(checkpoints_2), 3)
             self.assertNotEqual(checkpoints, checkpoints_2)
         
+        with self.app.app_context():
+            delete_deadline_permanently_function(self.user_id, self.course_id)
