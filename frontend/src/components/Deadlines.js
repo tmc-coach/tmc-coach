@@ -23,6 +23,14 @@ const Deadlines = ({ course_id }) => {
   const handleSetDeadline = async (event) => {
     event.preventDefault()
 
+    let text = ''
+    if (deadlines.length !== 0) {
+      text = 'You have already set a deadline for this course.\nDo you want to set ' + JSON.stringify(date.getFullYear()) + '.' + JSON.stringify(date.getMonth() + 1) + '.' + JSON.stringify(date.getDate()) + ' as your new deadline for this course?'
+      if (confirm(text) === false) {
+        return
+      }
+    }
+
     try {
       deadlineService.set_deadline({ course_id, date })
       setNewDeadline(true)

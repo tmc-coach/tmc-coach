@@ -87,6 +87,29 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.visit('http://localhost:3000/orgs/courses/1169/set')
       cy.contains('The page you were looking for does not exist.')
     })
+    it('set deadline -page shows a confirmation window', () => {
+      cy.setdeadlinepage()
+      cy.wait(7000)
+      cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
+      cy.get('div.react-datepicker__month-container').contains('18').click()
+      cy.get('button[value=set_deadline]').click()
+      cy.on('window:confirm', (text) => {
+        expect(text).to.contains('You have already set a deadline for this course.')
+      })
+      //cy.wait(5000)
+      cy.contains('2023-04-18').should('exist')
+    })
+    it('a new deadline is not added if confirm-windows cancel-button is pressed', () => {
+      cy.setdeadlinepage()
+      cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
+      cy.get('div.react-datepicker__month-container').contains('21').click()
+      cy.get('button[value=set_deadline]').click()
+      cy.on('window:confirm', (text) => {
+        expect(text).to.contains('You have already set a deadline for this course.')
+        return false
+      })
+      cy.contains('2023-04-21').should('not.exist')
+    })
   })
   context('logged out user', () => {
     it('is directed to login page and cant go to set_deadline page', () => {
