@@ -2,7 +2,6 @@ import json
 from flask import Blueprint, jsonify, request
 from sqlalchemy import text
 from database_functions.deadline_functions import set_deadline_function, get_deadlines_function
-from database_functions.checkpoint_functions import set_checkpoints_function
 from database_functions.deadline_functions import set_deadline_function, get_deadlines_function, delete_deadline_permanently_function, get_deadline_function
 from modules.user import get_user
 from app import db
@@ -30,10 +29,6 @@ def set_deadline():
         return jsonify(message="Missing fields"), 400
 
     message = set_deadline_function(user["id"], date, course_id)
-
-    deadline_as_list = date.split('/')
-    deadline_as_date = datetime.date(int(deadline_as_list[2]), int(deadline_as_list[1]), int(deadline_as_list[0]))
-    set_checkpoints_function(user["id"], course_id, datetime.datetime.now().date(), deadline_as_date, 3)
 
     return jsonify(message=message)
 
