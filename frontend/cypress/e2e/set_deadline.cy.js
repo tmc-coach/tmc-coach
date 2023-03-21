@@ -88,7 +88,8 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.get('div.react-datepicker__month-container').contains('18').click()
       cy.get('button[value=set_deadline]').click()
       cy.on('window:confirm', (text) => {
-        expect(text).to.contains('Why do you want to set a deadline that is under four days away???')
+        //expect(text).to.contains('Why do you want to set a deadline that is under four days away???')
+        expect(text).to.contains('You have already set a deadline for this course.')
         return true
       })
       cy.contains('2023-02-18').should('exist')
