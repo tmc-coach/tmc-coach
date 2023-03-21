@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import deadlineService from '../services/deadlines'
-
 import SetDeadline from './SetDeadline'
 import Deadline from './Deadline'
 
@@ -61,9 +60,29 @@ const Deadlines = ({ course_id }) => {
     }
   }
 
+  const handleDelete = async (event) => {
+    event.preventDefault
+
+    if (confirm('Are you sure you want to delete the deadline you have set for this course?') === true) {
+      try {
+        await deadlineService.delete_deadline(course_id)
+        setMessage('Deleting deadline was successful!')
+        setTimeout(() => {
+          setMessage(null)
+        }, 10000)
+        setNewDeadline(true)
+      } catch (exception) {
+        setMessage('Deleting deadline was unsuccessful. Please try again.')
+        setTimeout(() => {
+          setMessage(null)
+        }, 10000)
+      }
+    }
+  }
+
   return (
     <div>
-      <Deadline deadlines={deadlines} onChange={handleSetDeadline} />
+      <Deadline deadlines={deadlines} onChange={handleSetDeadline} onDelete={handleDelete}/>
       <SetDeadline deadlines={deadlines} date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} />
     </div>
   )

@@ -24,9 +24,9 @@ describe('TMC-Coach organizations', { defaultCommandTimeout: 8000 }, () => {
     it('can see MOOC under frequently used organizations', () => {
       cy.orgspage()
       cy.contains('Aalto BIZ').should('be.visible')
-      cy.get('div').eq(4).contains('MOOC')
+      cy.get('div').eq(3).contains('MOOC')
     })
-    it('can see Helsingin Yliopiso under frequently used organizations', () => {
+    it('can see Helsingin Yliopisto under frequently used organizations', () => {
       cy.orgspage()
       cy.contains('Aalto BIZ').should('be.visible')
       cy.get('div').eq(4).contains('Helsingin Yliopisto')
