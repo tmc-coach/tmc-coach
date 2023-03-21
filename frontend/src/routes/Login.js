@@ -26,8 +26,8 @@ const Login = () => {
     }
   }
   return (
-    <div className="flex h-screen">
-      <div className="m-auto">
+    <div className="flex">
+      <div className="mx-auto my-12">
         <h2 className="text-xl mb-4">Log in with your TMC account</h2>
         <p className="error">{errorMessage}</p>
         <form onSubmit={handleLogin}>
