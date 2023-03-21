@@ -137,8 +137,7 @@ class DeadlinesTestCase(TestCase):
 
         with self.app.app_context():
             deadline = get_deadline_function(int(self.user_id), 1234)
-
-        self.assertEqual(deadline, "[]")
+            self.assertEqual(deadline, "[]")
 
         with self.app.app_context():
             set_deadline_function(int(self.user_id), deadline_date, 1234)
@@ -146,12 +145,10 @@ class DeadlinesTestCase(TestCase):
         with self.app.app_context():
             deadline = get_deadline_function(int(self.user_id), 1234)
 
-        dictionary = json.loads(deadline)
-        self.assertEqual(dictionary["user_id"], int(self.user_id))
-        self.assertEqual(dictionary["course_id"], 1234)
-        self.assertEqual(dictionary["date"], "2025-05-27")        
+            dictionary = json.loads(deadline)
+            self.assertEqual(dictionary["user_id"], int(self.user_id))
+            self.assertEqual(dictionary["course_id"], 1234)
+            self.assertEqual(dictionary["date"], "2025-05-27 00:00:00")        
 
         with self.app.app_context():
-            sql = "DELETE FROM deadlines WHERE course_id=:course_id AND user_id=:user_id"
-            result = db.session.execute(text(sql), {"course_id":1234, "user_id":int(self.user_id)})
-            db.session.commit()
+            delete_deadline_permanently_function(self.user_id, 1234)
