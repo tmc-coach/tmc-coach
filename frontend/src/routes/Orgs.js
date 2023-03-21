@@ -7,7 +7,7 @@ import Loading from '../components/Loading'
 const FrequentlyUsedOrgs = ({ orgs }) => {
   const frequentlyUsed = orgs.filter(org => org.name === ('MOOC') || org.name === ('Helsingin Yliopisto'))
   return (
-    <div>
+    <div id='frequent-orgs'>
       <h1>Frequently Used Organizations</h1>
       <Organizations organizations={frequentlyUsed} />
     </div>
