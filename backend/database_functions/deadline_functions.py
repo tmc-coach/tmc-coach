@@ -1,12 +1,32 @@
 from app import db
 from app.models import deadlines
+from sqlalchemy import text
 import json
+from datetime import *
 import datetime
+
+def get_deadline_function(user_id, course_id):
+    deadline = deadlines.query.filter_by(user_id=user_id, course_id=course_id).all()
+
+    if not deadline:
+        return json.dumps([], default=str)
+        
+    deadline = deadline[0]
+
+    response = {
+        "id": deadline.id,
+        "user_id": deadline.user_id,
+        "course_id": deadline.course_id,
+        "date": deadline.date
+        }
+
+    return json.dumps(response, default=str)
+
 
 def get_deadlines_function(user_id):
     deadlines_from_database = deadlines.query.filter_by(user_id=user_id).all()
     response = {}
-    print(deadlines_from_database[1])
+
     for i in range(len(deadlines_from_database)):
         response[i] = {"id": deadlines_from_database[i].id,
                        "user_id": deadlines_from_database[i].user_id,
@@ -16,11 +36,36 @@ def get_deadlines_function(user_id):
     return json.dumps(response, default=str)
 
 def set_deadline_function(user_id, date, course_id):
-    try:
-        date_now = datetime.datetime.now()
+    id = check_existing_deadline_function(user_id, course_id)
+    date_now = datetime.datetime.now()
+    if id == None:
         target = deadlines(user_id=user_id, course_id=course_id, date=date, created_at=date_now)
         db.session.add(target)
         db.session.commit()
         return "Deadline added succesfully!"
-    except:
+    elif isinstance(id, int):
+        target_dl = db.session.get(deadlines, id)
+        target_dl.date = date
+        target_dl.created_at = date_now
+        db.session.commit()
+        return "Deadline changed succesfully!"
+    else:
         return "Adding deadline was unsuccessful"
+
+def check_existing_deadline_function(user_id, course_id):
+    sql = "SELECT id FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
+    result = db.session.execute(text(sql), {"user_id": user_id, "course_id": course_id})
+    for id in result:
+        if id != None:
+            return int(id[0])
+        else:
+            return None
+        
+def delete_deadline_permanently_function(user_id, course_id):
+    try:
+        sql = "DELETE FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
+        db.session.execute(text(sql), {"user_id": user_id, "course_id": course_id})
+        db.session.commit()
+        return "Course deadline deleted succesfully!"
+    except:
+        return "Deleting course deadline was unsuccessful"

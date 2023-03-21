@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  h1 {
+    @apply text-3xl font-medium text-center tracking-wide pt-4 pb-4 md:pb-10;
+  }
+}
+
+html {
+  width: 100%;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -9,9 +19,65 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #fcfcfc;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.main {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.nav {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.react-datepicker .react-datepicker__day--selected {
+  background-color: #2563eb; /* tailwind blue-600 */
+}
+
+.react-datepicker .react-datepicker__day-name,
+.react-datepicker .react-datepicker__day {
+  width: 10vw;
+}
+
+.react-datepicker .react-datepicker__day {
+  line-height: 2.6rem;
+}
+
+@media screen and (min-width: 540px) {
+  .react-datepicker .react-datepicker__day-name,
+  .react-datepicker .react-datepicker__day {
+    width: 2.7rem;
+  }
+
+  .react-datepicker .react-datepicker__day {
+    line-height: 2.7rem;
+  }
+}
+
+@media screen and (min-width: 960px) {
+  .main {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .nav {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .react-datepicker .react-datepicker__day-name,
+  .react-datepicker .react-datepicker__day {
+    width: 2rem;
+  }
+
+  .react-datepicker .react-datepicker__day {
+    line-height: 2rem;
+  }
 }
