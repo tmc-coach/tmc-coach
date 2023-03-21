@@ -48,10 +48,6 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
     })
     it('can delete deadline if there is one added', () => {
       cy.setdeadlinepage()
-      cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
-      cy.get('div.react-datepicker__month-container').contains('27').click()
-      cy.get('button[value=set_deadline]').click()
-      cy.setdeadlinepage()
       cy.get('button[value=delete_deadline]').click()
       cy.on('window:confirm', (text) => {
         expect(text).to.contains('Are you sure you want to delete the deadline you have set for this course?')
