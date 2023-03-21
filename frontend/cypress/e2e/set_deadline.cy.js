@@ -15,9 +15,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.get('input[type=search]').type('mooc')
       cy.contains('MOOC').should('be.visible').click()
       cy.get('a[href="/orgs/courses/277"]').should('be.visible').click()
-      cy.get('a[href="/orgs/courses/277/set_deadline"]').should('be.visible').click()
-      cy.contains('Set deadline for course 2013 Object-oriented programming, part 1').should('exist')
-      cy.contains('Choose the deadline for this course').should('exist')
+      cy.contains(/Set a( new)? deadline/).should('exist')
     })
     it('can set deadline correctly on 06.02.2023', () => {
       cy.setdeadlinepage()
@@ -49,8 +47,15 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.contains('28').click()
     })
     it('set deadline -page will show no deadlines if there is none', () => {
-      cy.visit('http://localhost:3000/orgs/courses/1113/set_deadline')
-      cy.contains('No deadlines chosen for this course').should('exist')
+      cy.visit('http://localhost:3000/orgs/courses/1113')
+      cy.contains('You have not set a deadline for this course').should('exist')
+    })
+    it('404 page is shown if invalid page', () => {
+      cy.on('uncaught:exception', () => {
+        return false
+      })
+      cy.visit('http://localhost:3000/orgs/courses/1169/set')
+      cy.contains('The page you were looking for does not exist.')
     })
   })
   context('logged out user', () => {

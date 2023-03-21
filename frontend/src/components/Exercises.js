@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+
+import Deadlines from './Deadlines'
 
 const Exercises = ({ exercises, course_id }) => (
   <div>
@@ -11,11 +12,11 @@ const Exercises = ({ exercises, course_id }) => (
           </div>
           <br></br>
           <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-            <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: `${ (exercises[0].completed_percentage < 5) ? 5 : exercises[0].completed_percentage }` + '%' }} >{exercises[0].completed_percentage} %</div>
+            <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: `${(exercises[0].completed_percentage < 5) ? 5 : exercises[0].completed_percentage}` + '%' }} >{exercises[0].completed_percentage} %</div>
           </div>
           <br></br>
           <div>
-            <Link to={`/orgs/courses/${course_id}/set_deadline`}>Set deadline</Link>
+            <Deadlines course_id={course_id} />
           </div>
         </>
       ) : (
