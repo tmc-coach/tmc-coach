@@ -21,6 +21,7 @@ class CheckpointsTestCase(TestCase):
 
         with self.app.app_context():
             set_checkpoints_function(user_id, course_id, created_at, date_for_deadline, 3)
+            db.session.commit()
         
         checkpoints = []
 
@@ -45,7 +46,8 @@ class CheckpointsTestCase(TestCase):
 
         with self.app.app_context():
             set_checkpoints_function(user_id, course_id, created_at, date_for_deadline, 14)
-        
+            db.session.commit()
+
         checkpoints = []
 
         with self.app.app_context():
@@ -68,7 +70,8 @@ class CheckpointsTestCase(TestCase):
 
         with self.app.app_context():
             set_checkpoints_function(user_id, course_id, created_at, date_for_deadline, 3)
-        
+            db.session.commit()
+
         checkpoints = []
 
         with self.app.app_context():
@@ -93,7 +96,8 @@ class CheckpointsTestCase(TestCase):
 
         with self.app.app_context():
             set_checkpoints_function(user_id, course_id, created_at, date_for_deadline, 5)
-
+            db.session.commit()
+            
         with self.app.app_context():
             checkpoints = get_checkpoints_function(user_id, course_id)
 
