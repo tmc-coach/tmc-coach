@@ -23,9 +23,21 @@ const Deadlines = ({ course_id }) => {
   const handleSetDeadline = async (event) => {
     event.preventDefault()
 
+    console.log(date)
+
+    let created_at = new Date()
+    //created_at.setHours(12)
+    //created_at.setMinutes(0)
+    //created_at.setSeconds(0)
+    //created_at.setMilliseconds(0)
+
+    console.log(created_at)
+
+    const days_between = Math.floor((date - created_at) / (1000 * 60 * 60 *24))
+
     let text = ''
-    if (deadlines.length !== 0) {
-      text = 'You have already set a deadline for this course.\nDo you want to set ' + JSON.stringify(date.getFullYear()) + '.' + JSON.stringify(date.getMonth() + 1) + '.' + JSON.stringify(date.getDate()) + ' as your new deadline for this course?'
+    if (days_between < 4) {
+      text = 'Why do you want to set a deadline that is under four days away??? Go do your exercises!!! No checkpoints will be asigned if you set the deadline under four days away from this day. Are you sure you want to set this deadline?'
       if (confirm(text) === false) {
         return
       }
