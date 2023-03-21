@@ -54,9 +54,7 @@ class DeadlinesTestCase(TestCase):
         self.assertEqual(len(deadlines), 1) 
 
         with self.app.app_context():
-            sql = "DELETE FROM deadlines WHERE date=:date AND course_id=:course_id"
-            result = db.session.execute(text(sql), {"date":date_for_deadline, "course_id":self.course_id})
-            db.session.commit()
+            delete_deadline_permanently_function(self.user_id, self.course_id)
 
         with self.app.app_context():
             sql = "SELECT * FROM deadlines WHERE date=:date"
@@ -80,9 +78,7 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(len(deadlines), 1)
 
         with self.app.app_context():
-            sql = "DELETE FROM deadlines WHERE date=:date AND created_at=:created_at AND course_id=:course_id"
-            result = db.session.execute(text(sql), {"date":date_for_deadline, "created_at":date_now, "course_id":self.course_id})
-            db.session.commit()
+            delete_deadline_permanently_function(self.user_id, self.course_id)
 
     def test_when_new_deadline_added_then_overwrite_old_deadline(self):
         old_deadline = datetime.datetime(2028, 5, 27)
@@ -109,9 +105,7 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(int(deadlines[0][0]), 1)
 
         with self.app.app_context():
-            sql = "DELETE FROM deadlines WHERE date=:date AND course_id=:course_id AND user_id=:user_id"
-            result = db.session.execute(text(sql), {"date":new_deadline, "course_id":self.course_id, "user_id":self.user_id})
-            db.session.commit()
+            delete_deadline_permanently_function(self.user_id, self.course_id)
 
     def test_deleting_deadline_permanently(self):
         deadline_str = "27/5/2028"
@@ -137,10 +131,6 @@ class DeadlinesTestCase(TestCase):
     
     def test_deleting_deadline_deletes_its_related_checkpoints(self):
         deadline_str = "27/5/2028"
-
-        with self.app.app_context():
-            delete_deadline = delete_deadline_permanently_function(self.user_id, self.course_id)
-            self.assertEqual(delete_deadline, "Course deadline deleted succesfully!")
 
         with self.app.app_context():
             set_deadline_function(self.user_id, deadline_str, self.course_id)
@@ -184,8 +174,6 @@ class DeadlinesTestCase(TestCase):
             delete_deadline_permanently_function(self.user_id, 1234)
     
     def test_changing_deadline_changes_checkpoints_and_doesnt_only_make_new(self):
-        with self.app.app_context():
-            delete_deadline_permanently_function(self.user_id, self.course_id)
         deadline_str = "24/5/2028"
         new_deadline_str = "15/6/2028"
         with self.app.app_context():
