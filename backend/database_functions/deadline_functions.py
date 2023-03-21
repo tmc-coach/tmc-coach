@@ -7,7 +7,7 @@ import datetime
 def get_deadlines_function(user_id):
     deadlines_from_database = deadlines.query.filter_by(user_id=user_id).all()
     response = {}
-    print(deadlines_from_database[1])
+
     for i in range(len(deadlines_from_database)):
         response[i] = {"id": deadlines_from_database[i].id,
                        "user_id": deadlines_from_database[i].user_id,

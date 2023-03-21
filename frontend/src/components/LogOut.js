@@ -7,8 +7,8 @@ const Logout = () => {
     return <Navigate to="/login" replace/>
   }
   return(
-    <form onSubmit={logout} className="bg-red-500 w-fit px-2.5 py-2 rounded text-white">
-      <button type="submit">Sign out</button>
+    <form onSubmit={logout}>
+      <button type="submit" className="bg-red-500 w-fit px-2.5 py-2 rounded text-white hover:bg-red-600">Sign out</button>
     </form>
   )
 }

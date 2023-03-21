@@ -2,7 +2,7 @@ const Deadline = ({ deadlines, onDelete }) => {
   if (deadlines.length === 0) {
     return (
       <div>
-        <p className="flex justify-center px-5 mt-5">You have not set a deadline for this course</p>
+        <p className="flex justify-center my-5">You have not set a deadline for this course</p>
       </div>
     )
   }
