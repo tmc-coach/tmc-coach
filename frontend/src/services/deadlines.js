@@ -21,7 +21,7 @@ const set_deadline = async data => {
   //console.log(data.date.toLocaleDateString({ timeZone: 'Europe/Helsinki' }))
   //console.log(new Intl.DateTimeFormat('en-GB', { dateStyle: 'full', timeStyle: 'long', timeZone: 'Europe/Helsinki' }).format(data.date))
   //data.date = data.date.toLocaleDateString('fa-IR', { timeZone: 'Europe/Helsinki' })
-  data.date = new Intl.DateTimeFormat('en-GB', { dateStyle: 'full', timeStyle: 'long', timeZone: 'Europe/Helsinki' }).format(data.date)
+  data.date = new Intl.DateTimeFormat('en-GB', { dateStyle: 'full', timeZone: 'Europe/Helsinki' }).format(data.date)
   //console.log(data.date)
 
   const response = await axios.post(`${baseUrl}/`, data, { headers: { Authorization: localStorage.getItem('user') } })

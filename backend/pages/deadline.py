@@ -3,6 +3,7 @@ from flask import Blueprint, jsonify, request
 from sqlalchemy import text
 from database_functions.deadline_functions import set_deadline_function, get_deadlines_function, delete_deadline_permanently_function
 from modules.user import get_user
+from modules.validate import validate_date, validate_id
 from app.models import deadlines
 from app import db
 from sqlalchemy.sql import text
@@ -22,7 +23,12 @@ def set_deadline():
         return jsonify(error="Forbidden"), 403
 
     date = request.json.get("date")
+    if not validate_date(date):
+        return jsonify(error="Invalid date"), 400
+
     course_id = request.json.get("course_id")
+    if not validate_id(course_id):
+        return jsonify(error="Invalid course id"), 400
     
     if not date or not course_id:
         return jsonify(message="Missing fields"), 400
