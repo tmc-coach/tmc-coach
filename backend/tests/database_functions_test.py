@@ -114,7 +114,6 @@ class DeadlinesTestCase(TestCase):
             db.session.commit()
 
     def test_deleting_deadline_permanently(self):
-        deadline = datetime.datetime(2028, 5, 27)
         deadline_str = "27/5/2028"
 
         with self.app.app_context():
@@ -135,6 +134,32 @@ class DeadlinesTestCase(TestCase):
             result = db.session.execute(text(sql), {"user_id": self.user_id, "course_id": self.course_id})
             deadline = result.fetchall()
             self.assertEqual(deadline, [])
+    
+    def test_deleting_deadline_deletes_its_related_checkpoints(self):
+        deadline_str = "27/5/2028"
+
+        with self.app.app_context():
+            delete_deadline = delete_deadline_permanently_function(self.user_id, self.course_id)
+            self.assertEqual(delete_deadline, "Course deadline deleted succesfully!")
+
+        with self.app.app_context():
+            set_deadline_function(self.user_id, deadline_str, self.course_id)
+        
+        with self.app.app_context():
+            sql = "SELECT course_id FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
+            result = db.session.execute(text(sql), {"user_id": self.user_id, "course_id": self.course_id})
+            checkpoints = result.fetchall()
+            self.assertEqual(len(checkpoints), 3)
+
+        with self.app.app_context():
+            delete_deadline = delete_deadline_permanently_function(self.user_id, self.course_id)
+            self.assertEqual(delete_deadline, "Course deadline deleted succesfully!")
+        
+        with self.app.app_context():
+            sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
+            result = db.session.execute(text(sql), {"user_id": self.user_id, "course_id": self.course_id})
+            checkpoints = result.fetchall()
+            self.assertEqual(checkpoints, [])
 
     def test_get_deadline_function_gets_the_right_deadline(self):
         deadline = ""
@@ -157,3 +182,29 @@ class DeadlinesTestCase(TestCase):
 
         with self.app.app_context():
             delete_deadline_permanently_function(self.user_id, 1234)
+    
+    def test_changing_deadline_changes_checkpoints_and_doesnt_only_make_new(self):
+        with self.app.app_context():
+            delete_deadline_permanently_function(self.user_id, self.course_id)
+        deadline_str = "24/5/2028"
+        new_deadline_str = "15/6/2028"
+        with self.app.app_context():
+            set_deadline_function(self.user_id, deadline_str, self.course_id)
+
+        with self.app.app_context():
+            sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
+            result = db.session.execute(text(sql), {"user_id": self.user_id, "course_id": self.course_id})
+            checkpoints = result.fetchall()
+            print(checkpoints)
+            self.assertEqual(len(checkpoints), 3)
+
+        with self.app.app_context():
+            set_deadline_function(self.user_id, new_deadline_str, self.course_id)
+
+        with self.app.app_context():
+            sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
+            result = db.session.execute(text(sql), {"user_id": self.user_id, "course_id": self.course_id})
+            checkpoints_2 = result.fetchall()
+            self.assertEqual(len(checkpoints_2), 3)
+            self.assertNotEqual(checkpoints, checkpoints_2)
+        
