@@ -6,11 +6,12 @@ import datetime
 
 def get_deadline_function(user_id, course_id):
     deadline = deadlines.query.filter_by(user_id=user_id, course_id=course_id).all()
-    deadline = deadline[0]
 
     if not deadline:
         return json.dumps([], default=str)
         
+    deadline = deadline[0]
+
     response = {
         "id": deadline.id,
         "user_id": deadline.user_id,
