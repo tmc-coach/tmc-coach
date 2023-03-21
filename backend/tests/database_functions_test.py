@@ -7,6 +7,7 @@ from datetime import date
 from dotenv import load_dotenv
 from database_functions.deadline_functions import get_deadlines_function
 from database_functions.deadline_functions import set_deadline_function
+from database_functions.deadline_functions import get_deadline_function
 from database_functions.deadline_functions import delete_deadline_permanently_function
 import datetime
 
@@ -129,3 +130,25 @@ class DeadlinesTestCase(TestCase):
             result = db.session.execute(text(sql), {"user_id": self.user_id, "course_id": self.course_id})
             deadline = result.fetchall()
             self.assertEqual(deadline, [])
+
+    def test_get_deadline_function_gets_the_right_deadline(self):
+        deadline = ""
+        deadline_date = datetime.datetime(2025, 5, 27)
+
+        with self.app.app_context():
+            deadline = get_deadline_function(int(self.user_id), 1234)
+            self.assertEqual(deadline, "[]")
+
+        with self.app.app_context():
+            set_deadline_function(int(self.user_id), deadline_date, 1234)
+
+        with self.app.app_context():
+            deadline = get_deadline_function(int(self.user_id), 1234)
+
+            dictionary = json.loads(deadline)
+            self.assertEqual(dictionary["user_id"], int(self.user_id))
+            self.assertEqual(dictionary["course_id"], 1234)
+            self.assertEqual(dictionary["date"], "2025-05-27 00:00:00")        
+
+        with self.app.app_context():
+            delete_deadline_permanently_function(self.user_id, 1234)
