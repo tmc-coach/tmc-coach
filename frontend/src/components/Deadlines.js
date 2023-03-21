@@ -6,7 +6,6 @@ import Deadline from './Deadline'
 
 const Deadlines = ({ course_id }) => {
   const [date, setDate] = useState(new Date())
-  //const [course, setCourse] = useState('')
   const [deadlines, setDeadlines] = useState([])
   const [newDeadlineAdded, setNewDeadline] = useState(false)
   const [message, setMessage] = useState(null)
@@ -25,15 +24,7 @@ const Deadlines = ({ course_id }) => {
   const handleSetDeadline = async (event) => {
     event.preventDefault()
 
-    console.log(date)
-
     let created_at = new Date()
-    //created_at.setHours(12)
-    //created_at.setMinutes(0)
-    //created_at.setSeconds(0)
-    //created_at.setMilliseconds(0)
-
-    console.log(created_at)
 
     const days_between = Math.floor((date - created_at) / (1000 * 60 * 60 *24))
 
