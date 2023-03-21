@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import deadlineService from '../services/deadlines'
-
 import SetDeadline from './SetDeadline'
 import Deadline from './Deadline'
 
 const Deadlines = ({ course_id }) => {
   const [date, setDate] = useState(new Date())
-  //const [course, setCourse] = useState('')
   const [deadlines, setDeadlines] = useState([])
   const [newDeadlineAdded, setNewDeadline] = useState(false)
   const [message, setMessage] = useState(null)
