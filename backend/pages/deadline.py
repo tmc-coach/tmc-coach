@@ -1,7 +1,7 @@
 import json
 from flask import Blueprint, jsonify, request
 from sqlalchemy import text
-from database_functions.deadline_functions import set_deadline_function, get_deadlines_function
+from database_functions.deadline_functions import set_deadline_function, get_deadlines_function, delete_deadline_permanently_function
 from modules.user import get_user
 from app.models import deadlines
 from app import db
@@ -44,9 +44,8 @@ def get_all_deadlines():
     deadlines = get_deadlines_function(user["id"])
     return deadlines
 
-@deadline.route("/<course_id>", methods=["GET"])
-def get_deadline(course_id):
-
+@deadline.route("/<course_id>", methods=["GET", "DELETE"])
+def get_or_delete_deadline(course_id):
     auth_header = request.headers.get("Authorization", None)
     if not auth_header:
         return jsonify(error="Authorization header missing")
@@ -54,19 +53,28 @@ def get_deadline(course_id):
     user = get_user(auth_header)
     if not user:
         return jsonify(error="Forbidden"), 403
-
-    sql = "SELECT * FROM deadlines WHERE user_id=:user_id AND course_id=:course_id ORDER BY id DESC LIMIT 1"
-    result = db.session.execute(text(sql), {"user_id": user["id"], "course_id": course_id})
-    deadline = result.fetchone()
     
-    if not deadline:
-        return json.dumps([], default=str)
-    
-    response = {
-        "id": deadline[0],
-        "user_id": deadline[1],
-        "course_id": deadline[2],
-        "date": deadline[3]
-        }
+    if request.method == "GET":
+        sql = "SELECT * FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
+        result = db.session.execute(text(sql), {"user_id": user["id"], "course_id": course_id})
+        deadline = result.fetchone()
+        
+        if not deadline:
+            return json.dumps([], default=str)
+        
+        response = {
+            "id": deadline[0],
+            "user_id": deadline[1],
+            "course_id": deadline[2],
+            "date": deadline[3]
+            }
 
-    return json.dumps(response, default=str)
+        return json.dumps(response, default=str)
+    
+    if request.method == "DELETE":
+        if not course_id:
+            return jsonify(message="Missing fields"), 400
+
+        message = delete_deadline_permanently_function(user["id"], course_id)
+
+        return jsonify(message=message)
