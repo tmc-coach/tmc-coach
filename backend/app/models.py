@@ -12,7 +12,8 @@ class deadlines(db.Model):
 
     def __repr__(self):
         return f"deadlines('{self.date}')"
-    
+
+
 class checkpoints(db.Model):
     __tablename__ = "checkpoints"
     __table_args__ = {"extend_existing": True}
@@ -24,4 +25,3 @@ class checkpoints(db.Model):
 
     def __repr__(self):
         return "checkpoint"
-

@@ -21,5 +21,6 @@ class UserTestCase(TestCase):
         encoded_jwt = encode_jwt(str(self._username), str(self._token), self._user_id)
         decoded_jwt = decode_jwt(encoded_jwt)
         self.assertEqual(
-            {"username": self._username, "token": self._token, "id": self._user_id}, decoded_jwt
+            {"username": self._username, "token": self._token, "id": self._user_id},
+            decoded_jwt,
         )
