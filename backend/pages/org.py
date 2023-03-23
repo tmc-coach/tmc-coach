@@ -17,6 +17,7 @@ def get_org():
         return jsonify(error="Not Found"), 404
     return response.json()
 
+
 @org.route("/<org_slug>", methods=["GET"])
 def get_one_org(org_slug):
     auth_header = request.headers.get("Authorization", None)
@@ -24,28 +25,30 @@ def get_one_org(org_slug):
         return jsonify(error="Authorization header missing")
     token = decode_jwt(auth_header)
     response = requests.get(
-        "https://tmc.mooc.fi/api/v8/org.json", headers={"Accept": "application/json", "Authorization": token["token"]}
+        "https://tmc.mooc.fi/api/v8/org.json",
+        headers={"Accept": "application/json", "Authorization": token["token"]},
     )
     if response.status_code == 403:
         return jsonify(error="Forbidden"), 403
     if response.status_code == 404:
         return jsonify(error="Not Found"), 404
-    
+
     data = response.json()
     result = -1
 
     for item in data:
         if item["slug"] == org_slug:
             result = {
-                    "name": item["name"],
-                    "logo_path": item["logo_path"],
-                    "information": item["information"]
-                }
+                "name": item["name"],
+                "logo_path": item["logo_path"],
+                "information": item["information"],
+            }
 
     if result == -1:
         return jsonify(error="Not Found"), 404
-    
+
     return json.dumps(result)
+
 
 @org.route("/<org_slug>/courses", methods=["GET"])
 def get_course(org_slug):
@@ -61,7 +64,7 @@ def get_course(org_slug):
         return jsonify(error="Forbidden"), 403
     if response.status_code == 404:
         return jsonify(error="Not Found"), 404
-    if (len(response.json()) == 0):
+    if len(response.json()) == 0:
         courses = [{"name": -1}]
         return json.dumps(courses)
     return response.json()

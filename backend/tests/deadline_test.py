@@ -30,8 +30,8 @@ class DeadlineTestCase(TestCase):
         app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
         app.config["CLIENT_ID"] = os.getenv("CLIENT_ID")
         app.config["CLIENT_SECRET"] = os.getenv("CLIENT_SECRET")
-        #app.config["USERNAME"] = os.getenv("TMCUSERNAME")
-        #app.config["PASSWORD"] = os.getenv("TMCPASSWORD")
+        # app.config["USERNAME"] = os.getenv("TMCUSERNAME")
+        # app.config["PASSWORD"] = os.getenv("TMCPASSWORD")
 
         app.register_blueprint(deadline, url_prefix="/deadline")
         app.register_blueprint(auth, url_prefix="/auth")
@@ -47,13 +47,16 @@ class DeadlineTestCase(TestCase):
             db.session.execute(text(sql))
             db.session.commit()
 
-    #def test_set_deadline(self):
-        baseUrl = 'http://localhost:5000'
-        credentials = {"username": os.getenv("TMCUSERNAME"), "password": os.getenv("TMCPASSWORD")}
-        response1 = requests.post(baseUrl + '/auth/authorize', data=json.dumps(credentials))
+        # def test_set_deadline(self):
+        baseUrl = "http://localhost:5000"
+        credentials = {
+            "username": os.getenv("TMCUSERNAME"),
+            "password": os.getenv("TMCPASSWORD"),
+        }
+        response1 = requests.post(
+            baseUrl + "/auth/authorize", data=json.dumps(credentials)
+        )
         self.assertEqual(response1.status_code, response1)
-        #data =  {"username": "käyttäjänimi", "course_id": 277, "date": date.today()}
-        #response = self.client.post("/deadline/set_deadline", data=data)
-        #self.assertEqual(response.status_code, response)
-
-
+        # data =  {"username": "käyttäjänimi", "course_id": 277, "date": date.today()}
+        # response = self.client.post("/deadline/set_deadline", data=data)
+        # self.assertEqual(response.status_code, response)

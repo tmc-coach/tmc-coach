@@ -11,6 +11,7 @@ from backend.pages.org import org
 from dotenv import load_dotenv
 from modules.user import encode_jwt
 
+
 class TestCoursesPoints(unittest.TestCase):
     def setUp(self):
         load_dotenv()
@@ -34,40 +35,50 @@ class TestCoursesPoints(unittest.TestCase):
         self.app.config["PASSWORD"] = os.getenv("TMCPASSWORD")
 
         response = requests.post(
-        "https://tmc.mooc.fi/oauth/token",
-        data={
-            "client_id": self.app.config["CLIENT_ID"],
-            "client_secret": self.app.config["CLIENT_SECRET"],
-            "username": self.app.config["USERNAME"],
-            "password": self.app.config["PASSWORD"],
-            "grant_type": "password",
-        },
+            "https://tmc.mooc.fi/oauth/token",
+            data={
+                "client_id": self.app.config["CLIENT_ID"],
+                "client_secret": self.app.config["CLIENT_SECRET"],
+                "username": self.app.config["USERNAME"],
+                "password": self.app.config["PASSWORD"],
+                "grant_type": "password",
+            },
         )
 
         if response.status_code != 200:
             return jsonify(error="invalid username or password"), 401
 
-        
-        self.token = f"{response.json()['token_type']} {response.json()['access_token']}"
-        self.user = requests.get("https://tmc.mooc.fi/api/v8/users/current", headers={"Authorization": self.token})
+        self.token = (
+            f"{response.json()['token_type']} {response.json()['access_token']}"
+        )
+        self.user = requests.get(
+            "https://tmc.mooc.fi/api/v8/users/current",
+            headers={"Authorization": self.token},
+        )
         self.user_id = self.user.json()["id"]
 
-        self.encoded_jwt = encode_jwt(self.app.config["USERNAME"], self.token, self.user_id)
+        self.encoded_jwt = encode_jwt(
+            self.app.config["USERNAME"], self.token, self.user_id
+        )
         self.headers = {"Authorization": self.encoded_jwt}
 
         self.app.config["TESTING"] = True
         return self.app
-   
-   
 
     def test_get_exercises_not_auth(self):
-        response = self.client.get('/org/778/courses')
+        response = self.client.get("/org/778/courses")
         response_t = response.text
-        expected_response = str("{")+str('"error"'+":"+'"Authorization header missing"')+str("}")+str('\n')
+        expected_response = (
+            str("{")
+            + str('"error"' + ":" + '"Authorization header missing"')
+            + str("}")
+            + str("\n")
+        )
         self.assertEqual(response_t, expected_response)
 
-
     def test_get_exercises_with_wrong_courseid(self):
-        expected_response = str("{")+str('"error"'+":"+'"Not Found"')+str("}")+str('\n')
-        response = self.client.get('/org/778884651/courses', headers=self.headers)
+        expected_response = (
+            str("{") + str('"error"' + ":" + '"Not Found"') + str("}") + str("\n")
+        )
+        response = self.client.get("/org/778884651/courses", headers=self.headers)
         self.assertEqual(response.text, expected_response)
