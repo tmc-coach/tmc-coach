@@ -93,7 +93,8 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
         expect(text).to.contains('You have already set a deadline for this course.')
       })
       //cy.wait(5000)
-      cy.contains('2023-04-18').should('exist')
+      cy.setdeadlinepage()
+      cy.contains('2023-04-18').should('be.visible')
     })
     it('a new deadline is not added if confirm-windows cancel-button is pressed', () => {
       cy.setdeadlinepage()
@@ -118,7 +119,8 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
         expect(text).to.contains('You have already set a deadline for this course.')
         return true
       })
-      cy.contains('2023-02-18').should('exist')
+      cy.setdeadlinepage()
+      cy.contains('2023-02-18').should('be.visible')
     })
     it('a new deadline will not be set if the cancel-button is pressed', () => {
       cy.setdeadlinepage()
