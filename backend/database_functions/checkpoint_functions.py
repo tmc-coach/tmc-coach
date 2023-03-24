@@ -1,7 +1,7 @@
 from app import db
 from app.models import checkpoints
 import json
-from datetime import *
+from datetime import datetime, timedelta
 from sqlalchemy import text
 
 
