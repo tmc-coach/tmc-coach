@@ -22,14 +22,18 @@ def set_deadline():
     if not user:
         return jsonify(error="Forbidden"), 403
 
+    course_id = request.json.get("course_id")
+    
+    # check if course id is numeric
+    if not validate_id(course_id):
+        return jsonify(error="Invalid course id"), 400
+
     date = request.json.get("date")
+
+    # Validate if date is in correct format and in future
     if not validate_date(date):
         return jsonify(error="Invalid date"), 400
 
-    course_id = request.json.get("course_id")
-    if not validate_id(course_id):
-        return jsonify(error="Invalid course id"), 400
-    
     if not date or not course_id:
         return jsonify(message="Missing fields"), 400
 

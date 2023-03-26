@@ -39,6 +39,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.setdeadlinepage()
       cy.contains('2023-05-04').should('exist')
     })
+
     it('datapicker can be clicked', () => {
       cy.setdeadlinepage()
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click().click()
