@@ -27,11 +27,12 @@ def count_checkpoints(created_at, deadline, how_many_checkpoints):
     previous = created_at + timedelta(days= between_the_1st_day_and_the_1st_checkpoint)
 
     for i in range(how_many_checkpoints):
-        day = previous + timedelta(days=days_between_checkpoints)
+        percents = (100 // (how_many_checkpoints + 1)) * (i + 1)
+        checkpoint_date = previous + timedelta(days=days_between_checkpoints)
         if i == 0:
-            day = previous
-        checkpoints.append(day)
-        previous = day
+            checkpoint_date = previous
+        checkpoints.append((checkpoint_date, percents))
+        previous = checkpoint_date
 
     return checkpoints
 
@@ -50,6 +51,7 @@ def set_checkpoints_function(
                 checkpoint_percent=percent,
             )
             db.session.add(target)
+        print(get_checkpoints_function(user_id, course_id))
         return "Checkpoints added to the database successfully"
     except:
         return "Adding checkpoints to the database was unsuccessful"
