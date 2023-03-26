@@ -49,10 +49,6 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
     })
     it('can delete deadline if there is one added', () => {
       cy.setdeadlinepage()
-      cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
-      cy.get('div.react-datepicker__month-container').contains('27').click()
-      cy.get('button[value=set_deadline]').click()
-      cy.setdeadlinepage()
       cy.get('button[value=delete_deadline]').click()
       cy.on('window:confirm', (text) => {
         expect(text).to.contains('Are you sure you want to delete the deadline you have set for this course?')
@@ -87,6 +83,58 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       })
       cy.visit('http://localhost:3000/orgs/courses/1169/set')
       cy.contains('The page you were looking for does not exist.')
+    })
+    it('set deadline -page shows a confirmation window', () => {
+      cy.setdeadlinepage()
+      cy.wait(7000)
+      cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
+      cy.get('div.react-datepicker__month-container').contains('18').click()
+      cy.get('button[value=set_deadline]').click()
+      cy.on('window:confirm', (text) => {
+        expect(text).to.contains('You have already set a deadline for this course.')
+      })
+      //cy.wait(5000)
+      cy.setdeadlinepage()
+      cy.contains('2023-04-18').should('be.visible')
+    })
+    it('a new deadline is not added if confirm-windows cancel-button is pressed', () => {
+      cy.setdeadlinepage()
+      cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
+      cy.get('div.react-datepicker__month-container').contains('21').click()
+      cy.get('button[value=set_deadline]').click()
+      cy.on('window:confirm', (text) => {
+        expect(text).to.contains('You have already set a deadline for this course.')
+        return false
+      })
+      cy.contains('2023-04-21').should('not.exist')
+    })
+    it('confirm-window will show up if the deadline is too close', () => {
+      cy.setdeadlinepage()
+      const now = new Date(Date.parse('2023-02-15')).getTime()
+      cy.clock(now, ['Date'])
+      cy.contains('February 2023').should('be.visible')
+      cy.get('div.react-datepicker__month-container').contains('18').click()
+      cy.get('button[value=set_deadline]').click()
+      cy.on('window:confirm', (text) => {
+        //expect(text).to.contains('Why do you want to set a deadline that is under four days away???')
+        expect(text).to.contains('You have already set a deadline for this course.')
+        return true
+      })
+      cy.setdeadlinepage()
+      cy.contains('2023-02-18').should('be.visible')
+    })
+    it('a new deadline will not be set if the cancel-button is pressed', () => {
+      cy.setdeadlinepage()
+      const now = new Date(Date.parse('2023-02-15')).getTime()
+      cy.clock(now, ['Date'])
+      cy.contains('February 2023').should('be.visible')
+      cy.get('div.react-datepicker__month-container').contains('17').click()
+      cy.get('button[value=set_deadline]').click()
+      cy.on('window:confirm', (text) => {
+        expect(text).to.contains('Why do you want to set a deadline that is under four days away???')
+        return false
+      })
+      cy.contains('2023-02-17').should('not.exist')
     })
   })
   context('logged out user', () => {

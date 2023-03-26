@@ -1,6 +1,5 @@
 import ExercisesPage from './routes/ExercisePage'
 import Login from './routes/Login'
-import Home from './routes/Home'
 import Orgs from './routes/Orgs'
 import CoursesPage from './routes/CoursesPage'
 import Header from './components/Header'
@@ -29,7 +28,7 @@ function App() {
         },
         {
           path: '/',
-          element: <Home />,
+          element: <Orgs />,
           loader: authService.checkAuth
         },
         {

@@ -1,13 +1,20 @@
 import json
 from flask import Blueprint, jsonify, request
 from sqlalchemy import text
-from database_functions.deadline_functions import set_deadline_function, get_deadlines_function, delete_deadline_permanently_function
+from database_functions.deadline_functions import (
+    set_deadline_function,
+    get_deadlines_function,
+    delete_deadline_permanently_function,
+    get_deadline_function,
+)
 from modules.user import get_user
 from modules.validate import validate_date, validate_id
 from app.models import deadlines
+
 from app import db
 from sqlalchemy.sql import text
 import json
+import datetime
 
 deadline = Blueprint("deadline", __name__)
 
@@ -38,6 +45,7 @@ def set_deadline():
         return jsonify(message="Missing fields"), 400
 
     message = set_deadline_function(user["id"], date, course_id)
+
     return jsonify(message=message)
 
 
@@ -50,9 +58,10 @@ def get_all_deadlines():
     user = get_user(auth_header)
     if not user:
         return jsonify(error="Forbidden"), 403
-      
+
     deadlines = get_deadlines_function(user["id"])
     return deadlines
+
 
 @deadline.route("/<course_id>", methods=["GET", "DELETE"])
 def get_or_delete_deadline(course_id):
@@ -63,24 +72,12 @@ def get_or_delete_deadline(course_id):
     user = get_user(auth_header)
     if not user:
         return jsonify(error="Forbidden"), 403
-    
-    if request.method == "GET":
-        sql = "SELECT * FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
-        result = db.session.execute(text(sql), {"user_id": user["id"], "course_id": course_id})
-        deadline = result.fetchone()
-        
-        if not deadline:
-            return json.dumps([], default=str)
-        
-        response = {
-            "id": deadline[0],
-            "user_id": deadline[1],
-            "course_id": deadline[2],
-            "date": deadline[3]
-            }
 
-        return json.dumps(response, default=str)
-    
+    if request.method == "GET":
+        deadline = get_deadline_function(user["id"], course_id)
+
+        return deadline
+
     if request.method == "DELETE":
         if not course_id:
             return jsonify(message="Missing fields"), 400

@@ -4,6 +4,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 
+
 db = SQLAlchemy()
 
 
@@ -30,6 +31,13 @@ def create_app():
     # enable CORS
     CORS(app)
 
+    # import and register blueprints
+    register_blueprints(app)
+
+    return app
+
+
+def register_blueprints(app):
     # pylint: disable=wrong-import-position
     # import and register blueprints
     from pages.auth import auth
@@ -45,5 +53,3 @@ def create_app():
     app.register_blueprint(org, url_prefix="/org")
     app.register_blueprint(courses, url_prefix="/courses")
     app.register_blueprint(deadline, url_prefix="/deadline")
-
-    return app
