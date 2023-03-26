@@ -3,30 +3,35 @@ from app.models import checkpoints
 import json
 from datetime import datetime, timedelta
 from sqlalchemy import text
+import math
 
 
 def count_checkpoints(created_at, deadline, how_many_checkpoints):
     if deadline < created_at + timedelta(days=how_many_checkpoints + 1):
         return
 
+    checkpoints = []
     days_apart = deadline - created_at
     days_apart = days_apart.days - 1
+    days_between_checkpoints = 0
 
-    checkpoints = []
+    if (days_apart / (how_many_checkpoints + 1)) % 0.5  == 0:
+        days_between_checkpoints = math.ceil(days_apart / (how_many_checkpoints + 1))
+    else:
+        days_between_checkpoints = round(days_apart / (how_many_checkpoints + 1))
 
-    previous = created_at
+    between_the_1st_day_and_the_1st_checkpoint = math.ceil((days_apart - ((how_many_checkpoints - 1) * days_between_checkpoints)) / 2)
+    previous = created_at + timedelta(days= between_the_1st_day_and_the_1st_checkpoint)
 
     for i in range(how_many_checkpoints):
-        percents = (100 // (how_many_checkpoints + 1)) * (i + 1)
-        day = round(days_apart * (percents / 100))
-        checkpoint_date = created_at + timedelta(days=day)
-        if checkpoint_date == previous:
-            checkpoint_date = checkpoint_date + timedelta(days=1)
-        previous = checkpoint_date
-        checkpoints.append((checkpoint_date, percents))
+        day = previous + timedelta(days=days_between_checkpoints)
+        if i == 0:
+            day = previous
+        checkpoints.append(day)
+        previous = day
+        print(day)
 
     return checkpoints
-
 
 def set_checkpoints_function(
     user_id, course_id, created_at, deadline, how_many_checkpoints
