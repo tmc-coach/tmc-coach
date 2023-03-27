@@ -51,7 +51,7 @@ def set_deadline_function(user_id, date, course_id):
     )
     if id == None:
         target = deadlines(
-            user_id=user_id, course_id=course_id, date=date, created_at=date_now
+            user_id=user_id, course_id=course_id, date=deadline_as_date, created_at=date_now
         )
         db.session.add(target)
         set_checkpoints_function(
@@ -61,7 +61,7 @@ def set_deadline_function(user_id, date, course_id):
         return "Deadline added succesfully!"
     elif isinstance(id, int):
         target_dl = db.session.get(deadlines, id)
-        target_dl.date = date
+        target_dl.date = deadline_as_date
         target_dl.created_at = date_now
         deleting_existing_checkpoints_for_course(user_id, course_id)
         set_checkpoints_function(
