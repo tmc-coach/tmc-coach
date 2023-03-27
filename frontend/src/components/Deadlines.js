@@ -46,7 +46,7 @@ const Deadlines = ({ course_id }) => {
     }
 
     try {
-      deadlineService.set_deadline({ course_id, date })
+      await deadlineService.set_deadline({ course_id, date })
       setNewDeadline(true)
       window.location.reload()
       //setMessage('Deadline was set successfully!')
