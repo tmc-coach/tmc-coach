@@ -49,7 +49,6 @@ def set_deadline_function(user_id, date, course_id):
     deadline_as_date = datetime.date(
         int(deadline_as_list[2]), int(deadline_as_list[1]), int(deadline_as_list[0])
     )
-    print(deadline_as_date)
     if id == None:
         target = deadlines(
             user_id=user_id, course_id=course_id, date=deadline_as_date, created_at=date_now
