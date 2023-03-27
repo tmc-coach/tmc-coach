@@ -51,7 +51,6 @@ def set_checkpoints_function(
                 checkpoint_percent=percent,
             )
             db.session.add(target)
-        print(get_checkpoints_function(user_id, course_id))
         return "Checkpoints added to the database successfully"
     except:
         return "Adding checkpoints to the database was unsuccessful"
