@@ -8,7 +8,7 @@ const Logout = () => {
   }
   return(
     <form onSubmit={logout}>
-      <button type="submit" className="bg-red-500 w-fit px-2.5 py-2 rounded text-white hover:bg-red-600">Sign out</button>
+      <button type="submit" className="bg-red-600 w-fit px-2.5 py-2 rounded text-white hover:bg-red-700">Sign out</button>
     </form>
   )
 }
