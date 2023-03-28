@@ -8,6 +8,9 @@ from database_functions.deadline_functions import (
     get_deadline_function,
 )
 from modules.user import get_user
+from modules.validate import validate_date, validate_id
+from app.models import deadlines
+
 from app import db
 from sqlalchemy.sql import text
 import json
@@ -26,8 +29,17 @@ def set_deadline():
     if not user:
         return jsonify(error="Forbidden"), 403
 
-    date = request.json.get("date")
     course_id = request.json.get("course_id")
+    
+    # check if course id is numeric
+    if not validate_id(course_id):
+        return jsonify(error="Invalid course id"), 400
+
+    date = request.json.get("date")
+
+    # Validate if date is in correct format and in future
+    if not validate_date(date):
+        return jsonify(error="Invalid date"), 400
 
     if not date or not course_id:
         return jsonify(message="Missing fields"), 400

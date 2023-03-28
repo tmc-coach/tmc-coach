@@ -15,7 +15,6 @@ const get_deadline = async course_id => {
 }
 
 const set_deadline = async data => {
-
   data.date = new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeZone: 'Europe/Helsinki' }).format(data.date)
 
   const response = await axios.post(`${baseUrl}/`, data, { headers: { Authorization: localStorage.getItem('user') } })
