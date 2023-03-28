@@ -8,6 +8,7 @@ const Deadlines = ({ course_id }) => {
   const [deadlines, setDeadlines] = useState([])
   const [newDeadlineAdded, setNewDeadline] = useState(false)
   const [message, setMessage] = useState(null)
+  const [checkpoints, setCheckpoints] = useState(3)
 
   useEffect(() => {
     deadlineService.get_deadline(course_id).then(deadlines => setDeadlines(deadlines))
@@ -46,7 +47,7 @@ const Deadlines = ({ course_id }) => {
     }
 
     try {
-      await deadlineService.set_deadline({ course_id, date })
+      await deadlineService.set_deadline({ course_id, date, checkpoints })
       setNewDeadline(true)
       window.location.reload()
       //setMessage('Deadline was set successfully!')
@@ -85,7 +86,7 @@ const Deadlines = ({ course_id }) => {
   return (
     <>
       <Deadline deadlines={deadlines} onChange={handleSetDeadline} onDelete={handleDelete} />
-      <SetDeadline deadlines={deadlines} date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} />
+      <SetDeadline deadlines={deadlines} date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} checkpoints={checkpoints} setCheckpoints={setCheckpoints} />
     </>
   )
 }

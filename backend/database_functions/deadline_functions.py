@@ -42,7 +42,7 @@ def get_deadlines_function(user_id):
     return json.dumps(response, default=str)
 
 
-def set_deadline_function(user_id, date, course_id):
+def set_deadline_function(user_id, date, course_id, checkpoints):
     id = check_existing_deadline_function(user_id, course_id)
     date_now = datetime.datetime.now()
     deadline_as_list = date.split("/")
@@ -65,7 +65,7 @@ def set_deadline_function(user_id, date, course_id):
         target_dl.created_at = date_now
         deleting_existing_checkpoints_for_course(user_id, course_id)
         set_checkpoints_function(
-            user_id, course_id, datetime.datetime.now().date(), deadline_as_date, 3
+            user_id, course_id, datetime.datetime.now().date(), deadline_as_date, checkpoints
         )
         db.session.commit()
         return "Deadline changed succesfully!"

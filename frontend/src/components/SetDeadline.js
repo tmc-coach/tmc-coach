@@ -1,11 +1,16 @@
 // import DatePicker, { registerLocale } from 'react-datepicker'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+//import NumberPicker from 'react-dom'
+import NumberPicker from 'react-widgets/NumberPicker'
+//import 'react-number-picker/dist/style.css'
 // import fi from 'date-fns/locale/fi'
+//import 'react-widgets/dist/css/react-widgets.css'
 
 // registerLocale('fi', fi)
 
-const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines }) => {
+const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints }) => {
+  //const [checkpoints, setCheckpoints] = useState(3)
 
   return (
     <div>
@@ -17,6 +22,13 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines }) =
         onChange={(newDate) => setDate(newDate)}
         minDate={new Date()}
         // locale="fi"
+      />
+      <p>How many checkpoints do you want?</p>
+      <NumberPicker
+        value={checkpoints}
+        onChange={(checkpoints) => setCheckpoints(checkpoints)}
+        min={0}
+        max={10}
       />
       <div className="flex justify-center my-5">
         <button onClick={handleSetDeadline} value="set_deadline" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Set deadline</button>
