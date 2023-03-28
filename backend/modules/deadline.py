@@ -3,8 +3,8 @@ from app.models import deadlines
 from sqlalchemy import text
 import json
 import datetime
-from database_functions.checkpoint_functions import (
-    set_checkpoints_function,
+from modules.checkpoint import (
+    set_checkpoints,
     deleting_existing_checkpoints_for_course,
 )
 
@@ -27,7 +27,7 @@ def get_deadline_function(user_id, course_id):
     return json.dumps(response, default=str)
 
 
-def get_deadlines_function(user_id):
+def get_deadlines(user_id):
     deadlines_from_database = deadlines.query.filter_by(user_id=user_id).all()
     response = {}
 
@@ -42,8 +42,8 @@ def get_deadlines_function(user_id):
     return json.dumps(response, default=str)
 
 
-def set_deadline_function(user_id, date, course_id):
-    id = check_existing_deadline_function(user_id, course_id)
+def set_deadline(user_id, date, course_id):
+    id = check_existing_deadline(user_id, course_id)
     date_now = datetime.datetime.now()
     deadline_as_list = date.split("/")
     deadline_as_date = datetime.date(
@@ -54,7 +54,7 @@ def set_deadline_function(user_id, date, course_id):
             user_id=user_id, course_id=course_id, date=deadline_as_date, created_at=date_now
         )
         db.session.add(target)
-        set_checkpoints_function(
+        set_checkpoints(
             user_id, course_id, datetime.datetime.now().date(), deadline_as_date, 3
         )
         db.session.commit()
@@ -64,7 +64,7 @@ def set_deadline_function(user_id, date, course_id):
         target_dl.date = deadline_as_date
         target_dl.created_at = date_now
         deleting_existing_checkpoints_for_course(user_id, course_id)
-        set_checkpoints_function(
+        set_checkpoints(
             user_id, course_id, datetime.datetime.now().date(), deadline_as_date, 3
         )
         db.session.commit()
@@ -73,7 +73,7 @@ def set_deadline_function(user_id, date, course_id):
         return "Adding deadline was unsuccessful"
 
 
-def check_existing_deadline_function(user_id, course_id):
+def check_existing_deadline(user_id, course_id):
     sql = "SELECT id FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
     result = db.session.execute(text(sql), {"user_id": user_id, "course_id": course_id})
     for id in result:
@@ -83,7 +83,7 @@ def check_existing_deadline_function(user_id, course_id):
             return None
 
 
-def delete_deadline_permanently_function(user_id, course_id):
+def delete_deadline(user_id, course_id):
     try:
         sql = "DELETE FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
         db.session.execute(text(sql), {"user_id": user_id, "course_id": course_id})

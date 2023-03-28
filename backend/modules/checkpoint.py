@@ -36,7 +36,7 @@ def count_checkpoints(created_at, deadline, how_many_checkpoints):
 
     return checkpoints
 
-def set_checkpoints_function(
+def set_checkpoints(
     user_id, course_id, created_at, deadline, how_many_checkpoints
 ):
     checkpoints_list = count_checkpoints(created_at, deadline, how_many_checkpoints)
@@ -56,7 +56,7 @@ def set_checkpoints_function(
         return "Adding checkpoints to the database was unsuccessful"
 
 
-def get_checkpoints_function(user_id, course_id):
+def get_checkpoints(user_id, course_id):
     checkpoints_from_database = checkpoints.query.filter_by(
         user_id=user_id, course_id=course_id
     ).all()

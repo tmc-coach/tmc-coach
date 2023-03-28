@@ -1,17 +1,15 @@
 import json
 from flask import Blueprint, jsonify, request
 from sqlalchemy import text
-from database_functions.deadline_functions import (
-    set_deadline_function,
-    get_deadlines_function,
-    delete_deadline_permanently_function,
+from modules.deadline import (
+    set_deadline,
+    get_deadlines,
+    delete_deadline,
     get_deadline_function,
 )
 
-from database_functions.checkpoint_functions import (
-    set_checkpoints_function,
-    deleting_existing_checkpoints_for_course,
-    get_checkpoints_function,
+from modules.checkpoint import (
+    get_checkpoints,
 )
 from modules.user import get_user
 from app import db
@@ -23,7 +21,7 @@ deadline = Blueprint("deadline", __name__)
 
 
 @deadline.route("/", methods=["POST"])
-def set_deadline():
+def set_deadline_route():
     auth_header = request.headers.get("Authorization", None)
     if not auth_header:
         return jsonify(error="Authorization header missing")
@@ -38,7 +36,7 @@ def set_deadline():
     if not date or not course_id:
         return jsonify(message="Missing fields"), 400
 
-    message = set_deadline_function(user["id"], date, course_id)
+    message = set_deadline(user["id"], date, course_id)
 
     return jsonify(message=message)
 
@@ -53,7 +51,7 @@ def get_all_deadlines():
     if not user:
         return jsonify(error="Forbidden"), 403
 
-    deadlines = get_deadlines_function(user["id"])
+    deadlines = get_deadlines(user["id"])
     return deadlines
 
 
@@ -69,7 +67,7 @@ def get_or_delete_deadline(course_id):
 
     if request.method == "GET":
         deadline = json.loads(get_deadline_function(user["id"], course_id))
-        checkpoints = get_checkpoints_function(user["id"], course_id)
+        checkpoints = get_checkpoints(user["id"], course_id)
         deadline["checkpoints"] = json.loads(checkpoints)
         return jsonify(deadline)
 
@@ -77,6 +75,6 @@ def get_or_delete_deadline(course_id):
         if not course_id:
             return jsonify(message="Missing fields"), 400
 
-        message = delete_deadline_permanently_function(user["id"], course_id)
+        message = delete_deadline(user["id"], course_id)
 
         return jsonify(message=message)
