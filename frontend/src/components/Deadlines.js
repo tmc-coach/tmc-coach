@@ -46,12 +46,13 @@ const Deadlines = ({ course_id }) => {
     }
 
     try {
-      deadlineService.set_deadline({ course_id, date })
+      await deadlineService.set_deadline({ course_id, date })
       setNewDeadline(true)
-      setMessage('Deadline was set successfully')
-      setTimeout(() => {
-        setMessage(null)
-      }, 10000)
+      window.location.reload()
+      //setMessage('Deadline was set successfully!')
+      //setTimeout(() => {
+      //setMessage(null)
+      //}, 10000)
     } catch (exception) {
       setMessage('Deadline could not be set')
       setTimeout(() => {
@@ -66,11 +67,12 @@ const Deadlines = ({ course_id }) => {
     if (window.confirm('Are you sure you want to delete the deadline you have set for this course?') === true) {
       try {
         await deadlineService.delete_deadline(course_id)
-        setMessage('Deleting deadline was successful!')
-        setTimeout(() => {
-          setMessage(null)
-        }, 10000)
+        //setMessage('Deleting deadline was successful!')
+        //setTimeout(() => {
+        //setMessage(null)
+        //}, 10000)
         setNewDeadline(true)
+        window.location.reload()
       } catch (exception) {
         setMessage('Deleting deadline was unsuccessful. Please try again.')
         setTimeout(() => {
