@@ -27,12 +27,14 @@ def count_checkpoints(created_at, deadline, how_many_checkpoints):
     previous = created_at + timedelta(days= between_the_1st_day_and_the_1st_checkpoint)
 
     for i in range(how_many_checkpoints):
-        percents = (100 // (how_many_checkpoints + 1)) * (i + 1)
+        percents = (round(100 / (how_many_checkpoints + 1))) * (i + 1)
         checkpoint_date = previous + timedelta(days=days_between_checkpoints)
         if i == 0:
             checkpoint_date = previous
         checkpoints.append((checkpoint_date, percents))
         previous = checkpoint_date
+        print(checkpoint_date)
+        print(percents)
 
     return checkpoints
 

@@ -28,11 +28,12 @@ def set_deadline():
 
     date = request.json.get("date")
     course_id = request.json.get("course_id")
+    checkpoints = request.json.get("checkpoints")
 
     if not date or not course_id:
         return jsonify(message="Missing fields"), 400
 
-    message = set_deadline_function(user["id"], date, course_id)
+    message = set_deadline_function(user["id"], date, course_id, checkpoints)
 
     return jsonify(message=message)
 

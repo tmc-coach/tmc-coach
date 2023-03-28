@@ -28,7 +28,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
         value={checkpoints}
         onChange={(checkpoints) => setCheckpoints(checkpoints)}
         min={0}
-        max={10}
+        max={12}
       />
       <div className="flex justify-center my-5">
         <button onClick={handleSetDeadline} value="set_deadline" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Set deadline</button>
