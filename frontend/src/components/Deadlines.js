@@ -6,19 +6,11 @@ import Deadline from './Deadline'
 const Deadlines = ({ course_id }) => {
   const [date, setDate] = useState(new Date())
   const [deadlines, setDeadlines] = useState([])
-  const [newDeadlineAdded, setNewDeadline] = useState(false)
   const [message, setMessage] = useState(null)
 
   useEffect(() => {
     deadlineService.get_deadline(course_id).then(deadlines => setDeadlines(deadlines))
   }, [])
-
-  useEffect(() => {
-    if (newDeadlineAdded) {
-      deadlineService.get_deadline(course_id).then(deadlines => setDeadlines(deadlines))
-      setNewDeadline(false)
-    }
-  }, [newDeadlineAdded])
 
   const handleSetDeadline = async (event) => {
     event.preventDefault()
@@ -37,7 +29,6 @@ const Deadlines = ({ course_id }) => {
       }
     }
 
-    //let text = ''
     if (deadlines.length !== 0) {
       text = text + 'You have already set a deadline for this course.\nDo you want to set ' + JSON.stringify(date.getFullYear()) + '.' + JSON.stringify(date.getMonth() + 1) + '.' + JSON.stringify(date.getDate()) + ' as your new deadline for this course?'
       if (window.confirm(text) === false) {
@@ -47,12 +38,7 @@ const Deadlines = ({ course_id }) => {
 
     try {
       await deadlineService.set_deadline({ course_id, date })
-      setNewDeadline(true)
       window.location.reload()
-      //setMessage('Deadline was set successfully!')
-      //setTimeout(() => {
-      //setMessage(null)
-      //}, 10000)
     } catch (exception) {
       setMessage('Deadline could not be set')
       setTimeout(() => {
@@ -67,11 +53,6 @@ const Deadlines = ({ course_id }) => {
     if (window.confirm('Are you sure you want to delete the deadline you have set for this course?') === true) {
       try {
         await deadlineService.delete_deadline(course_id)
-        //setMessage('Deleting deadline was successful!')
-        //setTimeout(() => {
-        //setMessage(null)
-        //}, 10000)
-        setNewDeadline(true)
         window.location.reload()
       } catch (exception) {
         setMessage('Deleting deadline was unsuccessful. Please try again.')
