@@ -60,15 +60,15 @@ def get_checkpoints_function(user_id, course_id):
     checkpoints_from_database = checkpoints.query.filter_by(
         user_id=user_id, course_id=course_id
     ).all()
-    response = {}
-    for i in range(len(checkpoints_from_database)):
-        response[i] = {
-            "id": checkpoints_from_database[i].id,
-            "user_id": checkpoints_from_database[i].user_id,
-            "course_id": checkpoints_from_database[i].course_id,
-            "checkpoint_date": checkpoints_from_database[i].checkpoint_date,
-            "checkpoint_percent": checkpoints_from_database[i].checkpoint_percent,
-        }
+    response = []
+    for checkpoint in checkpoints_from_database:
+        response.append({
+            "id": checkpoint.id,
+            "user_id": checkpoint.user_id,
+            "course_id": checkpoint.course_id,
+            "checkpoint_date": checkpoint.checkpoint_date,
+            "checkpoint_percent": checkpoint.checkpoint_percent,
+        })
     return json.dumps(response, default=str)
 
 

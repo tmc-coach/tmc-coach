@@ -7,6 +7,12 @@ from database_functions.deadline_functions import (
     delete_deadline_permanently_function,
     get_deadline_function,
 )
+
+from database_functions.checkpoint_functions import (
+    set_checkpoints_function,
+    deleting_existing_checkpoints_for_course,
+    get_checkpoints_function,
+)
 from modules.user import get_user
 from app import db
 from sqlalchemy.sql import text
@@ -62,9 +68,10 @@ def get_or_delete_deadline(course_id):
         return jsonify(error="Forbidden"), 403
 
     if request.method == "GET":
-        deadline = get_deadline_function(user["id"], course_id)
-
-        return deadline
+        deadline = json.loads(get_deadline_function(user["id"], course_id))
+        checkpoints = get_checkpoints_function(user["id"], course_id)
+        deadline["checkpoints"] = json.loads(checkpoints)
+        return jsonify(deadline)
 
     if request.method == "DELETE":
         if not course_id:
