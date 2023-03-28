@@ -135,6 +135,12 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       })
       cy.contains('2023-02-17').should('not.exist')
     })
+    it('the amount of checkpoints can be chosen', () => {
+      cy.setdeadlinepage()
+      //cy.get('rw-widget-input.rw-input').type('mooc')
+      cy.get('input[type=text]').type('1')
+      // jatka/korjaa myöhemmin
+    })
   })
   context('logged out user', () => {
     it('is directed to login page and cant go to set_deadline page', () => {

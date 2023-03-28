@@ -3,9 +3,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 //import NumberPicker from 'react-dom'
 import NumberPicker from 'react-widgets/NumberPicker'
-//import 'react-number-picker/dist/style.css'
 // import fi from 'date-fns/locale/fi'
-//import 'react-widgets/dist/css/react-widgets.css'
 
 // registerLocale('fi', fi)
 
