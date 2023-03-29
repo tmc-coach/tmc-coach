@@ -6,7 +6,7 @@ from sqlalchemy import text
 import math
 
 
-def count_checkpoints(created_at, deadline, how_many_checkpoints):
+def count_checkpoint_dates(created_at, deadline, how_many_checkpoints):
     if deadline < created_at + timedelta(days=how_many_checkpoints + 1):
         return
 
@@ -36,12 +36,25 @@ def count_checkpoints(created_at, deadline, how_many_checkpoints):
 
     return checkpoints
 
+def count_checkpoint_points(current_points, target_points, how_many_checkpoints):
+    remaining_points = target_points - current_points
+    desired_points_list = []
+    for i in range(how_many_checkpoints):
+        percents = (100 // (how_many_checkpoints + 1)) * (i + 1)
+        points = remaining_points * (percents / 100)
+        desired_points = current_points + points
+        desired_points_list.append((percents, desired_points))
+    
+    return desired_points_list
+
 def set_checkpoints_function(
     user_id, course_id, created_at, deadline, how_many_checkpoints
 ):
-    checkpoints_list = count_checkpoints(created_at, deadline, how_many_checkpoints)
+    checkpoint_dates_list = count_checkpoint_dates(created_at, deadline, how_many_checkpoints)
+    checkpoint_points_list = count_checkpoint_points(50, 100, how_many_checkpoints)
+    print(checkpoint_points_list)
     try:
-        for checkpoint in checkpoints_list:
+        for checkpoint in checkpoint_dates_list:
             date = checkpoint[0]
             percent = checkpoint[1]
             target = checkpoints(
