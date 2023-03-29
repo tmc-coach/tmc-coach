@@ -48,10 +48,10 @@ def count_checkpoint_points(current_points, target_points, how_many_checkpoints)
     return desired_points_list
 
 def set_checkpoints_function(
-    user_id, course_id, created_at, deadline, how_many_checkpoints
-):
+    user_id, course_id, created_at, deadline, how_many_checkpoints, current_points, target_points):
     checkpoint_dates_list = count_checkpoint_dates(created_at, deadline, how_many_checkpoints)
-    checkpoint_points_list = count_checkpoint_points(50, 100, how_many_checkpoints)
+    checkpoint_points_list = count_checkpoint_points(current_points, target_points, how_many_checkpoints)
+    print(f"start: {current_points}, target: {target_points}")
     print(checkpoint_points_list)
     try:
         for checkpoint in checkpoint_dates_list:
