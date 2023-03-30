@@ -1,0 +1,14 @@
+Hello {{ Student_Name }},
+
+Congratulations on reaching the {{ Checkpoint_Percentage }}% checkpoint for the {{ Course_Name }} course on time!
+
+So far, you have completed {{ Completed_Points }} points out of the {{ Expected_Points }} points expected for this checkpoint. Keep on keeping on!
+
+Remember, your goal is to finish the course by {{ Course_Deadline }}. Stay focused and continue making progress.
+
+If you have any questions or need assistance, feel free to reach out to your peers or instructors.
+
+Good luck with the rest of the course!
+
+Best regards,
+The TMC Coach Team

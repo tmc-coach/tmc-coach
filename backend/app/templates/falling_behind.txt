@@ -1,0 +1,17 @@
+Hello {{ Student_Name }},
+
+You've reached the {{ Checkpoint_Percentage }}% checkpoint for the {{ Course_Name }} course. We noticed that you have completed {{ Completed_Points }} points, while {{ Expected_Points }} points were expected for this checkpoint.
+
+Don't worry, there's still time to catch up! Here are some suggestions to help you get back on track:
+
+1. Review your schedule and adjust it if necessary, to allocate more time for the course.
+2. Reach out to your peers or instructors if you need help with any concepts or exercises.
+3. Set aside dedicated time for focused study sessions.
+4. Break down the remaining tasks into smaller, manageable goals.
+
+Remember, your goal is to finish the course by {{ Course_Deadline }}. With some dedication and effort, you can still achieve this.
+
+We believe in you! If you have any questions or need assistance, don't hesitate to reach out to your peers or instructors.
+
+Best regards,
+The TMC Coach Team

@@ -1,5 +1,5 @@
 import os
-from flask import current_app
+from flask import current_app, render_template
 from flask_mail import Mail, Message
 
 
@@ -19,7 +19,7 @@ mail = Mail(app)
 def send_email(to, subject, template, **kwargs):
     msg = Message(
         subject,
-        sender=app.config["MAIL_SENDER"],
+        sender=os.getenv("MAIL_SENDER"),
         recipients=[to],
     )
     msg.body = render_template(template + ".txt", **kwargs)
