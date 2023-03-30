@@ -46,7 +46,6 @@ def set_deadline_function(user_id, date, course_id):
     id = check_existing_deadline_function(user_id, course_id)
     date_now = datetime.datetime.now()
     deadline_as_list = date.split("/")
-    print("deadline_func, deadline_as_list", deadline_as_list)
     deadline_as_date = datetime.date(
         int(deadline_as_list[2]), int(deadline_as_list[1]), int(deadline_as_list[0])
     )
