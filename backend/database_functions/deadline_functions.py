@@ -24,6 +24,9 @@ def get_deadline_function(user_id, course_id):
         "user_id": deadline.user_id,
         "course_id": deadline.course_id,
         "date": deadline.date,
+        "created_at": deadline.created_at,
+        "current_points": deadline.current_points,
+        "target_points": deadline.target_points
     }
 
     return json.dumps(response, default=str)
@@ -40,6 +43,8 @@ def get_deadlines_function(user_id):
             "course_id": deadlines_from_database[i].course_id,
             "date": deadlines_from_database[i].date,
             "created_at": deadlines_from_database[i].created_at,
+            "current_points": deadlines_from_database[i].current_points,
+            "target_points": deadlines_from_database[i].target_points
         }
     return json.dumps(response, default=str)
 
@@ -62,21 +67,23 @@ def get_points_for_deadline(course_id):
 
 def set_deadline_function(user_id, date, course_id):
     points_for_deadline = get_points_for_deadline(course_id)
+    current_points = points_for_deadline["current_points"]
+    target_points = points_for_deadline["target_points"]
     id = check_existing_deadline_function(user_id, course_id)
     date_now = datetime.datetime.now()
     deadline_as_list = date.split("/")
-    print("deadline_func, deadline_as_list", deadline_as_list)
     deadline_as_date = datetime.date(
         int(deadline_as_list[2]), int(deadline_as_list[1]), int(deadline_as_list[0])
     )
     if id == None:
         target = deadlines(
-            user_id=user_id, course_id=course_id, date=deadline_as_date, created_at=date_now
+            user_id=user_id, course_id=course_id, date=deadline_as_date, created_at=date_now,
+            current_points=current_points, target_points=target_points
         )
         db.session.add(target)
         set_checkpoints_function(
             user_id, course_id, datetime.datetime.now().date(), deadline_as_date, 3,
-            points_for_deadline['current_points'], points_for_deadline['target_points']
+            current_points, target_points
         )
         db.session.commit()
         return "Deadline added succesfully!"
@@ -84,10 +91,11 @@ def set_deadline_function(user_id, date, course_id):
         target_dl = db.session.get(deadlines, id)
         target_dl.date = deadline_as_date
         target_dl.created_at = date_now
+        target_dl.current_points = current_points
         deleting_existing_checkpoints_for_course(user_id, course_id)
         set_checkpoints_function(
             user_id, course_id, datetime.datetime.now().date(), deadline_as_date, 3,
-            points_for_deadline['current_points'], points_for_deadline['target_points']
+            current_points, target_points
         )
         db.session.commit()
         return "Deadline changed succesfully!"
