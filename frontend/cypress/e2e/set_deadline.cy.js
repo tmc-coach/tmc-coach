@@ -137,9 +137,17 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
     })
     it('the amount of checkpoints can be chosen', () => {
       cy.setdeadlinepage()
-      //cy.get('rw-widget-input.rw-input').type('mooc')
       cy.get('input[type=text]').type('1')
-      // jatka/korjaa myöhemmin
+      cy.get('input[type=text]').should('have.value', '12')
+      cy.get('input[type=text]').clear().type('1')
+      cy.get('input[type=text]').should('have.value', '1')
+      cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
+      cy.get('div.react-datepicker__month-container').contains('21').click()
+      cy.get('button[value=set_deadline]').click()
+      cy.on('window:confirm', (text) => {
+        expect(text).to.contains('You have already set a deadline for this course.')
+        return true
+      })
     })
   })
   context('logged out user', () => {
