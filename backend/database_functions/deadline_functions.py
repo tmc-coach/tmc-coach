@@ -55,7 +55,7 @@ def set_deadline_function(user_id, date, course_id, checkpoints):
         )
         db.session.add(target)
         set_checkpoints_function(
-            user_id, course_id, datetime.datetime.now().date(), deadline_as_date, 3
+            user_id, course_id, datetime.datetime.now().date(), deadline_as_date, checkpoints
         )
         db.session.commit()
         return "Deadline added succesfully!"
