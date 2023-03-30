@@ -1,7 +1,7 @@
 from app import db
 from app.models import checkpoints
 import json
-from datetime import datetime, timedelta
+from datetime import timedelta
 from sqlalchemy import text
 import math
 
@@ -51,17 +51,18 @@ def set_checkpoints_function(
     user_id, course_id, created_at, deadline, how_many_checkpoints, current_points, target_points):
     checkpoint_dates_list = count_checkpoint_dates(created_at, deadline, how_many_checkpoints)
     checkpoint_points_list = count_checkpoint_points(current_points, target_points, how_many_checkpoints)
-    print(f"start: {current_points}, target: {target_points}")
-    print(checkpoint_points_list)
     try:
-        for checkpoint in checkpoint_dates_list:
-            date = checkpoint[0]
-            percent = checkpoint[1]
+        for i in range(len(checkpoint_dates_list)):
+            date = checkpoint_dates_list[i][0]
+            percent = checkpoint_dates_list[i][1]
+            desired_points = checkpoint_points_list[i][1]
+            print(desired_points)
             target = checkpoints(
                 user_id=user_id,
                 course_id=course_id,
                 checkpoint_date=date,
                 checkpoint_percent=percent,
+                desired_points=desired_points
             )
             db.session.add(target)
         return "Checkpoints added to the database successfully"
@@ -81,6 +82,7 @@ def get_checkpoints_function(user_id, course_id):
             "course_id": checkpoints_from_database[i].course_id,
             "checkpoint_date": checkpoints_from_database[i].checkpoint_date,
             "checkpoint_percent": checkpoints_from_database[i].checkpoint_percent,
+            "desired_points": checkpoints_from_database[i].desired_points
         }
     return json.dumps(response, default=str)
 
