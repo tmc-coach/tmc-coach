@@ -39,7 +39,7 @@ const Login = () => {
             <label>Password</label>
             <input className="border rounded" type="password" value={password} name="password" onChange={({ target }) => setPassword(target.value)} />
           </div>
-          <button className="bg-blue-600 hover:bg-blue-700 w-full mt-2 rounded text-white p-1" type="submit">Login</button>
+          <button className="bg-indigo-600 hover:bg-indigo-700 w-full mt-2 rounded text-white p-1" type="submit">Login</button>
         </form>
       </div>
     </div>
