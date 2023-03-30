@@ -5,10 +5,7 @@ from app import db, create_app
 from sqlalchemy.sql import text
 from datetime import date
 from dotenv import load_dotenv
-from database_functions.deadline_functions import get_deadlines_function
-from database_functions.deadline_functions import set_deadline_function
-from database_functions.deadline_functions import get_deadline_function
-from database_functions.deadline_functions import delete_deadline_permanently_function
+from database_functions.deadline_functions import get_deadlines_function, set_deadline_function, get_deadline_function, delete_deadline_permanently_function
 import datetime
 
 
