@@ -20,11 +20,12 @@ class UsersTestCase(TestCase):
             response = set_user(self.user_id, self.token, self.email)
         self.assertEqual(response, "User row created")
 
-
     def test_token_is_updated(self):
         with self.app.app_context():
             init_response = set_user(self.user_id, self.token, self.email)
-            update_response = set_user(self.user_id, "TOKEN NEWNEWNEWNEWNEWNEW", self.email)
+            update_response = set_user(
+                self.user_id, "TOKEN NEWNEWNEWNEWNEWNEW", self.email
+            )
 
         self.assertEqual(init_response, "User row created")
         self.assertEqual(update_response, "Token updated")

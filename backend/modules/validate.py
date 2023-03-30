@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 def validate_id(raw_id):
     try:
         if not raw_id.isnumeric():
@@ -7,6 +8,7 @@ def validate_id(raw_id):
         return True
     except:
         return False
+
 
 def validate_date(date):
     try:

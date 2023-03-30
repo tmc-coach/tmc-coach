@@ -51,7 +51,10 @@ def set_deadline_function(user_id, date, course_id):
     )
     if id == None:
         target = deadlines(
-            user_id=user_id, course_id=course_id, date=deadline_as_date, created_at=date_now
+            user_id=user_id,
+            course_id=course_id,
+            date=deadline_as_date,
+            created_at=date_now,
         )
         db.session.add(target)
         set_checkpoints_function(
