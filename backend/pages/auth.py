@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from modules.user import encode_jwt, decode_jwt
+from database_functions.user_functions import set_user
 import requests
 import os
 import jwt
@@ -37,6 +38,9 @@ def authorize():
     user = requests.get(
         "https://tmc.mooc.fi/api/v8/users/current", headers={"Authorization": token}
     )
+
+    set_user(user.json()["id"], token, user.json()["email"])
+
     encoded_jwt = encode_jwt(username, token, user.json()["id"])
     return jsonify(jwt=encoded_jwt)
 

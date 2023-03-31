@@ -30,7 +30,7 @@ def set_deadline():
         return jsonify(error="Forbidden"), 403
 
     course_id = request.json.get("course_id")
-    
+
     # check if course id is numeric
     if not validate_id(course_id):
         return jsonify(error="Invalid course id"), 400

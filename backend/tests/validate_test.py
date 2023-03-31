@@ -16,18 +16,15 @@ class ValidateTestCase(TestCase):
         # Date in different format
         self.assertFalse(validate_date(f"1.1.{test_date_year}"))
 
-
     def test_validate_date_with_valid_date(self):
         test_date = datetime.now() + timedelta(days=31)
         test_date_formatted = test_date.strftime("%d/%m/%Y")
         self.assertTrue(validate_date(test_date_formatted))
 
-
     def test_validate_id_with_invalid_id(self):
         self.assertFalse(validate_id("ASDF1234"))
         self.assertFalse(validate_id(123123123123))
         self.assertFalse(validate_id("-5"))
-
 
     def test_validate_id_with_valid_id(self):
         self.assertTrue(validate_id("1"))

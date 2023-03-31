@@ -7,7 +7,9 @@ def schedule(app):
     scheduler = BackgroundScheduler()
     scheduler.add_job(do_stuff, "cron", hour=4, minute=20)
     # scheduler.add_job(do_stuff, "interval", seconds=10)
-    scheduler.add_job(get_checkpoints_for_today, "cron", hour=13, minute=37, args=(app,))
+    scheduler.add_job(
+        get_checkpoints_for_today, "cron", hour=13, minute=37, args=(app,)
+    )
     scheduler.start()
 
 
