@@ -48,25 +48,28 @@ def get_deadlines_function(user_id):
         }
     return json.dumps(response, default=str)
 
-def get_points_for_deadline(course_id):
+def get_points_for_deadline(exercises):
+    # Alkuperäinen koodi:
+    """
     auth_header = request.headers.get("Authorization", None)
     token = decode_jwt(auth_header)
     response_exercises = requests.get(
         f"https://tmc.mooc.fi/api/v8/courses/{course_id}/exercises",
         headers={"Accept": "application/json", "Authorization": token["token"]},
     )
-    data = response_exercises.json()
+    data = response_exercises.json()"""
+    # -------------------------------
     current_points = 0
     maximum_points = 0
 
-    for item in data:
+    for item in exercises:
         maximum_points += len(item["available_points"])
         current_points += len(item["awarded_points"])
 
     return {"current_points": current_points, "target_points": maximum_points}
 
-def set_deadline_function(user_id, date, course_id):
-    points_for_deadline = get_points_for_deadline(course_id)
+def set_deadline_function(user_id, date, course_id, exercises): 
+    points_for_deadline = get_points_for_deadline(exercises)
     current_points = points_for_deadline["current_points"]
     target_points = points_for_deadline["target_points"]
     id = check_existing_deadline_function(user_id, course_id)

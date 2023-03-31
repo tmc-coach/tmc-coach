@@ -16,6 +16,11 @@ from sqlalchemy.sql import text
 import json
 import datetime
 
+# Annan lisäämät importit
+import requests
+from modules.user import decode_jwt
+# ---------------------------------------
+
 deadline = Blueprint("deadline", __name__)
 
 
@@ -37,6 +42,16 @@ def set_deadline():
 
     date = request.json.get("date")
 
+    # Annan lisäämä koodi
+    token = decode_jwt(auth_header)
+    response_exercises = requests.get(
+        f"https://tmc.mooc.fi/api/v8/courses/{course_id}/exercises",
+        headers={"Accept": "application/json", "Authorization": token["token"]},
+    )
+    exercises = response_exercises.json()
+    print(exercises)
+    # ------------------
+
     # Validate if date is in correct format and in future
     if not validate_date(date):
         return jsonify(error="Invalid date"), 400
@@ -44,7 +59,7 @@ def set_deadline():
     if not date or not course_id:
         return jsonify(message="Missing fields"), 400
 
-    message = set_deadline_function(user["id"], date, course_id)
+    message = set_deadline_function(user["id"], date, course_id, exercises)
 
     return jsonify(message=message)
 
