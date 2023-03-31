@@ -19,7 +19,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines }) =
         // locale="fi"
       />
       <div className="flex justify-center my-5">
-        <button onClick={handleSetDeadline} value="set_deadline" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Set deadline</button>
+        <button onClick={handleSetDeadline} value="set_deadline" className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Set deadline</button>
       </div>
     </div>
   )

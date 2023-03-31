@@ -15,7 +15,7 @@ def count_checkpoint_dates(created_at, deadline, how_many_checkpoints):
     days_apart = days_apart.days - 1
     days_between_checkpoints = 0
 
-    if (days_apart / (how_many_checkpoints + 1)) % 0.5  == 0:
+    if (days_apart / (how_many_checkpoints + 1)) % 0.5 == 0:
         days_between_checkpoints = math.ceil(days_apart / (how_many_checkpoints + 1))
     else:
         days_between_checkpoints = round(days_apart / (how_many_checkpoints + 1))
@@ -23,8 +23,10 @@ def count_checkpoint_dates(created_at, deadline, how_many_checkpoints):
     if days_apart < (how_many_checkpoints * days_between_checkpoints) - 1:
         days_between_checkpoints -= 1
 
-    between_the_1st_day_and_the_1st_checkpoint = math.ceil((days_apart - ((how_many_checkpoints - 1) * days_between_checkpoints)) / 2)
-    previous = created_at + timedelta(days= between_the_1st_day_and_the_1st_checkpoint)
+    between_the_1st_day_and_the_1st_checkpoint = math.ceil(
+        (days_apart - ((how_many_checkpoints - 1) * days_between_checkpoints)) / 2
+    )
+    previous = created_at + timedelta(days=between_the_1st_day_and_the_1st_checkpoint)
 
     for i in range(how_many_checkpoints):
         percents = (100 // (how_many_checkpoints + 1)) * (i + 1)
