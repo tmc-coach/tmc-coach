@@ -205,8 +205,7 @@ class DeadlinesTestCase(TestCase):
             dictionary = json.loads(deadline)
             self.assertEqual(dictionary["user_id"], int(self.user_id))
             self.assertEqual(dictionary["course_id"], 1234)
-            # self.assertEqual(dictionary["date"], "2025-05-27 00:00:00")
-            self.assertEqual(dictionary["date"], "2025-05-27")
+            self.assertEqual(dictionary["date"], "2025-05-27 00:00:00")
 
         with self.app.app_context():
             delete_deadline_permanently_function(self.user_id, 1234)

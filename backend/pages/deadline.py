@@ -1,6 +1,4 @@
-import json
 from flask import Blueprint, jsonify, request
-from sqlalchemy import text
 from database_functions.deadline_functions import (
     set_deadline_function,
     get_deadlines_function,
@@ -9,17 +7,9 @@ from database_functions.deadline_functions import (
 )
 from modules.user import get_user
 from modules.validate import validate_date, validate_id
-from app.models import deadlines
-
-from app import db
-from sqlalchemy.sql import text
-import json
-import datetime
-
-# Annan lisäämät importit
-import requests
 from modules.user import decode_jwt
-# ---------------------------------------
+import requests
+
 
 deadline = Blueprint("deadline", __name__)
 
@@ -42,15 +32,12 @@ def set_deadline():
 
     date = request.json.get("date")
 
-    # Annan lisäämä koodi
     token = decode_jwt(auth_header)
     response_exercises = requests.get(
         f"https://tmc.mooc.fi/api/v8/courses/{course_id}/exercises",
         headers={"Accept": "application/json", "Authorization": token["token"]},
     )
     exercises = response_exercises.json()
-    print(exercises)
-    # ------------------
 
     # Validate if date is in correct format and in future
     if not validate_date(date):
