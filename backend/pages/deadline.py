@@ -14,6 +14,7 @@ from modules.checkpoint import (
 from modules.user import get_user
 from modules.validate import validate_date, validate_id
 import requests
+import json
 
 deadline = Blueprint("deadline", __name__)
 
@@ -81,7 +82,10 @@ def get_or_delete_deadline(course_id):
     if request.method == "GET":
         deadline = json.loads(get_course_deadline(user["id"], course_id))
         checkpoints = get_checkpoints(user["id"], course_id)
-        deadline["checkpoints"] = json.loads(checkpoints)
+        
+        if deadline:
+            deadline["checkpoints"] = json.loads(checkpoints)
+            
         return jsonify(deadline)
 
     if request.method == "DELETE":
