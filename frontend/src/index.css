@@ -38,9 +38,12 @@ code {
 }
 
 .react-datepicker .react-datepicker__day--selected {
-  background-color: #2563eb; /* tailwind blue-600 */
+  background-color: #4f46e5; /* tailwind indigo-600 */
 }
 
+.react-datepicker .react-datepicker__day--selected:hover {
+  background-color: #4338ca; /* tailwind indigo-700 */
+}
 .react-datepicker .react-datepicker__day-name,
 .react-datepicker .react-datepicker__day {
   width: 10vw;
