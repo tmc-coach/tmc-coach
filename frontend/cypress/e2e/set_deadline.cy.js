@@ -22,11 +22,15 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       const now = new Date(Date.parse('2023-02-06')).getTime()
       cy.clock(now, ['Date'])
       cy.contains('February 2023').should('be.visible')
-      cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
+      cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click().click()
       cy.get('div.react-datepicker__month-container').contains('4').click()
       cy.get('button[value=set_deadline]').click()
-      cy.setdeadlinepage()
-      cy.contains('2023-03-04').should('exist')
+      cy.on('window:confirm', (text) => {
+        expect(text).to.contains('You have already set a deadline for this course.\nDo you want to set 2023.4.4 as your new deadline for this course?')
+        return true
+      })
+      //cy.setdeadlinepage()
+      cy.contains('2023-04-04').should('exist')
     })
     it('can set deadline correctly on 07.04.2023', () => {
       cy.setdeadlinepage()
@@ -110,10 +114,12 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
     })
     it('confirm-window will show up if the deadline is too close', () => {
       cy.setdeadlinepage()
-      const now = new Date(Date.parse('2023-02-15')).getTime()
+      //cy.wait(7000)
+      const now = new Date(Date.parse('2023-04-15')).getTime()
       cy.clock(now, ['Date'])
-      cy.contains('February 2023').should('be.visible')
-      cy.get('div.react-datepicker__month-container').contains('18').click()
+      cy.contains('April 2023').should('be.visible')
+      cy.wait(7000)
+      cy.get('div.react-datepicker__month-container').contains('17').click()
       cy.get('button[value=set_deadline]').click()
       cy.on('window:confirm', (text) => {
         //expect(text).to.contains('Why do you want to set a deadline that is under four days away???')
@@ -121,7 +127,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
         return true
       })
       cy.setdeadlinepage()
-      cy.contains('2023-02-18').should('be.visible')
+      cy.contains('2023-04-17').should('be.visible')
     })
     it('a new deadline will not be set if the cancel-button is pressed', () => {
       cy.setdeadlinepage()

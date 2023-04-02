@@ -22,6 +22,8 @@ class deadlines(db.Model):
     course_id = db.Column(db.Integer, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
+    current_points = db.Column(db.Integer, nullable=False)
+    target_points = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return f"deadlines('{self.date}')"
@@ -37,6 +39,7 @@ class checkpoints(db.Model):
     course_id = db.Column(db.Integer, nullable=False)
     checkpoint_date = db.Column(db.DateTime, nullable=False)
     checkpoint_percent = db.Column(db.Integer, nullable=False)
+    desired_points = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return "checkpoint"

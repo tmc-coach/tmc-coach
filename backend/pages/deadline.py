@@ -1,6 +1,4 @@
-import json
 from flask import Blueprint, jsonify, request
-from sqlalchemy import text
 from database_functions.deadline_functions import (
     set_deadline_function,
     get_deadlines_function,
@@ -9,12 +7,9 @@ from database_functions.deadline_functions import (
 )
 from modules.user import get_user
 from modules.validate import validate_date, validate_id
-from app.models import deadlines
+from modules.user import decode_jwt
+import requests
 
-from app import db
-from sqlalchemy.sql import text
-import json
-import datetime
 
 deadline = Blueprint("deadline", __name__)
 
@@ -43,8 +38,14 @@ def set_deadline():
 
     if not date or not course_id:
         return jsonify(message="Missing fields"), 400
+    
+    response_exercises = requests.get(
+        f"https://tmc.mooc.fi/api/v8/courses/{course_id}/exercises",
+        headers={"Accept": "application/json", "Authorization": user["token"]},
+    )
+    exercises = response_exercises.json()
 
-    message = set_deadline_function(user["id"], date, course_id)
+    message = set_deadline_function(user["id"], date, course_id, exercises)
 
     return jsonify(message=message)
 
