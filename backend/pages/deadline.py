@@ -32,19 +32,18 @@ def set_deadline():
 
     date = request.json.get("date")
 
-    token = decode_jwt(auth_header)
-    response_exercises = requests.get(
-        f"https://tmc.mooc.fi/api/v8/courses/{course_id}/exercises",
-        headers={"Accept": "application/json", "Authorization": token["token"]},
-    )
-    exercises = response_exercises.json()
-
     # Validate if date is in correct format and in future
     if not validate_date(date):
         return jsonify(error="Invalid date"), 400
 
     if not date or not course_id:
         return jsonify(message="Missing fields"), 400
+    
+    response_exercises = requests.get(
+        f"https://tmc.mooc.fi/api/v8/courses/{course_id}/exercises",
+        headers={"Accept": "application/json", "Authorization": user["token"]},
+    )
+    exercises = response_exercises.json()
 
     message = set_deadline_function(user["id"], date, course_id, exercises)
 
