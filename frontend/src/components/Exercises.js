@@ -11,7 +11,7 @@ const Exercises = ({ exercises, course_id }) => (
           Awarded points: {exercises[0].completed_percentage} %
         </div>
         <div className="w-full bg-gray-200 rounded-full max-w-2xl mx-auto">
-          <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-1.5 leading-none rounded-full" style={{ width: `${(exercises[0].completed_percentage < 5) ? 5 : exercises[0].completed_percentage}` + '%' }} >{exercises[0].completed_percentage} %</div>
+          <div className="bg-indigo-600 text-xs font-medium text-blue-100 text-center p-1.5 leading-none rounded-full" style={{ width: `${(exercises[0].completed_percentage < 5) ? 5 : exercises[0].completed_percentage}` + '%' }} >{exercises[0].completed_percentage} %</div>
         </div>
         <Checkpoints />
         <Deadlines course_id={course_id} />

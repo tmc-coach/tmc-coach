@@ -5,7 +5,7 @@ import os
 from sqlalchemy.sql import text
 from datetime import date
 from dotenv import load_dotenv
-from database_functions.checkpoint_functions import (
+from modules.checkpoint import (
     set_checkpoints,
     get_checkpoints,
 )
@@ -17,6 +17,9 @@ class CheckpointsTestCase(TestCase):
     def setUp(self):
         self.app = create_app()
 
+        self.current_points = 50
+        self.target_points = 100
+
     def test_set_checkpoints_adds_checkpoints_to_the_database(self):
         user_id = os.getenv("TMCUSERID")
         course_id = 1
@@ -25,7 +28,7 @@ class CheckpointsTestCase(TestCase):
 
         with self.app.app_context():
             set_checkpoints(
-                user_id, course_id, created_at, date_for_deadline, 3
+                user_id, course_id, created_at, date_for_deadline, 3, self.current_points, self.target_points
             )
             db.session.commit()
 
@@ -55,7 +58,7 @@ class CheckpointsTestCase(TestCase):
 
         with self.app.app_context():
             set_checkpoints(
-                user_id, course_id, created_at, date_for_deadline, 14
+                user_id, course_id, created_at, date_for_deadline, 14, self.current_points, self.target_points
             )
             db.session.commit()
 
@@ -87,7 +90,7 @@ class CheckpointsTestCase(TestCase):
 
         with self.app.app_context():
             set_checkpoints(
-                user_id, course_id, created_at, date_for_deadline, 3
+                user_id, course_id, created_at, date_for_deadline, 3, self.current_points, self.target_points
             )
             db.session.commit()
 
@@ -119,7 +122,7 @@ class CheckpointsTestCase(TestCase):
 
         with self.app.app_context():
             set_checkpoints(
-                user_id, course_id, created_at, date_for_deadline, 5
+                user_id, course_id, created_at, date_for_deadline, 5, self.current_points, self.target_points
             )
             db.session.commit()
 

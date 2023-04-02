@@ -1,12 +1,12 @@
 from app import db
 from app.models import checkpoints
 import json
-from datetime import datetime, timedelta
+from datetime import timedelta
 from sqlalchemy import text
 import math
 
 
-def count_checkpoints(created_at, deadline, how_many_checkpoints):
+def count_checkpoint_dates(created_at, deadline, how_many_checkpoints):
     if deadline < created_at + timedelta(days=how_many_checkpoints + 1):
         return
 
@@ -15,7 +15,7 @@ def count_checkpoints(created_at, deadline, how_many_checkpoints):
     days_apart = days_apart.days - 1
     days_between_checkpoints = 0
 
-    if (days_apart / (how_many_checkpoints + 1)) % 0.5  == 0:
+    if (days_apart / (how_many_checkpoints + 1)) % 0.5 == 0:
         days_between_checkpoints = math.ceil(days_apart / (how_many_checkpoints + 1))
     else:
         days_between_checkpoints = round(days_apart / (how_many_checkpoints + 1))
@@ -23,8 +23,10 @@ def count_checkpoints(created_at, deadline, how_many_checkpoints):
     if days_apart < (how_many_checkpoints * days_between_checkpoints) - 1:
         days_between_checkpoints -= 1
 
-    between_the_1st_day_and_the_1st_checkpoint = math.ceil((days_apart - ((how_many_checkpoints - 1) * days_between_checkpoints)) / 2)
-    previous = created_at + timedelta(days= between_the_1st_day_and_the_1st_checkpoint)
+    between_the_1st_day_and_the_1st_checkpoint = math.ceil(
+        (days_apart - ((how_many_checkpoints - 1) * days_between_checkpoints)) / 2
+    )
+    previous = created_at + timedelta(days=between_the_1st_day_and_the_1st_checkpoint)
 
     for i in range(how_many_checkpoints):
         percents = (100 // (how_many_checkpoints + 1)) * (i + 1)
@@ -36,19 +38,35 @@ def count_checkpoints(created_at, deadline, how_many_checkpoints):
 
     return checkpoints
 
+
+def count_checkpoint_points(current_points, target_points, how_many_checkpoints):
+    remaining_points = target_points - current_points
+    desired_points_list = []
+    for i in range(how_many_checkpoints):
+        percents = (100 // (how_many_checkpoints + 1)) * (i + 1)
+        points = remaining_points * (percents / 100)
+        desired_points = current_points + points
+        desired_points_list.append((percents, desired_points))
+    
+    return desired_points_list
+
 def set_checkpoints(
-    user_id, course_id, created_at, deadline, how_many_checkpoints
-):
-    checkpoints_list = count_checkpoints(created_at, deadline, how_many_checkpoints)
+    user_id, course_id, created_at, deadline, how_many_checkpoints, current_points, target_points):
+    checkpoint_dates_list = count_checkpoint_dates(created_at, deadline, how_many_checkpoints)
+    checkpoint_points_list = count_checkpoint_points(current_points, target_points, how_many_checkpoints)
+
     try:
-        for checkpoint in checkpoints_list:
-            date = checkpoint[0]
-            percent = checkpoint[1]
+        for i in range(len(checkpoint_dates_list)):
+            date = checkpoint_dates_list[i][0]
+            percent = checkpoint_dates_list[i][1]
+            desired_points = checkpoint_points_list[i][1]
+            print(desired_points)
             target = checkpoints(
                 user_id=user_id,
                 course_id=course_id,
                 checkpoint_date=date,
                 checkpoint_percent=percent,
+                desired_points=desired_points
             )
             db.session.add(target)
         return "Checkpoints added to the database successfully"
@@ -68,7 +86,9 @@ def get_checkpoints(user_id, course_id):
             "course_id": checkpoint.course_id,
             "checkpoint_date": checkpoint.checkpoint_date,
             "checkpoint_percent": checkpoint.checkpoint_percent,
+            "desired_points": checkpoint.desired_points
         })
+
     return json.dumps(response, default=str)
 
 

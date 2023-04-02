@@ -1,21 +1,19 @@
-import json
 from flask import Blueprint, jsonify, request
 from sqlalchemy import text
 from modules.deadline import (
     set_deadline,
     get_deadlines,
     delete_deadline,
-    get_deadline_function,
+    get_course_deadline,
 )
 
 from modules.checkpoint import (
     get_checkpoints,
 )
+
 from modules.user import get_user
-from app import db
-from sqlalchemy.sql import text
-import json
-import datetime
+from modules.validate import validate_date, validate_id
+import requests
 
 deadline = Blueprint("deadline", __name__)
 
@@ -30,13 +28,28 @@ def set_deadline_route():
     if not user:
         return jsonify(error="Forbidden"), 403
 
-    date = request.json.get("date")
     course_id = request.json.get("course_id")
+
+    # check if course id is numeric
+    if not validate_id(course_id):
+        return jsonify(error="Invalid course id"), 400
+
+    date = request.json.get("date")
+
+    # Validate if date is in correct format and in future
+    if not validate_date(date):
+        return jsonify(error="Invalid date"), 400
 
     if not date or not course_id:
         return jsonify(message="Missing fields"), 400
+    
+    response_exercises = requests.get(
+        f"https://tmc.mooc.fi/api/v8/courses/{course_id}/exercises",
+        headers={"Accept": "application/json", "Authorization": user["token"]},
+    )
+    exercises = response_exercises.json()
 
-    message = set_deadline(user["id"], date, course_id)
+    message = set_deadline(user["id"], date, course_id, exercises)
 
     return jsonify(message=message)
 
@@ -66,7 +79,7 @@ def get_or_delete_deadline(course_id):
         return jsonify(error="Forbidden"), 403
 
     if request.method == "GET":
-        deadline = json.loads(get_deadline_function(user["id"], course_id))
+        deadline = json.loads(get_course_deadline(user["id"], course_id))
         checkpoints = get_checkpoints(user["id"], course_id)
         deadline["checkpoints"] = json.loads(checkpoints)
         return jsonify(deadline)
