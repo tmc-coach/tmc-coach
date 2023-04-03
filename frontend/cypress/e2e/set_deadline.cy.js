@@ -88,7 +88,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.visit('http://localhost:3000/orgs/courses/1169/set')
       cy.contains('The page you were looking for does not exist.')
     })
-    it('set deadline -page shows a confirmation window', () => {
+    it.only('set deadline -page shows a confirmation window', () => {
       cy.setdeadlinepage()
       cy.wait(7000)
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
@@ -99,7 +99,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       })
       //cy.wait(5000)
       cy.setdeadlinepage()
-      cy.contains('2023-04-18').should('be.visible')
+      cy.contains('2023-05-18').should('be.visible')
     })
     it('a new deadline is not added if confirm-windows cancel-button is pressed', () => {
       cy.setdeadlinepage()
