@@ -104,15 +104,19 @@ def get_checkpoint_infos(current_date):
                 u.token,
                 u.id,
                 c.checkpoint_percent,
-                c.checkpoint_date,
                 c.desired_points,
-                c.course_id
+                c.course_id,
+                d.date
                 FROM
                 users u
                 INNER JOIN
                 checkpoints c
                 ON
                 u.id = c.user_id
+                INNER JOIN
+                deadlines d
+                ON
+                u.id = d.user_id
                 WHERE
                 c.checkpoint_date =:current_date
             """
