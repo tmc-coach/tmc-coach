@@ -2,6 +2,7 @@ import ExercisesPage from './routes/ExercisePage'
 import Login from './routes/Login'
 import Orgs from './routes/Orgs'
 import CoursesPage from './routes/CoursesPage'
+import ProfilePage from './routes/ProfilePage'
 import Header from './components/Header'
 import ErrorBoundary from './components/ErrorBoundary'
 import React from 'react'
@@ -44,6 +45,11 @@ function App() {
         {
           path: '/orgs/courses/:course_id',
           element: <ExercisesPage />,
+          loader: authService.checkAuth
+        },
+        {
+          path: 'profile',
+          element: <ProfilePage />,
           loader: authService.checkAuth
         }
       ]
