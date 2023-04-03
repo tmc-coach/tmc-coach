@@ -1,15 +1,28 @@
 import Logout from './LogOut'
+import authService from '../services/auth'
 import { useLocation, Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 
 const Header = () => {
   const location = useLocation()
+  const [email, setEmail] = useState('')
+
+  useEffect(() => {
+    authService.get_user_email().then(email => setEmail(email))
+  }, [])
+
   return (
     <>
       <div className='w-full bg-gradient-to-r from-indigo-500 to-indigo-800'>
         <div className='nav container container-fluid'>
           <div className='flex justify-between items-center'>
             <Link className="text-white" to="/">TMC Coach</Link>
-            { location.pathname !== '/login' && <Logout /> }
+            <div className="flex items-center justify-between">
+              { location.pathname !== '/login' ?
+                <Link className="inline-block bg-white text-black px-2.5 py-2 rounded hover:bg-gray-200 mr-5" to="/profile">{email.user_email}</Link>
+                : null }
+              { location.pathname !== '/login' && <Logout /> }
+            </div>
           </div>
         </div>
       </div>
