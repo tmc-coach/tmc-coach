@@ -13,7 +13,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
   let options = [
     { id: 1, option: 'I want checkpoints weekly' },
     { id: 2, option: 'I want checkpoints monthly' },
-    { id: 3, option: 'I want to choose the amount of checkpoint' }
+    { id: 3, option: 'I want to choose the amount of checkpoints' }
   ]
 
   return (
@@ -25,7 +25,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
         selected={date}
         onChange={(newDate) => setDate(newDate)}
         minDate={new Date()}
-        // locale="fi"
+      // locale="fi"
       />
       <div className='text-2xl font-medium pb-5'>
         Choose the amount of checkpoints
@@ -37,9 +37,9 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
         data={options}
         dataKey='id'
         textField='option'
-        onChange={value => setFreqvency(value.id)}
+        onChange={(value) => setFreqvency(value.id)}
       />
-      {freqvency === 3 ?
+      {freqvency === 3 &&
         <div>
           <p>How many checkpoints do you want?</p>
           <NumberPicker
@@ -49,7 +49,6 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
             max={12}
           />
         </div>
-        : null
       }
       <div className="flex justify-center my-5">
         <button onClick={handleSetDeadline} value="set_deadline" className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Set deadline</button>
