@@ -48,7 +48,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
     })
     it('deadline won\'t be deleted if cancel-button is clicked in confirmation window', () => {
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click().click()
-      cy.get('div.react-datepicker__month-container').contains('27').click()
+      cy.get('div.react-datepicker__month-container').contains('10').click()
       cy.get('button[value=set_deadline]').click()
       cy.get('button[value=delete_deadline]').click()
       cy.on('window:confirm', (text) => {
