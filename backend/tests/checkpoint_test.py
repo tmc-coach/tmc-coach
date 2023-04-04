@@ -130,7 +130,7 @@ class CheckpointsTestCase(TestCase):
             checkpoints = get_checkpoints(user_id, course_id)
 
         dictionary = json.loads(checkpoints)
-
+        
         self.assertEqual(len(dictionary), 5)
 
         with self.app.app_context():
