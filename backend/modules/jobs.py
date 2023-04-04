@@ -1,7 +1,7 @@
 from app.models import checkpoints
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
-from database_functions.checkpoint_functions import get_checkpoint_infos
+from modules.checkpoint import get_checkpoint_infos
 from modules.email import send_email
 import requests
 
