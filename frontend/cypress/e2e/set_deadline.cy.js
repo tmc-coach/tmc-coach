@@ -103,7 +103,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
     })
     it('confirm window will show up if the deadline is too close', () => {
       // Two days from now
-      const twoDaysFromToday = new Date(now.setDate(now.getDate() + 2))
+      const twoDaysFromToday = new Date(now.setDate(dayNow + 2))
       let day = (twoDaysFromToday.getDate() < 10) ? '0' + twoDaysFromToday.getDate() : twoDaysFromToday.getDate().toString()
       let month = twoDaysFromToday.getMonth() + 1
       month = (month < 10) ? '0' + month : month.toString()
