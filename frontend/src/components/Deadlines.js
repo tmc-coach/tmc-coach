@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import deadlineService from '../services/deadlines'
 import SetDeadline from './SetDeadline'
 import Deadline from './Deadline'
+import Checkpoints from './Checkpoints'
 
 const Deadlines = ({ course_id }) => {
   const [date, setDate] = useState(new Date())
@@ -84,6 +85,7 @@ const Deadlines = ({ course_id }) => {
 
   return (
     <>
+      {deadlines.checkpoints ? <Checkpoints deadlines={deadlines} /> : null}
       <Deadline deadlines={deadlines} onChange={handleSetDeadline} onDelete={handleDelete} />
       <SetDeadline deadlines={deadlines} date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} />
     </>
