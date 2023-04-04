@@ -103,32 +103,39 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
     })
     it('confirm window will show up if the deadline is too close', () => {
       // Two days from now
-      const twoDaysFromToday = new Date().setDate(new Date().getDate() + 2)
+      const twoDaysFromToday = new Date(now.setDate(now.getDate() + 2))
+      let day = (twoDaysFromToday.getDate() < 10) ? '0' + twoDaysFromToday.getDate() : twoDaysFromToday.getDate().toString()
+      let month = twoDaysFromToday.getMonth() + 1
+      month = (month < 10) ? '0' + month : month.toString()
       let year = twoDaysFromToday.getFullYear().toString()
-      let month = (twoDaysFromToday.getMonth() + 1).toString()
-      let day = twoDaysFromToday.getDate().toString()
 
-      cy.get('div.react-datepicker__month-container').contains(day).click()
+      cy.get('div.react-datepicker__day--0' + day).first().click()
       cy.get('button[value=set_deadline]').click()
       cy.on('window:confirm', (text) => {
-        // expect(text).to.contains('Why do you want to set a deadline that is under four days away???')
-        expect(text).to.contains('You have already set a deadline for this course.')
+        expect(text).to.contains('Why do you want to set a deadline that is under four days away???')
         return true
       })
       cy.contains(year + '-' + month + '-' + day).should('be.visible')
     })
     it('a new deadline will not be set if the cancel-button is pressed', () => {
-      // const now = new Date(Date.parse('2023-02-15')).getTime()
-      // cy.clock(now, ['Date'])
-      // cy.contains('February 2023').should('be.visible')
+      // Next month 17th
+      let nextMonth = monthNow + 1
+      let year = yearNow
+      if (nextMonth > 12) {
+        nextMonth = 1
+        year = yearNow + 1
+      }
 
+      let date = year.toString() + '-' + (nextMonth < 10) ? '0' + nextMonth : nextMonth.toString() + '-17'
+
+      cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
       cy.get('div.react-datepicker__month-container').contains('17').click()
       cy.get('button[value=set_deadline]').click()
       cy.on('window:confirm', (text) => {
-        expect(text).to.contains('Why do you want to set a deadline that is under four days away???')
+        expect(text).to.contains('You have already set a deadline for this course.')
         return false
       })
-      cy.contains('2023-02-17').should('not.exist')
+      cy.contains(date).should('not.exist')
     })
   })
   context('logged out user', () => {
