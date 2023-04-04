@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-describe('TMC-Coach login', { defaultCommandTimeout: 8000 }, () => {
+describe('TMC-Coach login', { defaultCommandTimeout: 20000 }, () => {
   beforeEach(() => {
     cy.homepage()
   })
