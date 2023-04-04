@@ -5,6 +5,7 @@ from modules.checkpoint import get_checkpoint_infos
 from modules.email import send_email
 import requests
 
+
 def schedule(app):
     scheduler = BackgroundScheduler()
     scheduler.add_job(do_stuff, "cron", hour=4, minute=20)
@@ -22,11 +23,12 @@ def do_stuff():
     print("Never gonna say goodbye")
     print("Never gonna tell a lie and hurt you")
 
+
 def send_checkpoint_emails(app):
     with app.app_context():
         current_date = datetime.now().date()
         results = get_checkpoint_infos(current_date)
-        for result in results: 
+        for result in results:
             user_id = result[2]
             token = result[1]
             target_points = result[4]
@@ -34,7 +36,7 @@ def send_checkpoint_emails(app):
             email = result[0]
             checkpoint_percent = result[3]
             course_deadline = result[6]
-            course_deadline = course_deadline.strftime('%d.%m.%Y')
+            course_deadline = course_deadline.strftime("%d.%m.%Y")
             current_points = len(current_points_from_api(course_id, user_id))
             course_name = course_name_from_api(course_id, token)
             on_schedule = True
@@ -42,21 +44,25 @@ def send_checkpoint_emails(app):
                 on_schedule = False
             print(current_points, target_points)
             print(on_schedule)
-            send_email(app=app,
-                    to=email,
-                    on_schedule=on_schedule,
-                    course_name=course_name,
-                    checkpoint_percent=checkpoint_percent,
-                    current_points=current_points,
-                    target_points=target_points,
-                    course_deadline=course_deadline)
+            send_email(
+                app=app,
+                to=email,
+                on_schedule=on_schedule,
+                course_name=course_name,
+                checkpoint_percent=checkpoint_percent,
+                current_points=current_points,
+                target_points=target_points,
+                course_deadline=course_deadline,
+            )
 
-#api calls that are needed for sending email
+
+# api calls that are needed for sending email
 def current_points_from_api(course_id, user_id):
     points = requests.get(
         f"https://tmc.mooc.fi/api/v8/courses/{course_id}/users/{user_id}/points"
     )
     return points.json()
+
 
 def course_name_from_api(course_id, token):
     course_info = requests.get(

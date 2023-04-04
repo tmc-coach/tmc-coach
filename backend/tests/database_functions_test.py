@@ -180,7 +180,9 @@ class DeadlinesTestCase(TestCase):
         new_deadline_str = "11/7/2028"
 
         with self.app.app_context():
-            set_deadline(self.user_id, old_deadline_str, self.course_id, self.exercises, 3)
+            set_deadline(
+                self.user_id, old_deadline_str, self.course_id, self.exercises, 3
+            )
 
         with self.app.app_context():
             sql = "SELECT COUNT(course_id) FROM deadlines WHERE user_id=:user_id AND course_id=:course_id AND date=:date"
@@ -196,8 +198,9 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(int(deadlines[0][0]), 1)
 
         with self.app.app_context():
-            set_deadline(self.user_id, new_deadline_str,
-                         self.course_id, self.exercises, 3)
+            set_deadline(
+                self.user_id, new_deadline_str, self.course_id, self.exercises, 3
+            )
 
         with self.app.app_context():
             sql = "SELECT COUNT(course_id) FROM deadlines WHERE user_id=:user_id AND course_id=:course_id AND date=:date"
@@ -230,9 +233,7 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(int(course_id[0][0]), self.course_id)
 
         with self.app.app_context():
-            deleted_deadline = delete_deadline(
-                self.user_id, self.course_id
-            )
+            deleted_deadline = delete_deadline(self.user_id, self.course_id)
             self.assertEqual(deleted_deadline, "Course deadline deleted succesfully!")
 
         with self.app.app_context():
@@ -258,9 +259,7 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(len(checkpoints), 3)
 
         with self.app.app_context():
-            deleted_deadline = delete_deadline(
-                self.user_id, self.course_id
-            )
+            deleted_deadline = delete_deadline(self.user_id, self.course_id)
             self.assertEqual(deleted_deadline, "Course deadline deleted succesfully!")
 
         with self.app.app_context():
@@ -308,8 +307,9 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(len(checkpoints), 3)
 
         with self.app.app_context():
-            set_deadline(self.user_id, new_deadline_str,
-                         self.course_id, self.exercises, 3)
+            set_deadline(
+                self.user_id, new_deadline_str, self.course_id, self.exercises, 3
+            )
 
         with self.app.app_context():
             sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
