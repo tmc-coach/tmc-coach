@@ -49,6 +49,4 @@ def get_user_email(id):
         "user_email": user.email,
     }
 
-    print(json.dumps(response, default=str))
     return json.dumps(response, default=str)
-    
