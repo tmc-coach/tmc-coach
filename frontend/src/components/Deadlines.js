@@ -44,6 +44,15 @@ const Deadlines = ({ course_id }) => {
       return
     }
 
+    if (freqvency === 1 && days_between > 182) {
+      alert('You can not have weekly checkpoints if the deadline is over 26 weeks away')
+      return
+    }
+    if (freqvency === 2 && days_between < 720) {
+      alert('You can not have monthly checkpoints if the deadline is over 24 months away')
+      return
+    }
+
     let amount_of_checkpoints = 0
 
     if (freqvency === 1) {
@@ -51,10 +60,8 @@ const Deadlines = ({ course_id }) => {
     }
 
     if (freqvency === 2) {
-      amount_of_checkpoints = Math.round(days_between / 30) - 1
+      amount_of_checkpoints = Math.round(days_between / 31) - 1
     }
-
-    console.log(typeof(amount_of_checkpoints))
 
     let text = ''
     if (days_between < checkpoints) {
