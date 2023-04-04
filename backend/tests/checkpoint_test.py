@@ -28,7 +28,13 @@ class CheckpointsTestCase(TestCase):
 
         with self.app.app_context():
             set_checkpoints(
-                user_id, course_id, created_at, date_for_deadline, 3, self.current_points, self.target_points
+                user_id,
+                course_id,
+                created_at,
+                date_for_deadline,
+                3,
+                self.current_points,
+                self.target_points,
             )
             db.session.commit()
 
@@ -58,7 +64,13 @@ class CheckpointsTestCase(TestCase):
 
         with self.app.app_context():
             set_checkpoints(
-                user_id, course_id, created_at, date_for_deadline, 14, self.current_points, self.target_points
+                user_id,
+                course_id,
+                created_at,
+                date_for_deadline,
+                14,
+                self.current_points,
+                self.target_points,
             )
             db.session.commit()
 
@@ -90,7 +102,13 @@ class CheckpointsTestCase(TestCase):
 
         with self.app.app_context():
             set_checkpoints(
-                user_id, course_id, created_at, date_for_deadline, 3, self.current_points, self.target_points
+                user_id,
+                course_id,
+                created_at,
+                date_for_deadline,
+                3,
+                self.current_points,
+                self.target_points,
             )
             db.session.commit()
 
@@ -122,7 +140,13 @@ class CheckpointsTestCase(TestCase):
 
         with self.app.app_context():
             set_checkpoints(
-                user_id, course_id, created_at, date_for_deadline, 5, self.current_points, self.target_points
+                user_id,
+                course_id,
+                created_at,
+                date_for_deadline,
+                5,
+                self.current_points,
+                self.target_points,
             )
             db.session.commit()
 
@@ -130,7 +154,7 @@ class CheckpointsTestCase(TestCase):
             checkpoints = get_checkpoints(user_id, course_id)
 
         dictionary = json.loads(checkpoints)
-        
+
         self.assertEqual(len(dictionary), 5)
 
         with self.app.app_context():
@@ -140,6 +164,8 @@ class CheckpointsTestCase(TestCase):
             )
             db.session.commit()
 
-        for i in range(len(dictionary)):
-            self.assertEqual(dictionary[str(i)]["user_id"], int(user_id))
-            self.assertEqual(dictionary[str(i)]["course_id"], int(course_id))
+        print("dictionary", dictionary)
+
+        for checkpoint in dictionary:
+            self.assertEqual(checkpoint["user_id"], int(user_id))
+            self.assertEqual(checkpoint["course_id"], int(course_id))

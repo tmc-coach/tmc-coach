@@ -20,12 +20,89 @@ class DeadlinesTestCase(TestCase):
         self.user_id = os.getenv("TMCUSERID")
         self.course_id = 1169
         self.exercises = [
-            {'id': 188014, 'available_points': [{'id': 1280887, 'exercise_id': 188014, 'name': '7.kuka_huijasi_2', 'requires_review': False}], 'awarded_points': [], 'name': 'osa07-15_kuka_huijasi_2', 'publish_time': None, 'solution_visible_after': None, 'deadline': None, 'soft_deadline': None, 'disabled': False, 'unlocked': True},
-            {'id': 188018, 'available_points': [{'id': 1280891, 'exercise_id': 188018, 'name': '7.spellchecker_versio2', 'requires_review': False}], 'awarded_points': [], 'name': 'osa07-16_spellchecker_versio2', 'publish_time': None, 'solution_visible_after': None, 'deadline': None, 'soft_deadline': None, 'disabled': False, 'unlocked': True},
-            {'id': 188021, 'available_points': [{'id': 1280895, 'exercise_id': 188021, 'name': '7.merkkiapuri', 'requires_review': False}], 'awarded_points': [], 'name': 'osa07-17_merkkiapuri', 'publish_time': None, 'solution_visible_after': None, 'deadline': None, 'soft_deadline': None, 'disabled': False, 'unlocked': True},
-            {'id': 188008, 'available_points': [{'id': 1280880, 'exercise_id': 188008, 'name': '7.omakieli-osa1', 'requires_review': False}, {'id': 1280881, 'exercise_id': 188008, 'name': '7.omakieli-osa2', 'requires_review': False}], 'awarded_points': [], 'name': 'osa07-18_oma_ohjelmointikieli', 'publish_time': None, 'solution_visible_after': None, 'deadline': None, 'soft_deadline': None, 'disabled': False, 'unlocked': True}
+            {
+                "id": 188014,
+                "available_points": [
+                    {
+                        "id": 1280887,
+                        "exercise_id": 188014,
+                        "name": "7.kuka_huijasi_2",
+                        "requires_review": False,
+                    }
+                ],
+                "awarded_points": [],
+                "name": "osa07-15_kuka_huijasi_2",
+                "publish_time": None,
+                "solution_visible_after": None,
+                "deadline": None,
+                "soft_deadline": None,
+                "disabled": False,
+                "unlocked": True,
+            },
+            {
+                "id": 188018,
+                "available_points": [
+                    {
+                        "id": 1280891,
+                        "exercise_id": 188018,
+                        "name": "7.spellchecker_versio2",
+                        "requires_review": False,
+                    }
+                ],
+                "awarded_points": [],
+                "name": "osa07-16_spellchecker_versio2",
+                "publish_time": None,
+                "solution_visible_after": None,
+                "deadline": None,
+                "soft_deadline": None,
+                "disabled": False,
+                "unlocked": True,
+            },
+            {
+                "id": 188021,
+                "available_points": [
+                    {
+                        "id": 1280895,
+                        "exercise_id": 188021,
+                        "name": "7.merkkiapuri",
+                        "requires_review": False,
+                    }
+                ],
+                "awarded_points": [],
+                "name": "osa07-17_merkkiapuri",
+                "publish_time": None,
+                "solution_visible_after": None,
+                "deadline": None,
+                "soft_deadline": None,
+                "disabled": False,
+                "unlocked": True,
+            },
+            {
+                "id": 188008,
+                "available_points": [
+                    {
+                        "id": 1280880,
+                        "exercise_id": 188008,
+                        "name": "7.omakieli-osa1",
+                        "requires_review": False,
+                    },
+                    {
+                        "id": 1280881,
+                        "exercise_id": 188008,
+                        "name": "7.omakieli-osa2",
+                        "requires_review": False,
+                    },
+                ],
+                "awarded_points": [],
+                "name": "osa07-18_oma_ohjelmointikieli",
+                "publish_time": None,
+                "solution_visible_after": None,
+                "deadline": None,
+                "soft_deadline": None,
+                "disabled": False,
+                "unlocked": True,
+            },
         ]
-
 
     def test_get_deadlines_only_gets_deadlines_that_have_been_made_by_the_user(self):
         with self.app.app_context():
@@ -119,8 +196,7 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(int(deadlines[0][0]), 1)
 
         with self.app.app_context():
-            set_deadline(self.user_id, new_deadline_str,
-                         self.course_id, self.exercises)
+            set_deadline(self.user_id, new_deadline_str, self.course_id, self.exercises)
 
         with self.app.app_context():
             sql = "SELECT COUNT(course_id) FROM deadlines WHERE user_id=:user_id AND course_id=:course_id AND date=:date"
@@ -153,10 +229,8 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(int(course_id[0][0]), self.course_id)
 
         with self.app.app_context():
-            delete_deadline = delete_deadline(
-                self.user_id, self.course_id
-            )
-            self.assertEqual(delete_deadline, "Course deadline deleted succesfully!")
+            deleted_deadline = delete_deadline(self.user_id, self.course_id)
+            self.assertEqual(deleted_deadline, "Course deadline deleted succesfully!")
 
         with self.app.app_context():
             sql = "SELECT * FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
@@ -181,10 +255,8 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(len(checkpoints), 3)
 
         with self.app.app_context():
-            delete_deadline = delete_deadline(
-                self.user_id, self.course_id
-            )
-            self.assertEqual(delete_deadline, "Course deadline deleted succesfully!")
+            deleted_deadline = delete_deadline(self.user_id, self.course_id)
+            self.assertEqual(deleted_deadline, "Course deadline deleted succesfully!")
 
         with self.app.app_context():
             sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
@@ -231,8 +303,7 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(len(checkpoints), 3)
 
         with self.app.app_context():
-            set_deadline(self.user_id, new_deadline_str,
-                         self.course_id, self.exercises)
+            set_deadline(self.user_id, new_deadline_str, self.course_id, self.exercises)
 
         with self.app.app_context():
             sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"

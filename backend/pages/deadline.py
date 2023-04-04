@@ -43,7 +43,7 @@ def set_deadline_route():
 
     if not date or not course_id:
         return jsonify(message="Missing fields"), 400
-    
+
     response_exercises = requests.get(
         f"https://tmc.mooc.fi/api/v8/courses/{course_id}/exercises",
         headers={"Accept": "application/json", "Authorization": user["token"]},
@@ -82,10 +82,10 @@ def get_or_delete_deadline(course_id):
     if request.method == "GET":
         deadline = json.loads(get_course_deadline(user["id"], course_id))
         checkpoints = get_checkpoints(user["id"], course_id)
-        
+
         if deadline:
             deadline["checkpoints"] = json.loads(checkpoints)
-            
+
         return jsonify(deadline)
 
     if request.method == "DELETE":

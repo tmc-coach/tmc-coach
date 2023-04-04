@@ -27,8 +27,7 @@ def set_user(id: int, token: str, email: str) -> str:
         return "User row created"
     elif result[0] != token:
         sql = "UPDATE users SET token=:token, email=:email WHERE id=:id"
-        db.session.execute(
-            text(sql), {"token": token, "email": email, "id": id})
+        db.session.execute(text(sql), {"token": token, "email": email, "id": id})
         db.session.commit()
         return "Token updated"
     return "Something else happened"

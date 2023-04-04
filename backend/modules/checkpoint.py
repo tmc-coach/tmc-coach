@@ -47,13 +47,25 @@ def count_checkpoint_points(current_points, target_points, how_many_checkpoints)
         points = remaining_points * (percents / 100)
         desired_points = current_points + points
         desired_points_list.append((percents, desired_points))
-    
+
     return desired_points_list
 
+
 def set_checkpoints(
-    user_id, course_id, created_at, deadline, how_many_checkpoints, current_points, target_points):
-    checkpoint_dates_list = count_checkpoint_dates(created_at, deadline, how_many_checkpoints)
-    checkpoint_points_list = count_checkpoint_points(current_points, target_points, how_many_checkpoints)
+    user_id,
+    course_id,
+    created_at,
+    deadline,
+    how_many_checkpoints,
+    current_points,
+    target_points,
+):
+    checkpoint_dates_list = count_checkpoint_dates(
+        created_at, deadline, how_many_checkpoints
+    )
+    checkpoint_points_list = count_checkpoint_points(
+        current_points, target_points, how_many_checkpoints
+    )
 
     try:
         for i in range(len(checkpoint_dates_list)):
@@ -66,7 +78,7 @@ def set_checkpoints(
                 course_id=course_id,
                 checkpoint_date=date,
                 checkpoint_percent=percent,
-                desired_points=desired_points
+                desired_points=desired_points,
             )
             db.session.add(target)
         return "Checkpoints added to the database successfully"
@@ -80,14 +92,16 @@ def get_checkpoints(user_id, course_id):
     ).all()
     response = []
     for checkpoint in checkpoints_from_database:
-        response.append({
-            "id": checkpoint.id,
-            "user_id": checkpoint.user_id,
-            "course_id": checkpoint.course_id,
-            "checkpoint_date": checkpoint.checkpoint_date,
-            "checkpoint_percent": checkpoint.checkpoint_percent,
-            "desired_points": checkpoint.desired_points
-        })
+        response.append(
+            {
+                "id": checkpoint.id,
+                "user_id": checkpoint.user_id,
+                "course_id": checkpoint.course_id,
+                "checkpoint_date": checkpoint.checkpoint_date,
+                "checkpoint_percent": checkpoint.checkpoint_percent,
+                "desired_points": checkpoint.desired_points,
+            }
+        )
 
     return json.dumps(response, default=str)
 
