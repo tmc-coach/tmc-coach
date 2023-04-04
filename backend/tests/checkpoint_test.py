@@ -5,9 +5,9 @@ import os
 from sqlalchemy.sql import text
 from datetime import date
 from dotenv import load_dotenv
-from database_functions.checkpoint_functions import (
-    set_checkpoints_function,
-    get_checkpoints_function,
+from modules.checkpoint import (
+    set_checkpoints,
+    get_checkpoints,
 )
 import datetime
 from app import create_app, db
@@ -16,8 +16,10 @@ from app import create_app, db
 class CheckpointsTestCase(TestCase):
     def setUp(self):
         self.app = create_app()
+
         self.current_points = 50
         self.target_points = 100
+
     def test_set_checkpoints_adds_checkpoints_to_the_database(self):
         user_id = os.getenv("TMCUSERID")
         course_id = 1
@@ -25,7 +27,7 @@ class CheckpointsTestCase(TestCase):
         date_for_deadline = datetime.datetime(2023, 4, 3)
 
         with self.app.app_context():
-            set_checkpoints_function(
+            set_checkpoints(
                 user_id, course_id, created_at, date_for_deadline, 3, self.current_points, self.target_points
             )
             db.session.commit()
@@ -55,7 +57,7 @@ class CheckpointsTestCase(TestCase):
         date_for_deadline = datetime.datetime(2023, 4, 3)
 
         with self.app.app_context():
-            set_checkpoints_function(
+            set_checkpoints(
                 user_id, course_id, created_at, date_for_deadline, 14, self.current_points, self.target_points
             )
             db.session.commit()
@@ -78,7 +80,7 @@ class CheckpointsTestCase(TestCase):
             )
             db.session.commit()
 
-    def test_set_checkpoints_function_does_not_set_any_checkpoints_if_the_deadline_is_too_close(
+    def test_set_checkpoints_does_not_set_any_checkpoints_if_the_deadline_is_too_close(
         self,
     ):
         user_id = os.getenv("TMCUSERID")
@@ -87,7 +89,7 @@ class CheckpointsTestCase(TestCase):
         date_for_deadline = datetime.datetime(2023, 3, 9)
 
         with self.app.app_context():
-            set_checkpoints_function(
+            set_checkpoints(
                 user_id, course_id, created_at, date_for_deadline, 3, self.current_points, self.target_points
             )
             db.session.commit()
@@ -119,16 +121,16 @@ class CheckpointsTestCase(TestCase):
         checkpoints = {}
 
         with self.app.app_context():
-            set_checkpoints_function(
+            set_checkpoints(
                 user_id, course_id, created_at, date_for_deadline, 5, self.current_points, self.target_points
             )
             db.session.commit()
 
         with self.app.app_context():
-            checkpoints = get_checkpoints_function(user_id, course_id)
+            checkpoints = get_checkpoints(user_id, course_id)
 
         dictionary = json.loads(checkpoints)
-
+        
         self.assertEqual(len(dictionary), 5)
 
         with self.app.app_context():

@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, request
-from modules.user import encode_jwt, decode_jwt
-from database_functions.user_functions import set_user
+from modules.user import encode_jwt, decode_jwt, set_user
 import requests
 import os
 import jwt

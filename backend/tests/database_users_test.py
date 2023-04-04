@@ -1,7 +1,7 @@
 from unittest import TestCase
 import os
 from app import create_app
-from database_functions.user_functions import set_user, delete_user
+from modules.user import set_user, delete_user
 
 
 class UsersTestCase(TestCase):

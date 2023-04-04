@@ -40,6 +40,7 @@ def count_checkpoint_dates(created_at, deadline, how_many_checkpoints):
 
     return checkpoints
 
+
 def count_checkpoint_points(current_points, target_points, how_many_checkpoints):
     remaining_points = target_points - current_points
     desired_points_list = []
@@ -51,10 +52,11 @@ def count_checkpoint_points(current_points, target_points, how_many_checkpoints)
     
     return desired_points_list
 
-def set_checkpoints_function(
+def set_checkpoints(
     user_id, course_id, created_at, deadline, how_many_checkpoints, current_points, target_points):
     checkpoint_dates_list = count_checkpoint_dates(created_at, deadline, how_many_checkpoints)
     checkpoint_points_list = count_checkpoint_points(current_points, target_points, how_many_checkpoints)
+
     try:
         for i in range(len(checkpoint_dates_list)):
             date = checkpoint_dates_list[i][0]
@@ -74,20 +76,21 @@ def set_checkpoints_function(
         return "Adding checkpoints to the database was unsuccessful"
 
 
-def get_checkpoints_function(user_id, course_id):
+def get_checkpoints(user_id, course_id):
     checkpoints_from_database = checkpoints.query.filter_by(
         user_id=user_id, course_id=course_id
     ).all()
-    response = {}
-    for i in range(len(checkpoints_from_database)):
-        response[i] = {
-            "id": checkpoints_from_database[i].id,
-            "user_id": checkpoints_from_database[i].user_id,
-            "course_id": checkpoints_from_database[i].course_id,
-            "checkpoint_date": checkpoints_from_database[i].checkpoint_date,
-            "checkpoint_percent": checkpoints_from_database[i].checkpoint_percent,
-            "desired_points": checkpoints_from_database[i].desired_points
-        }
+    response = []
+    for checkpoint in checkpoints_from_database:
+        response.append({
+            "id": checkpoint.id,
+            "user_id": checkpoint.user_id,
+            "course_id": checkpoint.course_id,
+            "checkpoint_date": checkpoint.checkpoint_date,
+            "checkpoint_percent": checkpoint.checkpoint_percent,
+            "desired_points": checkpoint.desired_points
+        })
+
     return json.dumps(response, default=str)
 
 

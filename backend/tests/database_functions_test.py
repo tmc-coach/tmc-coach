@@ -5,7 +5,12 @@ from app import db, create_app
 from sqlalchemy.sql import text
 from datetime import date
 from dotenv import load_dotenv
-from database_functions.deadline_functions import get_deadlines_function, set_deadline_function, get_deadline_function, delete_deadline_permanently_function
+from modules.deadline import (
+    set_deadline,
+    get_deadlines,
+    delete_deadline,
+    get_course_deadline,
+)
 import datetime
 
 
@@ -24,7 +29,7 @@ class DeadlinesTestCase(TestCase):
 
     def test_get_deadlines_only_gets_deadlines_that_have_been_made_by_the_user(self):
         with self.app.app_context():
-            deadlines = get_deadlines_function(self.user_id)
+            deadlines = get_deadlines(self.user_id)
 
         dictionary = json.loads(deadlines)
 
@@ -48,7 +53,7 @@ class DeadlinesTestCase(TestCase):
         self.assertEqual(len(deadlines), 0)
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises, 3)
+            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT * FROM deadlines WHERE date=:date"
@@ -58,7 +63,7 @@ class DeadlinesTestCase(TestCase):
         self.assertEqual(len(deadlines), 1)
 
         with self.app.app_context():
-            delete_deadline_permanently_function(self.user_id, self.course_id)
+            delete_deadline(self.user_id, self.course_id)
 
         with self.app.app_context():
             sql = "SELECT * FROM deadlines WHERE date=:date"
@@ -73,7 +78,7 @@ class DeadlinesTestCase(TestCase):
         date_now = datetime.datetime.now().date()
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises, 3)
+            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT * FROM deadlines WHERE user_id=:user_id AND course_id=:course_id AND date=:date"
@@ -89,7 +94,7 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(len(deadlines), 1)
 
         with self.app.app_context():
-            delete_deadline_permanently_function(self.user_id, self.course_id)
+            delete_deadline(self.user_id, self.course_id)
 
     def test_when_new_deadline_added_then_overwrite_old_deadline(self):
         old_deadline = datetime.datetime(2028, 5, 27)
@@ -98,7 +103,7 @@ class DeadlinesTestCase(TestCase):
         new_deadline_str = "11/7/2028"
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, old_deadline_str, self.course_id, self.exercises, 3)
+            set_deadline(self.user_id, old_deadline_str, self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT COUNT(course_id) FROM deadlines WHERE user_id=:user_id AND course_id=:course_id AND date=:date"
@@ -114,7 +119,8 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(int(deadlines[0][0]), 1)
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, new_deadline_str, self.course_id, self.exercises, 3)
+            set_deadline(self.user_id, new_deadline_str,
+                         self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT COUNT(course_id) FROM deadlines WHERE user_id=:user_id AND course_id=:course_id AND date=:date"
@@ -130,13 +136,13 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(int(deadlines[0][0]), 1)
 
         with self.app.app_context():
-            delete_deadline_permanently_function(self.user_id, self.course_id)
+            delete_deadline(self.user_id, self.course_id)
 
     def test_deleting_deadline_permanently(self):
         deadline_str = "27/5/2028"
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises, 3)
+            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT course_id FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
@@ -147,7 +153,7 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(int(course_id[0][0]), self.course_id)
 
         with self.app.app_context():
-            delete_deadline = delete_deadline_permanently_function(
+            delete_deadline = delete_deadline(
                 self.user_id, self.course_id
             )
             self.assertEqual(delete_deadline, "Course deadline deleted succesfully!")
@@ -164,7 +170,7 @@ class DeadlinesTestCase(TestCase):
         deadline_str = "27/5/2028"
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises, 3)
+            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT course_id FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
@@ -175,7 +181,7 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(len(checkpoints), 3)
 
         with self.app.app_context():
-            delete_deadline = delete_deadline_permanently_function(
+            delete_deadline = delete_deadline(
                 self.user_id, self.course_id
             )
             self.assertEqual(delete_deadline, "Course deadline deleted succesfully!")
@@ -193,14 +199,14 @@ class DeadlinesTestCase(TestCase):
         deadline_str = "27/5/2025"
 
         with self.app.app_context():
-            deadline = get_deadline_function(int(self.user_id), 1234)
+            deadline = get_course_deadline(int(self.user_id), 1234)
             self.assertEqual(deadline, "[]")
 
         with self.app.app_context():
-            set_deadline_function(int(self.user_id), deadline_str, 1234, self.exercises, 3)
+            set_deadline(int(self.user_id), deadline_str, 1234, self.exercises, 3)
 
         with self.app.app_context():
-            deadline = get_deadline_function(int(self.user_id), 1234)
+            deadline = get_course_deadline(int(self.user_id), 1234)
 
             dictionary = json.loads(deadline)
             self.assertEqual(dictionary["user_id"], int(self.user_id))
@@ -208,13 +214,13 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(dictionary["date"], "2025-05-27 00:00:00")
 
         with self.app.app_context():
-            delete_deadline_permanently_function(self.user_id, 1234)
+            delete_deadline(self.user_id, 1234)
 
     def test_changing_deadline_changes_checkpoints_and_doesnt_only_make_new(self):
         deadline_str = "24/5/2028"
         new_deadline_str = "15/6/2028"
         with self.app.app_context():
-            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises, 3)
+            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
@@ -225,7 +231,8 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(len(checkpoints), 3)
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, new_deadline_str, self.course_id, self.exercises, 3)
+            set_deadline(self.user_id, new_deadline_str,
+                         self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
@@ -237,4 +244,4 @@ class DeadlinesTestCase(TestCase):
             self.assertNotEqual(checkpoints, checkpoints_2)
 
         with self.app.app_context():
-            delete_deadline_permanently_function(self.user_id, self.course_id)
+            delete_deadline(self.user_id, self.course_id)
