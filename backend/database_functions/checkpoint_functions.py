@@ -35,8 +35,8 @@ def count_checkpoint_dates(created_at, deadline, how_many_checkpoints):
             checkpoint_date = previous
         checkpoints.append((checkpoint_date, percents))
         previous = checkpoint_date
-        print(checkpoint_date)
-        print(percents)
+        #print(checkpoint_date)
+        #print(percents)
 
     return checkpoints
 
@@ -60,7 +60,7 @@ def set_checkpoints_function(
             date = checkpoint_dates_list[i][0]
             percent = checkpoint_dates_list[i][1]
             desired_points = checkpoint_points_list[i][1]
-            print(desired_points)
+            #print(desired_points)
             target = checkpoints(
                 user_id=user_id,
                 course_id=course_id,
