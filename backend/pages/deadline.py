@@ -1,21 +1,26 @@
 from flask import Blueprint, jsonify, request
-from database_functions.deadline_functions import (
-    set_deadline_function,
-    get_deadlines_function,
-    delete_deadline_permanently_function,
-    get_deadline_function,
+from sqlalchemy import text
+from modules.deadline import (
+    set_deadline,
+    get_deadlines,
+    delete_deadline,
+    get_course_deadline,
 )
+
+from modules.checkpoint import (
+    get_checkpoints,
+)
+
 from modules.user import get_user
 from modules.validate import validate_date, validate_id
-from modules.user import decode_jwt
 import requests
-
+import json
 
 deadline = Blueprint("deadline", __name__)
 
 
 @deadline.route("/", methods=["POST"])
-def set_deadline():
+def set_deadline_route():
     auth_header = request.headers.get("Authorization", None)
     if not auth_header:
         return jsonify(error="Authorization header missing")
@@ -38,14 +43,14 @@ def set_deadline():
 
     if not date or not course_id:
         return jsonify(message="Missing fields"), 400
-    
+
     response_exercises = requests.get(
         f"https://tmc.mooc.fi/api/v8/courses/{course_id}/exercises",
         headers={"Accept": "application/json", "Authorization": user["token"]},
     )
     exercises = response_exercises.json()
 
-    message = set_deadline_function(user["id"], date, course_id, exercises)
+    message = set_deadline(user["id"], date, course_id, exercises)
 
     return jsonify(message=message)
 
@@ -60,7 +65,7 @@ def get_all_deadlines():
     if not user:
         return jsonify(error="Forbidden"), 403
 
-    deadlines = get_deadlines_function(user["id"])
+    deadlines = get_deadlines(user["id"])
     return deadlines
 
 
@@ -75,14 +80,18 @@ def get_or_delete_deadline(course_id):
         return jsonify(error="Forbidden"), 403
 
     if request.method == "GET":
-        deadline = get_deadline_function(user["id"], course_id)
+        deadline = json.loads(get_course_deadline(user["id"], course_id))
+        checkpoints = get_checkpoints(user["id"], course_id)
 
-        return deadline
+        if deadline:
+            deadline["checkpoints"] = json.loads(checkpoints)
+
+        return jsonify(deadline)
 
     if request.method == "DELETE":
         if not course_id:
             return jsonify(message="Missing fields"), 400
 
-        message = delete_deadline_permanently_function(user["id"], course_id)
+        message = delete_deadline(user["id"], course_id)
 
         return jsonify(message=message)

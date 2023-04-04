@@ -1,14 +1,13 @@
 from flask_migrate import Migrate
 from app import create_app, db
-from app.models import deadlines
 from modules.jobs import schedule
 
 
 def start_app():
-    app = create_app()
-    Migrate(app, db)
-    schedule(app)
-    return app
+    application = create_app()
+    Migrate(application, db)
+    schedule(application)
+    return application
 
 
 if __name__ == "__main__":

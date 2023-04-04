@@ -5,7 +5,12 @@ from app import db, create_app
 from sqlalchemy.sql import text
 from datetime import date
 from dotenv import load_dotenv
-from database_functions.deadline_functions import get_deadlines_function, set_deadline_function, get_deadline_function, delete_deadline_permanently_function
+from modules.deadline import (
+    set_deadline,
+    get_deadlines,
+    delete_deadline,
+    get_course_deadline,
+)
 import datetime
 
 
@@ -15,16 +20,93 @@ class DeadlinesTestCase(TestCase):
         self.user_id = os.getenv("TMCUSERID")
         self.course_id = 1169
         self.exercises = [
-            {'id': 188014, 'available_points': [{'id': 1280887, 'exercise_id': 188014, 'name': '7.kuka_huijasi_2', 'requires_review': False}], 'awarded_points': [], 'name': 'osa07-15_kuka_huijasi_2', 'publish_time': None, 'solution_visible_after': None, 'deadline': None, 'soft_deadline': None, 'disabled': False, 'unlocked': True},
-            {'id': 188018, 'available_points': [{'id': 1280891, 'exercise_id': 188018, 'name': '7.spellchecker_versio2', 'requires_review': False}], 'awarded_points': [], 'name': 'osa07-16_spellchecker_versio2', 'publish_time': None, 'solution_visible_after': None, 'deadline': None, 'soft_deadline': None, 'disabled': False, 'unlocked': True},
-            {'id': 188021, 'available_points': [{'id': 1280895, 'exercise_id': 188021, 'name': '7.merkkiapuri', 'requires_review': False}], 'awarded_points': [], 'name': 'osa07-17_merkkiapuri', 'publish_time': None, 'solution_visible_after': None, 'deadline': None, 'soft_deadline': None, 'disabled': False, 'unlocked': True},
-            {'id': 188008, 'available_points': [{'id': 1280880, 'exercise_id': 188008, 'name': '7.omakieli-osa1', 'requires_review': False}, {'id': 1280881, 'exercise_id': 188008, 'name': '7.omakieli-osa2', 'requires_review': False}], 'awarded_points': [], 'name': 'osa07-18_oma_ohjelmointikieli', 'publish_time': None, 'solution_visible_after': None, 'deadline': None, 'soft_deadline': None, 'disabled': False, 'unlocked': True}
+            {
+                "id": 188014,
+                "available_points": [
+                    {
+                        "id": 1280887,
+                        "exercise_id": 188014,
+                        "name": "7.kuka_huijasi_2",
+                        "requires_review": False,
+                    }
+                ],
+                "awarded_points": [],
+                "name": "osa07-15_kuka_huijasi_2",
+                "publish_time": None,
+                "solution_visible_after": None,
+                "deadline": None,
+                "soft_deadline": None,
+                "disabled": False,
+                "unlocked": True,
+            },
+            {
+                "id": 188018,
+                "available_points": [
+                    {
+                        "id": 1280891,
+                        "exercise_id": 188018,
+                        "name": "7.spellchecker_versio2",
+                        "requires_review": False,
+                    }
+                ],
+                "awarded_points": [],
+                "name": "osa07-16_spellchecker_versio2",
+                "publish_time": None,
+                "solution_visible_after": None,
+                "deadline": None,
+                "soft_deadline": None,
+                "disabled": False,
+                "unlocked": True,
+            },
+            {
+                "id": 188021,
+                "available_points": [
+                    {
+                        "id": 1280895,
+                        "exercise_id": 188021,
+                        "name": "7.merkkiapuri",
+                        "requires_review": False,
+                    }
+                ],
+                "awarded_points": [],
+                "name": "osa07-17_merkkiapuri",
+                "publish_time": None,
+                "solution_visible_after": None,
+                "deadline": None,
+                "soft_deadline": None,
+                "disabled": False,
+                "unlocked": True,
+            },
+            {
+                "id": 188008,
+                "available_points": [
+                    {
+                        "id": 1280880,
+                        "exercise_id": 188008,
+                        "name": "7.omakieli-osa1",
+                        "requires_review": False,
+                    },
+                    {
+                        "id": 1280881,
+                        "exercise_id": 188008,
+                        "name": "7.omakieli-osa2",
+                        "requires_review": False,
+                    },
+                ],
+                "awarded_points": [],
+                "name": "osa07-18_oma_ohjelmointikieli",
+                "publish_time": None,
+                "solution_visible_after": None,
+                "deadline": None,
+                "soft_deadline": None,
+                "disabled": False,
+                "unlocked": True,
+            },
         ]
-
 
     def test_get_deadlines_only_gets_deadlines_that_have_been_made_by_the_user(self):
         with self.app.app_context():
-            deadlines = get_deadlines_function(self.user_id)
+            deadlines = get_deadlines(self.user_id)
 
         dictionary = json.loads(deadlines)
 
@@ -48,7 +130,7 @@ class DeadlinesTestCase(TestCase):
         self.assertEqual(len(deadlines), 0)
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises)
+            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises)
 
         with self.app.app_context():
             sql = "SELECT * FROM deadlines WHERE date=:date"
@@ -58,7 +140,7 @@ class DeadlinesTestCase(TestCase):
         self.assertEqual(len(deadlines), 1)
 
         with self.app.app_context():
-            delete_deadline_permanently_function(self.user_id, self.course_id)
+            delete_deadline(self.user_id, self.course_id)
 
         with self.app.app_context():
             sql = "SELECT * FROM deadlines WHERE date=:date"
@@ -73,7 +155,7 @@ class DeadlinesTestCase(TestCase):
         date_now = datetime.datetime.now().date()
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises)
+            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises)
 
         with self.app.app_context():
             sql = "SELECT * FROM deadlines WHERE user_id=:user_id AND course_id=:course_id AND date=:date"
@@ -89,7 +171,7 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(len(deadlines), 1)
 
         with self.app.app_context():
-            delete_deadline_permanently_function(self.user_id, self.course_id)
+            delete_deadline(self.user_id, self.course_id)
 
     def test_when_new_deadline_added_then_overwrite_old_deadline(self):
         old_deadline = datetime.datetime(2028, 5, 27)
@@ -98,7 +180,7 @@ class DeadlinesTestCase(TestCase):
         new_deadline_str = "11/7/2028"
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, old_deadline_str, self.course_id, self.exercises)
+            set_deadline(self.user_id, old_deadline_str, self.course_id, self.exercises)
 
         with self.app.app_context():
             sql = "SELECT COUNT(course_id) FROM deadlines WHERE user_id=:user_id AND course_id=:course_id AND date=:date"
@@ -114,7 +196,7 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(int(deadlines[0][0]), 1)
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, new_deadline_str, self.course_id, self.exercises)
+            set_deadline(self.user_id, new_deadline_str, self.course_id, self.exercises)
 
         with self.app.app_context():
             sql = "SELECT COUNT(course_id) FROM deadlines WHERE user_id=:user_id AND course_id=:course_id AND date=:date"
@@ -130,13 +212,13 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(int(deadlines[0][0]), 1)
 
         with self.app.app_context():
-            delete_deadline_permanently_function(self.user_id, self.course_id)
+            delete_deadline(self.user_id, self.course_id)
 
     def test_deleting_deadline_permanently(self):
         deadline_str = "27/5/2028"
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises)
+            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises)
 
         with self.app.app_context():
             sql = "SELECT course_id FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
@@ -147,10 +229,8 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(int(course_id[0][0]), self.course_id)
 
         with self.app.app_context():
-            delete_deadline = delete_deadline_permanently_function(
-                self.user_id, self.course_id
-            )
-            self.assertEqual(delete_deadline, "Course deadline deleted succesfully!")
+            deleted_deadline = delete_deadline(self.user_id, self.course_id)
+            self.assertEqual(deleted_deadline, "Course deadline deleted succesfully!")
 
         with self.app.app_context():
             sql = "SELECT * FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
@@ -164,7 +244,7 @@ class DeadlinesTestCase(TestCase):
         deadline_str = "27/5/2028"
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises)
+            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises)
 
         with self.app.app_context():
             sql = "SELECT course_id FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
@@ -175,10 +255,8 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(len(checkpoints), 3)
 
         with self.app.app_context():
-            delete_deadline = delete_deadline_permanently_function(
-                self.user_id, self.course_id
-            )
-            self.assertEqual(delete_deadline, "Course deadline deleted succesfully!")
+            deleted_deadline = delete_deadline(self.user_id, self.course_id)
+            self.assertEqual(deleted_deadline, "Course deadline deleted succesfully!")
 
         with self.app.app_context():
             sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
@@ -193,14 +271,14 @@ class DeadlinesTestCase(TestCase):
         deadline_str = "27/5/2025"
 
         with self.app.app_context():
-            deadline = get_deadline_function(int(self.user_id), 1234)
+            deadline = get_course_deadline(int(self.user_id), 1234)
             self.assertEqual(deadline, "[]")
 
         with self.app.app_context():
-            set_deadline_function(int(self.user_id), deadline_str, 1234, self.exercises)
+            set_deadline(int(self.user_id), deadline_str, 1234, self.exercises)
 
         with self.app.app_context():
-            deadline = get_deadline_function(int(self.user_id), 1234)
+            deadline = get_course_deadline(int(self.user_id), 1234)
 
             dictionary = json.loads(deadline)
             self.assertEqual(dictionary["user_id"], int(self.user_id))
@@ -208,13 +286,13 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(dictionary["date"], "2025-05-27 00:00:00")
 
         with self.app.app_context():
-            delete_deadline_permanently_function(self.user_id, 1234)
+            delete_deadline(self.user_id, 1234)
 
     def test_changing_deadline_changes_checkpoints_and_doesnt_only_make_new(self):
         deadline_str = "24/5/2028"
         new_deadline_str = "15/6/2028"
         with self.app.app_context():
-            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises)
+            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises)
 
         with self.app.app_context():
             sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
@@ -225,7 +303,7 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(len(checkpoints), 3)
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, new_deadline_str, self.course_id, self.exercises)
+            set_deadline(self.user_id, new_deadline_str, self.course_id, self.exercises)
 
         with self.app.app_context():
             sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
@@ -237,4 +315,4 @@ class DeadlinesTestCase(TestCase):
             self.assertNotEqual(checkpoints, checkpoints_2)
 
         with self.app.app_context():
-            delete_deadline_permanently_function(self.user_id, self.course_id)
+            delete_deadline(self.user_id, self.course_id)
