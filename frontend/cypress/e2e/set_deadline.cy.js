@@ -24,7 +24,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.contains('February 2023').should('be.visible')
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click().click()
       cy.get('div.react-datepicker__month-container').contains('18').click()
-      // 
+      //
       cy.get('div.rw-widget-picker.rw-widget-container').click()
       cy.contains('I want checkpoints weekly').click()
       //
@@ -43,7 +43,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.contains('April 2023').should('be.visible')
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
       cy.get('div.react-datepicker__month-container').contains('4').click()
-      // 
+      //
       cy.get('div.rw-widget-picker.rw-widget-container').click()
       cy.contains('I want checkpoints weekly').click()
       //
@@ -72,7 +72,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.setdeadlinepage()
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click().click()
       cy.get('div.react-datepicker__month-container').contains('10').click()
-      // 
+      //
       cy.get('div.rw-widget-picker.rw-widget-container').click()
       cy.contains('I want checkpoints weekly').click()
       //
@@ -105,7 +105,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.wait(7000)
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
       cy.get('div.react-datepicker__month-container').contains('18').click()
-      // 
+      //
       cy.get('div.rw-widget-picker.rw-widget-container').click()
       cy.contains('I want checkpoints weekly').click()
       //
@@ -120,7 +120,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.setdeadlinepage()
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
       cy.get('div.react-datepicker__month-container').contains('21').click()
-      // 
+      //
       cy.get('div.rw-widget-picker.rw-widget-container').click()
       cy.contains('I want checkpoints weekly').click()
       //
@@ -139,7 +139,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.contains('April 2023').should('be.visible')
       cy.wait(7000)
       cy.get('div.react-datepicker__month-container').contains('17').click()
-      // 
+      //
       cy.get('div.rw-widget-picker.rw-widget-container').click()
       cy.contains('I want to choose the amount of checkpoint').click()
       //
@@ -167,7 +167,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
     })
     it('the amount of checkpoints can be chosen', () => {
       cy.setdeadlinepage()
-      // 
+      //
       cy.get('div.rw-widget-picker.rw-widget-container').click()
       cy.contains('I want to choose the amount of checkpoint').click()
       //
