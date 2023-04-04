@@ -7,7 +7,7 @@ import math
 
 
 def count_checkpoint_dates(created_at, deadline, how_many_checkpoints):
-    if deadline < created_at + timedelta(days=how_many_checkpoints + 1):
+    if deadline < created_at + timedelta(days=how_many_checkpoints + 1) or how_many_checkpoints == 0:
         return
 
     checkpoints = []
