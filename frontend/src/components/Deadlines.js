@@ -66,7 +66,7 @@ const Deadlines = ({ course_id }) => {
 
     let text = ''
     if (days_between < checkpoints) {
-      text = 'Why do you want to set a deadline that is under four days away??? Go do your exercises!!! No checkpoints will be asigned if you set the deadline under four days away from this day. Are you sure you want to set this deadline?' + '\n' + '\n'
+      text = 'Why do you want to set a deadline that is under four days away??? Go do your exercises!!! No checkpoints will be assigned if you set the deadline under four days away from this day. Are you sure you want to set this deadline?' + '\n' + '\n'
       if (deadlines.length === 0) {
         if (window.confirm(text) === false) {
           return
@@ -89,13 +89,12 @@ const Deadlines = ({ course_id }) => {
         await deadlineService.set_deadline({ course_id, date, checkpoints })
       }
       setNewDeadline(true)
-      window.location.reload()
-      //setMessage('Deadline was set successfully!')
-      //setTimeout(() => {
-      //setMessage(null)
-      //}, 10000)
+      setMessage('Deadline set successfully!')
+      setTimeout(() => {
+        setMessage(null)
+      }, 10000)
     } catch (exception) {
-      setMessage('Deadline could not be set')
+      setMessage('Deadline could not be set.')
       setTimeout(() => {
         setMessage(null)
       }, 10000)
@@ -108,12 +107,11 @@ const Deadlines = ({ course_id }) => {
     if (window.confirm('Are you sure you want to delete the deadline you have set for this course?') === true) {
       try {
         await deadlineService.delete_deadline(course_id)
-        //setMessage('Deleting deadline was successful!')
-        //setTimeout(() => {
-        //setMessage(null)
-        //}, 10000)
+        setMessage('Deadline deleted successfully.')
+        setTimeout(() => {
+          setMessage(null)
+        }, 10000)
         setNewDeadline(true)
-        window.location.reload()
       } catch (exception) {
         setMessage('Deleting deadline was unsuccessful. Please try again.')
         setTimeout(() => {
