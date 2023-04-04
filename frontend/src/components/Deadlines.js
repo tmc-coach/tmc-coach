@@ -29,7 +29,7 @@ const Deadlines = ({ course_id }) => {
 
     let text = ''
     if (days_between < 3) {
-      text = 'Why do you want to set a deadline that is under four days away??? Go do your exercises!!! No checkpoints will be asigned if you set the deadline under four days away from this day. Are you sure you want to set this deadline?' + '\n' + '\n'
+      text = 'Why do you want to set a deadline that is under four days away??? Go do your exercises!!! No checkpoints will be assigned if you set the deadline under four days away from this day. Are you sure you want to set this deadline?' + '\n' + '\n'
       if (deadlines.length === 0) {
         if (window.confirm(text) === false) {
           return
@@ -37,7 +37,6 @@ const Deadlines = ({ course_id }) => {
       }
     }
 
-    //let text = ''
     if (deadlines.length !== 0) {
       text = text + 'You have already set a deadline for this course.\nDo you want to set ' + JSON.stringify(date.getFullYear()) + '.' + JSON.stringify(date.getMonth() + 1) + '.' + JSON.stringify(date.getDate()) + ' as your new deadline for this course?'
       if (window.confirm(text) === false) {
@@ -48,13 +47,12 @@ const Deadlines = ({ course_id }) => {
     try {
       await deadlineService.set_deadline({ course_id, date })
       setNewDeadline(true)
-      window.location.reload()
-      //setMessage('Deadline was set successfully!')
-      //setTimeout(() => {
-      //setMessage(null)
-      //}, 10000)
+      setMessage('Deadline set successfully!')
+      setTimeout(() => {
+        setMessage(null)
+      }, 10000)
     } catch (exception) {
-      setMessage('Deadline could not be set')
+      setMessage('Deadline could not be set.')
       setTimeout(() => {
         setMessage(null)
       }, 10000)
@@ -67,12 +65,11 @@ const Deadlines = ({ course_id }) => {
     if (window.confirm('Are you sure you want to delete the deadline you have set for this course?') === true) {
       try {
         await deadlineService.delete_deadline(course_id)
-        //setMessage('Deleting deadline was successful!')
-        //setTimeout(() => {
-        //setMessage(null)
-        //}, 10000)
+        setMessage('Deadline deleted successfully.')
+        setTimeout(() => {
+          setMessage(null)
+        }, 10000)
         setNewDeadline(true)
-        window.location.reload()
       } catch (exception) {
         setMessage('Deleting deadline was unsuccessful. Please try again.')
         setTimeout(() => {

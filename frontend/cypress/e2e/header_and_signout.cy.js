@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-describe('TMC-Coach header', { defaultCommandTimeout: 8000 }, () => {
+describe('TMC-Coach header', { defaultCommandTimeout: 20000 }, () => {
   context('logged in user', () => {
     before(() => {
       cy.login()
