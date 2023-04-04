@@ -1,5 +1,6 @@
 from app import db
 from app.models import checkpoints
+from sqlalchemy import text
 import json
 from datetime import timedelta
 from sqlalchemy import text
@@ -101,3 +102,31 @@ def deleting_existing_checkpoints_for_course(user_id, course_id):
         return "exisiting checkpoints for this course deleted succesfully"
     except:
         return "deleting existing checkpoints for this course was unsuccesful"
+
+def get_checkpoint_infos(current_date):
+    query = """SELECT
+                u.email,
+                u.token,
+                u.id,
+                c.checkpoint_percent,
+                c.desired_points,
+                c.course_id,
+                d.date
+                FROM
+                users u
+                INNER JOIN
+                checkpoints c
+                ON
+                u.id = c.user_id
+                INNER JOIN
+                deadlines d
+                ON
+                u.id = d.user_id
+                WHERE
+                c.checkpoint_date =:current_date
+            """
+    results = db.session.execute(text(query), {"current_date": current_date}).fetchall()
+    if results is None:
+        return None
+    return results
+    

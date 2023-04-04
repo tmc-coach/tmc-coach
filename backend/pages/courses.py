@@ -57,7 +57,7 @@ def get_exercises(course_id):
         maximum_exercises = -1
 
     course_title = response_name.json()
-
+    print(awarded_points)
     results = [
         {
             "completed_percentage": round(
