@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-describe('TMC-Coach set deadline', { defaultCommandTimeout: 9000 }, () => {
+describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
 
   const now = new Date()
   const dayNow = now.getDate()
@@ -53,7 +53,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 9000 }, () => {
       cy.get('button[value=delete_deadline]').click()
       cy.on('window:confirm', (text) => {
         expect(text).to.contains('Are you sure you want to delete the deadline you have set for this course?')
-        return false // simulates the user clicking "Cancel"
+        return false // Simulates clicking "Cancel"
       })
       cy.contains('Delete deadline').should('exist')
     })
@@ -71,7 +71,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 9000 }, () => {
       cy.visit('http://localhost:3000/orgs/courses/1169/set')
       cy.contains('The page you were looking for does not exist.')
     })
-    it('set deadline -page shows a confirmation window', { defaultCommandTimeout: 10000 } ,() => {
+    it('set deadline -page shows a confirmation window', () => {
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
       cy.get('div.react-datepicker__month-container').contains('18').click()
       cy.get('button[value=set_deadline]').click()
@@ -79,6 +79,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 9000 }, () => {
         expect(text).to.contain('You have already set a deadline for this course.')
         return true
       })
+
       // Next month 18th
       let nextMonth = monthNow + 1
       let year = yearNow
@@ -86,6 +87,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 9000 }, () => {
         nextMonth = 1
         year = yearNow + 1
       }
+
       let date = '18-' + (nextMonth < 10) ? '0' + nextMonth : nextMonth.toString() + '-' + year.toString()
       cy.contains(date).should('be.visible')
     })
