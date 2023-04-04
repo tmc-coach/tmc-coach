@@ -6,11 +6,19 @@ import Deadline from './Deadline'
 const Deadlines = ({ course_id }) => {
   const [date, setDate] = useState(new Date())
   const [deadlines, setDeadlines] = useState([])
+  const [newDeadlineAdded, setNewDeadline] = useState(false)
   const [message, setMessage] = useState(null)
 
   useEffect(() => {
     deadlineService.get_deadline(course_id).then(deadlines => setDeadlines(deadlines))
   }, [])
+
+  useEffect(() => {
+    if (newDeadlineAdded) {
+      deadlineService.get_deadline(course_id).then(deadlines => setDeadlines(deadlines))
+      setNewDeadline(false)
+    }
+  }, [newDeadlineAdded])
 
   const handleSetDeadline = async (event) => {
     event.preventDefault()
@@ -21,7 +29,7 @@ const Deadlines = ({ course_id }) => {
 
     let text = ''
     if (days_between < 3) {
-      text = 'Why do you want to set a deadline that is under four days away??? Go do your exercises!!! No checkpoints will be asigned if you set the deadline under four days away from this day. Are you sure you want to set this deadline?' + '\n' + '\n'
+      text = 'Why do you want to set a deadline that is under four days away??? Go do your exercises!!! No checkpoints will be assigned if you set the deadline under four days away from this day. Are you sure you want to set this deadline?' + '\n' + '\n'
       if (deadlines.length === 0) {
         if (window.confirm(text) === false) {
           return
@@ -38,9 +46,14 @@ const Deadlines = ({ course_id }) => {
 
     try {
       await deadlineService.set_deadline({ course_id, date })
-      window.location.reload()
+      setNewDeadline(true)
+      setMessage('Deadline set successfully!')
+      setTimeout(() => {
+        setMessage(null)
+      }, 10000)
+      // window.location.reload()
     } catch (exception) {
-      setMessage('Deadline could not be set')
+      setMessage('Deadline could not be set.')
       setTimeout(() => {
         setMessage(null)
       }, 10000)
@@ -53,7 +66,12 @@ const Deadlines = ({ course_id }) => {
     if (window.confirm('Are you sure you want to delete the deadline you have set for this course?') === true) {
       try {
         await deadlineService.delete_deadline(course_id)
-        window.location.reload()
+        setMessage('Deadline deleted successfully.')
+        setTimeout(() => {
+          setMessage(null)
+        }, 10000)
+        setNewDeadline(true)
+        // window.location.reload()
       } catch (exception) {
         setMessage('Deleting deadline was unsuccessful. Please try again.')
         setTimeout(() => {
