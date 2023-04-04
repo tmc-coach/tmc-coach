@@ -1,4 +1,4 @@
-Hello {{ Student_Name }},
+Hello,
 
 You've reached the {{ Checkpoint_Percentage }}% checkpoint for the {{ Course_Name }} course. We noticed that you have completed {{ Completed_Points }} points, while {{ Expected_Points }} points were expected for this checkpoint.
 

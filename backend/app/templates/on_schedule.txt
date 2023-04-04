@@ -1,4 +1,4 @@
-Hello {{ Student_Name }},
+Hello,
 
 Congratulations on reaching the {{ Checkpoint_Percentage }}% checkpoint for the {{ Course_Name }} course on time!
 

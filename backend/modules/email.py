@@ -16,12 +16,13 @@ app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
 mail = Mail(app)
 
 
-def send_email(to, subject, on_schedule, course_name, checkpoint_percent,
-               current_points, target_points, course_deadline):
+def send_email(to, on_schedule, **kwargs):
     if on_schedule:
         template = "on_schedule"
+        subject = f"{ Course_Name } Checkpoint Update: Let's get back on track!"
     else:
         template = "falling_behind"
+        subject = f"{ Course_Name } Checkpoint Update: You're on track!"
     msg = Message(
         subject,
         sender=os.getenv("MAIL_SENDER"),
