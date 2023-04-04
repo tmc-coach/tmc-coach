@@ -51,7 +51,6 @@ const Deadlines = ({ course_id }) => {
       setTimeout(() => {
         setMessage(null)
       }, 10000)
-      // window.location.reload()
     } catch (exception) {
       setMessage('Deadline could not be set.')
       setTimeout(() => {
@@ -71,7 +70,6 @@ const Deadlines = ({ course_id }) => {
           setMessage(null)
         }, 10000)
         setNewDeadline(true)
-        // window.location.reload()
       } catch (exception) {
         setMessage('Deleting deadline was unsuccessful. Please try again.')
         setTimeout(() => {
