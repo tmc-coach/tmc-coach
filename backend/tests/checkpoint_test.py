@@ -141,5 +141,5 @@ class CheckpointsTestCase(TestCase):
             db.session.commit()
 
         for i in range(len(dictionary)):
-            self.assertEqual(dictionary[str(i)]["user_id"], int(user_id))
-            self.assertEqual(dictionary[str(i)]["course_id"], int(course_id))
+            self.assertEqual(dictionary[i]["user_id"], int(user_id))
+            self.assertEqual(dictionary[i]["course_id"], int(course_id))

@@ -153,10 +153,10 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(int(course_id[0][0]), self.course_id)
 
         with self.app.app_context():
-            delete_deadline = delete_deadline(
+            deleted_deadline = delete_deadline(
                 self.user_id, self.course_id
             )
-            self.assertEqual(delete_deadline, "Course deadline deleted succesfully!")
+            self.assertEqual(deleted_deadline, "Course deadline deleted succesfully!")
 
         with self.app.app_context():
             sql = "SELECT * FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
@@ -181,10 +181,10 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(len(checkpoints), 3)
 
         with self.app.app_context():
-            delete_deadline = delete_deadline(
+            deleted_deadline = delete_deadline(
                 self.user_id, self.course_id
             )
-            self.assertEqual(delete_deadline, "Course deadline deleted succesfully!")
+            self.assertEqual(deleted_deadline, "Course deadline deleted succesfully!")
 
         with self.app.app_context():
             sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
