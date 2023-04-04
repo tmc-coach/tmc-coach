@@ -88,7 +88,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 8000 }, () => {
       cy.visit('http://localhost:3000/orgs/courses/1169/set')
       cy.contains('The page you were looking for does not exist.')
     })
-    it.only('set deadline -page shows a confirmation window', () => {
+    it('set deadline -page shows a confirmation window', () => {
       cy.setdeadlinepage()
       cy.wait(7000)
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()

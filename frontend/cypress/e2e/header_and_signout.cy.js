@@ -22,14 +22,14 @@ describe('TMC-Coach header', { defaultCommandTimeout: 8000 }, () => {
       cy.contains('TMC Coach').click()
       cy.url().should('not.include', '/orgs/aalto-biz')
     })
-    it.only('on organizations page can click email to get to profilepage', () => {
+    it('on organizations page can click email to get to profilepage', () => {
       cy.orgspage()
       cy.contains('TMC Coach').click()
       cy.contains('@').click()
       cy.url().should('not.include', '/orgs')
       cy.url().should('include', '/profile')
     })
-    it.only('on course page can click email to get to profilepage', () => {
+    it('on course page can click email to get to profilepage', () => {
       cy.coursepage()
       cy.contains('@').click()
       cy.url().should('not.include', '/orgs/aalto-biz')
