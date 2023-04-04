@@ -48,7 +48,7 @@ class DeadlinesTestCase(TestCase):
         self.assertEqual(len(deadlines), 0)
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises)
+            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT * FROM deadlines WHERE date=:date"
@@ -73,7 +73,7 @@ class DeadlinesTestCase(TestCase):
         date_now = datetime.datetime.now().date()
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises)
+            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT * FROM deadlines WHERE user_id=:user_id AND course_id=:course_id AND date=:date"
@@ -98,7 +98,7 @@ class DeadlinesTestCase(TestCase):
         new_deadline_str = "11/7/2028"
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, old_deadline_str, self.course_id, self.exercises)
+            set_deadline_function(self.user_id, old_deadline_str, self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT COUNT(course_id) FROM deadlines WHERE user_id=:user_id AND course_id=:course_id AND date=:date"
@@ -114,7 +114,7 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(int(deadlines[0][0]), 1)
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, new_deadline_str, self.course_id, self.exercises)
+            set_deadline_function(self.user_id, new_deadline_str, self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT COUNT(course_id) FROM deadlines WHERE user_id=:user_id AND course_id=:course_id AND date=:date"
@@ -136,7 +136,7 @@ class DeadlinesTestCase(TestCase):
         deadline_str = "27/5/2028"
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises)
+            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT course_id FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
@@ -164,7 +164,7 @@ class DeadlinesTestCase(TestCase):
         deadline_str = "27/5/2028"
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises)
+            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT course_id FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
@@ -197,7 +197,7 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(deadline, "[]")
 
         with self.app.app_context():
-            set_deadline_function(int(self.user_id), deadline_str, 1234, self.exercises)
+            set_deadline_function(int(self.user_id), deadline_str, 1234, self.exercises, 3)
 
         with self.app.app_context():
             deadline = get_deadline_function(int(self.user_id), 1234)
@@ -214,7 +214,7 @@ class DeadlinesTestCase(TestCase):
         deadline_str = "24/5/2028"
         new_deadline_str = "15/6/2028"
         with self.app.app_context():
-            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises)
+            set_deadline_function(self.user_id, deadline_str, self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
@@ -225,7 +225,7 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(len(checkpoints), 3)
 
         with self.app.app_context():
-            set_deadline_function(self.user_id, new_deadline_str, self.course_id, self.exercises)
+            set_deadline_function(self.user_id, new_deadline_str, self.course_id, self.exercises, 3)
 
         with self.app.app_context():
             sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
