@@ -30,6 +30,7 @@ def set_deadline_route():
         return jsonify(error="Forbidden"), 403
 
     course_id = request.json.get("course_id")
+    checkpoints = request.json.get("checkpoints")
 
     # check if course id is numeric
     if not validate_id(course_id):
@@ -50,7 +51,7 @@ def set_deadline_route():
     )
     exercises = response_exercises.json()
 
-    message = set_deadline(user["id"], date, course_id, exercises)
+    message = set_deadline(user["id"], date, course_id, exercises, checkpoints)
 
     return jsonify(message=message)
 

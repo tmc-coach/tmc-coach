@@ -8,7 +8,10 @@ import math
 
 
 def count_checkpoint_dates(created_at, deadline, how_many_checkpoints):
-    if deadline < created_at + timedelta(days=how_many_checkpoints + 1):
+    if (
+        deadline < created_at + timedelta(days=how_many_checkpoints + 1)
+        or how_many_checkpoints == 0
+    ):
         return
 
     checkpoints = []
@@ -30,7 +33,7 @@ def count_checkpoint_dates(created_at, deadline, how_many_checkpoints):
     previous = created_at + timedelta(days=between_the_1st_day_and_the_1st_checkpoint)
 
     for i in range(how_many_checkpoints):
-        percents = (100 // (how_many_checkpoints + 1)) * (i + 1)
+        percents = (round(100 / (how_many_checkpoints + 1))) * (i + 1)
         checkpoint_date = previous + timedelta(days=days_between_checkpoints)
         if i == 0:
             checkpoint_date = previous
@@ -73,7 +76,6 @@ def set_checkpoints(
             date = checkpoint_dates_list[i][0]
             percent = checkpoint_dates_list[i][1]
             desired_points = checkpoint_points_list[i][1]
-            print(desired_points)
             target = checkpoints(
                 user_id=user_id,
                 course_id=course_id,
@@ -115,6 +117,7 @@ def deleting_existing_checkpoints_for_course(user_id, course_id):
     except:
         return "deleting existing checkpoints for this course was unsuccesful"
 
+
 def get_checkpoint_infos(current_date):
     query = """SELECT
                 u.email,
@@ -141,4 +144,3 @@ def get_checkpoint_infos(current_date):
     if results is None:
         return None
     return results
-    

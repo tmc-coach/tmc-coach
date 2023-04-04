@@ -164,8 +164,6 @@ class CheckpointsTestCase(TestCase):
             )
             db.session.commit()
 
-        print("dictionary", dictionary)
-
         for checkpoint in dictionary:
             self.assertEqual(checkpoint["user_id"], int(user_id))
             self.assertEqual(checkpoint["course_id"], int(course_id))
