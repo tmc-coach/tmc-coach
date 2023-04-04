@@ -12,6 +12,7 @@ def schedule(app):
     scheduler.add_job(
         get_checkpoints_for_today, "cron", hour=13, minute=37, args=(app,)
     )
+    scheduler.add_job(send_checkpoint_emails, "interval", minutes=5)
     scheduler.start()
 
 
@@ -35,9 +36,10 @@ def get_checkpoints_for_today(app):
             pass
 
 def send_checkpoint_emails():
-    current_date = datetime.now().date()
+    # current_date = datetime.now().date()
+    current_date = "2023-04-04"
     results = get_checkpoint_infos(current_date)
-    print("sähköpostia varten:")
+    # print("sähköpostia varten:")
     for result in results: 
         user_id = result[2]
         token = result[1]
@@ -53,14 +55,14 @@ def send_checkpoint_emails():
             on_schedule = False
         send_email(to=email,
                    on_schedule=on_schedule,
-                   Course_name=course_name,
+                   Course_Name=course_name,
                    Checkpoint_Percentage=checkpoint_percent,
                    Completed_Points=current_points,
                    Expected_Points=target_points,
                    Course_Deadline=deadline)
-        print({"email": email, "course_name": course_name, "checkpoint_percent": checkpoint_percent,
-               "current_points": current_points, "target_points": target_points,
-               "course_deadline": deadline, "on_schedule": on_schedule})
+        # print({"email": email, "course_name": course_name, "checkpoint_percent": checkpoint_percent,
+        #        "current_points": current_points, "target_points": target_points,
+        #        "course_deadline": deadline, "on_schedule": on_schedule})
 
 #api calls that are needed for sending email
 def current_points_from_api(course_id, user_id):
