@@ -12,7 +12,6 @@ const Profile = () => {
 
   useEffect(() => {
     authService.get_user_email().then(email => setEmail(email))
-    console.log(email.user_email)
   }, [])
 
   return (
