@@ -7,8 +7,6 @@ import os
 import jwt
 
 auth = Blueprint("auth", __name__)
-user = Blueprint("user", __name__)
-profile = Blueprint("profile", __name__)
 
 
 @auth.route("/authorize", methods=["POST"])

@@ -9,7 +9,7 @@ const Header = () => {
 
   useEffect(() => {
     authService.get_user_email().then(email => setEmail(email))
-  }, [])
+  }, [location.pathname])
 
   return (
     <>

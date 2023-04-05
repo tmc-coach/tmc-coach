@@ -36,4 +36,4 @@ class UsersTestCase(TestCase):
             set_user(self.user_id, self.token, self.email)
             get_user = get_user_email(self.user_id)
             user = json.loads(get_user)
-            self.assertEqual(self.email, user['user_email'])
+            self.assertEqual(self.email, user["user_email"])
