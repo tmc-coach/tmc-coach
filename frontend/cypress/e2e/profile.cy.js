@@ -10,7 +10,6 @@ describe('TMC-Coach header', { defaultCommandTimeout: 20000 }, () => {
     })
     it('can go to profilepage', () => {
       cy.orgspage()
-      cy.contains('TMC Coach').click()
       cy.contains('@').click()
       cy.url().should('include', '/profile')
       cy.contains('My Account').should('exist')
@@ -18,7 +17,6 @@ describe('TMC-Coach header', { defaultCommandTimeout: 20000 }, () => {
     })
     it('can go to the mainpage from profilepage', () => {
       cy.orgspage()
-      cy.contains('TMC Coach').click()
       cy.contains('@').click()
       cy.url().should('include', '/profile')
       cy.contains('TMC Coach').click()
