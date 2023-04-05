@@ -1,6 +1,3 @@
-//import { useState, useEffect } from 'react'
-//import { useLocation } from 'react-router-dom'
-//import { Navigate } from 'react-router-dom'
 import authService from '../services/auth'
 import { useState, useEffect } from 'react'
 import Loading from '../components/Loading'
@@ -23,7 +20,6 @@ const Profile = () => {
             <img width={100} height={60} src={profile} />
             <div className='p-2 font-small text-left'>
               <p>E-mail: {email.user_email}</p>
-              <p>Language: english</p>
             </div>
           </div>
           <h1>My course deadlines</h1>
