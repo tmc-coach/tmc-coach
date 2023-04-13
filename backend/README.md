@@ -120,3 +120,19 @@ pytest .
 pytest -v .     # With information about tests
 pytest -v -v .  # With more information about tests
 ```
+
+## Test coverage
+
+Get coverage report with
+
+```sh 
+pytest --cov .
+```
+
+A more detailed report can be accessed with
+
+```sh
+pytest --cov-report html --cov .
+```
+And opening the `index.html` file in browser inside the created `htmlcov` directory.
+
