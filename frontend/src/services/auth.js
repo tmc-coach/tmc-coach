@@ -41,4 +41,11 @@ const checkLogin = async () => {
   return null
 }
 
-export default { login, getUser, checkAuth, checkLogin }
+const get_user_email = async () => {
+  const response = await axios.get(`${baseUrl}/profile`, { headers: { Authorization: localStorage.getItem('user') } })
+
+  return response.data
+}
+
+
+export default { login, getUser, checkAuth, checkLogin, get_user_email }

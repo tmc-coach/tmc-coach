@@ -8,6 +8,8 @@ const Deadlines = ({ course_id }) => {
   const [deadlines, setDeadlines] = useState([])
   const [newDeadlineAdded, setNewDeadline] = useState(false)
   const [message, setMessage] = useState(null)
+  const [checkpoints, setCheckpoints] = useState(3)
+  const [freqvency, setFreqvency] = useState(0)
 
   useEffect(() => {
     deadlineService.get_deadline(course_id).then(deadlines => setDeadlines(deadlines))
@@ -27,9 +29,43 @@ const Deadlines = ({ course_id }) => {
 
     const days_between = Math.floor((date - created_at) / (1000 * 60 * 60 *24))
 
+    if (freqvency === 0) {
+      alert('Please choose how often you want checkpoints')
+      return
+    }
+
+    if (freqvency === 1 && days_between < 13) {
+      alert('You cannot have checkpoints weekly if the deadline is not at least 14 days away. Your chosen deadline is now ' + JSON.stringify(days_between + 1) + ' days away.')
+      return
+    }
+
+    if (freqvency === 2 && days_between < 59) {
+      alert('You cannot have checkpoints monthly if the deadline is not at least 60 days away. Your chosen deadline is now ' + JSON.stringify(days_between + 1) + ' days away.')
+      return
+    }
+
+    if (freqvency === 1 && days_between > 182) {
+      alert('You can not have weekly checkpoints if the deadline is over 26 weeks away')
+      return
+    }
+    if (freqvency === 2 && days_between < 720) {
+      alert('You can not have monthly checkpoints if the deadline is over 24 months away')
+      return
+    }
+
+    let amount_of_checkpoints = 0
+
+    if (freqvency === 1) {
+      amount_of_checkpoints = Math.round(days_between / 7) - 1
+    }
+
+    if (freqvency === 2) {
+      amount_of_checkpoints = Math.round(days_between / 31) - 1
+    }
+
     let text = ''
-    if (days_between < 3) {
-      text = 'Why do you want to set a deadline that is under four days away??? Go do your exercises!!! No checkpoints will be asigned if you set the deadline under four days away from this day. Are you sure you want to set this deadline?' + '\n' + '\n'
+    if (days_between < checkpoints) {
+      text = 'Why do you want to set a deadline that is under four days away??? Go do your exercises!!! No checkpoints will be assigned if you set the deadline under four days away from this day. Are you sure you want to set this deadline?' + '\n' + '\n'
       if (deadlines.length === 0) {
         if (window.confirm(text) === false) {
           return
@@ -37,7 +73,6 @@ const Deadlines = ({ course_id }) => {
       }
     }
 
-    //let text = ''
     if (deadlines.length !== 0) {
       text = text + 'You have already set a deadline for this course.\nDo you want to set ' + JSON.stringify(date.getFullYear()) + '.' + JSON.stringify(date.getMonth() + 1) + '.' + JSON.stringify(date.getDate()) + ' as your new deadline for this course?'
       if (window.confirm(text) === false) {
@@ -46,15 +81,19 @@ const Deadlines = ({ course_id }) => {
     }
 
     try {
-      await deadlineService.set_deadline({ course_id, date })
+      if (freqvency < 3) {
+        let checkpoints = amount_of_checkpoints
+        await deadlineService.set_deadline({ course_id, date, checkpoints })
+      } else {
+        await deadlineService.set_deadline({ course_id, date, checkpoints })
+      }
       setNewDeadline(true)
-      window.location.reload()
-      //setMessage('Deadline was set successfully!')
-      //setTimeout(() => {
-      //setMessage(null)
-      //}, 10000)
+      setMessage('Deadline set successfully!')
+      setTimeout(() => {
+        setMessage(null)
+      }, 10000)
     } catch (exception) {
-      setMessage('Deadline could not be set')
+      setMessage('Deadline could not be set.')
       setTimeout(() => {
         setMessage(null)
       }, 10000)
@@ -67,12 +106,11 @@ const Deadlines = ({ course_id }) => {
     if (window.confirm('Are you sure you want to delete the deadline you have set for this course?') === true) {
       try {
         await deadlineService.delete_deadline(course_id)
-        //setMessage('Deleting deadline was successful!')
-        //setTimeout(() => {
-        //setMessage(null)
-        //}, 10000)
+        setMessage('Deadline deleted successfully.')
+        setTimeout(() => {
+          setMessage(null)
+        }, 10000)
         setNewDeadline(true)
-        window.location.reload()
       } catch (exception) {
         setMessage('Deleting deadline was unsuccessful. Please try again.')
         setTimeout(() => {
@@ -85,7 +123,7 @@ const Deadlines = ({ course_id }) => {
   return (
     <>
       <Deadline deadlines={deadlines} onChange={handleSetDeadline} onDelete={handleDelete} />
-      <SetDeadline deadlines={deadlines} date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} />
+      <SetDeadline deadlines={deadlines} date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} checkpoints={checkpoints} setCheckpoints={setCheckpoints} freqvency={freqvency} setFreqvency={setFreqvency} />
     </>
   )
 }

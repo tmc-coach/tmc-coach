@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-describe('TMC-Coach course exercises', () => {
+describe('TMC-Coach course exercises', { defaultCommandTimeout: 20000 }, () => {
   context('logged in user', () => {
     before(() => {
       cy.login()

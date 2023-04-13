@@ -1,7 +1,8 @@
 from unittest import TestCase
 import os
+import json
 from app import create_app
-from database_functions.user_functions import set_user, delete_user
+from database_functions.user_functions import set_user, delete_user, get_user_email
 
 
 class UsersTestCase(TestCase):
@@ -29,3 +30,10 @@ class UsersTestCase(TestCase):
 
         self.assertEqual(init_response, "User row created")
         self.assertEqual(update_response, "Token updated")
+
+    def test_getting_user_email(self):
+        with self.app.app_context():
+            set_user(self.user_id, self.token, self.email)
+            get_user = get_user_email(self.user_id)
+            user = json.loads(get_user)
+            self.assertEqual(self.email, user["user_email"])

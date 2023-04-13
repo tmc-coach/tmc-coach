@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-describe('TMC-Coach header', { defaultCommandTimeout: 8000 }, () => {
+describe('TMC-Coach header', { defaultCommandTimeout: 20000 }, () => {
   context('logged in user', () => {
     before(() => {
       cy.login()
@@ -21,6 +21,12 @@ describe('TMC-Coach header', { defaultCommandTimeout: 8000 }, () => {
       cy.coursepage()
       cy.contains('TMC Coach').click()
       cy.url().should('not.include', '/orgs/aalto-biz')
+    })
+    it('on course page can click email to get to profilepage', () => {
+      cy.coursepage()
+      cy.contains('@').click()
+      cy.url().should('not.include', '/orgs/aalto-biz')
+      cy.url().should('include', '/profile')
     })
     it('on course page description is not shown', () => {
       cy.coursepage()

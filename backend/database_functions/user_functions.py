@@ -1,6 +1,7 @@
 from app import db
 from app.models import users
 from sqlalchemy import text
+import json
 
 
 def set_user(id: int, token: str, email: str) -> str:
@@ -36,3 +37,16 @@ def delete_user(id: int) -> str:
     db.session.execute(text(sql), {"id": id})
     db.session.commit()
     return "User deleted"
+
+
+def get_user_email(id):
+    user = users.query.filter_by(id=id).all()
+    response = {}
+    user = user[0]
+
+    response = {
+        "id": user.id,
+        "user_email": user.email,
+    }
+
+    return json.dumps(response, default=str)
