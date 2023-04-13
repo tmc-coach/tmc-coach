@@ -106,10 +106,8 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
     it('a new deadline is not added if confirm-windows cancel-button is pressed', () => {
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
       cy.get('div.react-datepicker__month-container').contains('21').click()
-      //
       cy.get('div.rw-widget-picker.rw-widget-container').click()
       cy.contains('I want checkpoints weekly').click()
-      //
       cy.get('button[value=set_deadline]').click()
       cy.on('window:confirm', (text) => {
         expect(text).to.contains('You have already set a deadline for this course.')
@@ -126,10 +124,8 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
       let year = twoDaysFromToday.getFullYear().toString()
 
       cy.get('div.react-datepicker__day--0' + day).first().click()
-      //
       cy.get('div.rw-widget-picker.rw-widget-container').click()
       cy.contains('I want to choose the amount of checkpoint').click()
-      //
       cy.get('button[value=set_deadline]').click()
       cy.on('window:confirm', (text) => {
         expect(text).to.contains('Why do you want to set a deadline that is under four days away???')
@@ -159,11 +155,8 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
     })
     it('the amount of checkpoints can be chosen', () => {
       cy.setdeadlinepage()
-      //
       cy.get('div.rw-widget-picker.rw-widget-container').click()
       cy.contains('I want to choose the amount of checkpoint').click()
-      //
-      //cy.get('input[type=text]').type('1')
       cy.get('input[inputmode=numeric]').type('1')
       cy.get('input[inputmode=numeric]').should('have.value', '12')
       cy.get('input[inputmode=numeric]').clear().type('1')
@@ -178,11 +171,8 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
     })
     it('the amount of checkpoints can be chosen', () => {
       cy.setdeadlinepage()
-      //
       cy.get('div.rw-widget-picker.rw-widget-container').click()
       cy.contains('I want to choose the amount of checkpoint').click()
-      //
-      //cy.get('input[type=text]').type('1')
       cy.get('input[inputmode=numeric]').type('1')
       cy.get('input[inputmode=numeric]').should('have.value', '12')
       cy.get('input[inputmode=numeric]').clear().type('1')
