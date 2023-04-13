@@ -134,4 +134,5 @@ A more detailed report can be accessed with
 ```sh
 pytest --cov-report html --cov .
 ```
-And opening the ``index.html`` file in browser inside the created ``htmlcov`` directory.
+And opening the `index.html` file in browser inside the created `htmlcov` directory.
+

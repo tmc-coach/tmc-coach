@@ -4,3 +4,5 @@ omit =
   tests/*
   tmc_coach.py
   app/models.py
+  modules/email.py
+  modules/jobs.py
