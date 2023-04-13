@@ -24,13 +24,13 @@ const Profile = () => {
             </div>
           </div>
           <h1>My scheduled courses</h1>
-          <div className='flex justify-center items-center'>
+          <div className='flex flex-col items-center justify-center py-5'>
             {userinfo.courses.length === 0 ? (
               <p>You dont have any scheduled courses</p>
             ) : (
               userinfo.courses.map((course, index) => (
-                <p key={index}>
-                  <Link className="flex text-blue-500 text-2xl hover:underline mr-5" to={`/orgs/courses/${course.course_id}`}>{userinfo.titles[index]}</Link>
+                <p key={index} className='mb-3'>
+                  <Link className="text-blue-500 text-2xl hover:underline" to={`/orgs/courses/${course.course_id}`}>{userinfo.titles[index]}</Link>
                 </p>
               ))
             )}
