@@ -1,4 +1,5 @@
 import Deadlines from './Deadlines'
+import warning from '../assets/warning.png'
 
 const Exercises = ({ exercises, course_id }) => (
 
@@ -21,7 +22,13 @@ const Exercises = ({ exercises, course_id }) => (
         )}
       </>
     ) : (
-      <p>Disabled</p>
+      <div className='border rounded border-b border-red-600 text-red-700 text-left px-4 py-3'>
+        <div className='flex items-center'>
+          <img className='h-8'src={warning} alt="" />
+          <h1 className='p-2'>This course is disabled</h1>
+        </div>
+        <p>It is not possible to set a deadline for this course while it is disabled. The course is also hidden from the course list</p>
+      </div>
     )}
   </div>
 )
