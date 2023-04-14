@@ -1,28 +1,40 @@
 import authService from '../services/auth'
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import Loading from '../components/Loading'
 import profile from '../assets/profile.png'
 
 
 const Profile = () => {
-  const [email, setEmail] = useState([])
+  const [userinfo, setInformation] = useState([])
 
   useEffect(() => {
-    authService.get_user_email().then(email => setEmail(email))
+    authService.get_user_email().then(userinfo => setInformation(userinfo))
   }, [])
 
   return (
     <>
-      {email.user_email !== undefined ? (
+      {userinfo.user_email !== undefined ? (
         <div className='main container container-fluid'>
           <h1>My Account</h1>
           <div className='flex justify-center items-center py-10'>
             <img width={100} height={60} src={profile} />
             <div className='p-2 font-small text-left'>
-              <p>E-mail: {email.user_email}</p>
+              <p>E-mail: {userinfo.user_email}</p>
             </div>
           </div>
-          <h1>My course deadlines</h1>
+          <h1>My scheduled courses</h1>
+          <div className='flex flex-col items-center justify-center py-5'>
+            {userinfo.courses.length === 0 ? (
+              <p>You dont have any scheduled courses</p>
+            ) : (
+              userinfo.courses.map((course, index) => (
+                <p key={index} className='mb-3'>
+                  <Link className="text-blue-500 text-2xl hover:underline" to={`/orgs/courses/${course.course_id}`}>{userinfo.titles[index]}</Link>
+                </p>
+              ))
+            )}
+          </div>
         </div>
       ) : (
         <Loading />
