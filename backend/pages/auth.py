@@ -1,11 +1,12 @@
 from flask import Blueprint, jsonify, request
-from modules.user import encode_jwt, decode_jwt, set_user
+from modules.user import encode_jwt, decode_jwt
+from modules.user import get_user as user_info
+from database_functions.user_functions import set_user, get_user_email
 import requests
 import os
 import jwt
 
 auth = Blueprint("auth", __name__)
-user = Blueprint("user", __name__)
 
 
 @auth.route("/authorize", methods=["POST"])
@@ -65,3 +66,19 @@ def get_user():
         )
 
     return response.json()
+
+
+@auth.route("/profile", methods=["GET"])
+def user_email():
+    auth_header = request.headers.get("Authorization", None)
+    if not auth_header:
+        return jsonify(error="Authorization header missing")
+
+    user = user_info(auth_header)
+
+    if not user:
+        return jsonify(error="Forbidden"), 403
+
+    user_email = get_user_email(user["id"])
+
+    return user_email
