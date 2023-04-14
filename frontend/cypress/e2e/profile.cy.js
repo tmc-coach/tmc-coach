@@ -15,7 +15,7 @@ describe('TMC-Coach header', { defaultCommandTimeout: 20000 }, () => {
       cy.contains('E-mail: ').should('exist')
       cy.contains('My scheduled courses').should('exist')
     })
-    it('can go to the mainpage from profile page', () => {
+    it('can go to the main page from profile page', () => {
       cy.profilepage()
       cy.contains('TMC Coach').click()
       cy.url().should('not.include', '/profile')
