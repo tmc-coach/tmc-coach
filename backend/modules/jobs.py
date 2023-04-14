@@ -2,7 +2,8 @@ from app.models import checkpoints
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 from modules.checkpoint import get_checkpoint_infos
-from modules.email import send_email
+from modules.deadline import get_deadline_infos
+from modules.email import send_checkpoint_email, send_deadline_email
 import requests
 
 
@@ -23,6 +24,31 @@ def do_stuff():
     print("Never gonna say goodbye")
     print("Never gonna tell a lie and hurt you")
 
+def send_deadline_emails(app):
+    with app.app_context():
+        current_date = datetime.now().date()
+        results = get_deadline_infos(current_date)
+        for result in results:
+            email = result[0]
+            token = result[1]
+            user_id = result[2]
+            target_points = result[3]
+            course_id = result[4]
+            deadline_date = result[5]
+            current_points = len(current_points_from_api(course_id, user_id))
+            course_name = course_name_from_api(course_id, token)
+            finished = True
+            if current_points < target_points:
+                finished = False
+            send_deadline_email(
+            app=app,
+            to=email,
+            on_schedule=finished,
+            course_name=course_name,
+            current_points=current_points,
+            target_points=target_points,
+            course_deadline=deadline_date,
+            )
 
 def send_checkpoint_emails(app):
     with app.app_context():
@@ -42,9 +68,7 @@ def send_checkpoint_emails(app):
             on_schedule = True
             if current_points < target_points:
                 on_schedule = False
-            print(current_points, target_points)
-            print(on_schedule)
-            send_email(
+            send_checkpoint_email(
                 app=app,
                 to=email,
                 on_schedule=on_schedule,
