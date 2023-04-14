@@ -5,6 +5,7 @@ from database_functions.user_functions import set_user, get_user_email
 import requests
 import os
 import jwt
+import json
 
 auth = Blueprint("auth", __name__)
 
@@ -73,7 +74,7 @@ def user_email():
     auth_header = request.headers.get("Authorization", None)
     if not auth_header:
         return jsonify(error="Authorization header missing")
-
+    token = decode_jwt(auth_header)
     user = user_info(auth_header)
 
     if not user:
@@ -81,4 +82,22 @@ def user_email():
 
     user_email = get_user_email(user["id"])
 
-    return user_email
+    users_courses = []
+    for course in user_email["courses"]:
+        users_courses.append(course["course_id"])
+
+    for i in range(len(users_courses)):
+        response_coursename = requests.get(
+        f"https://tmc.mooc.fi/api/v8/courses/{users_courses[i]}",
+        headers={"Accept": "application/json", "Authorization": token["token"]},
+    )
+
+        if response_coursename.status_code == 403:
+            return jsonify(error="Forbidden"), 403
+        if response_coursename.status_code == 404:
+            return jsonify(error="Not Found"), 404
+
+        course_title = response_coursename.json()
+        user_email['titles'].append(course_title["title"])
+
+    return json.dumps(user_email, default=str)

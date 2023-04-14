@@ -9,16 +9,14 @@ describe('TMC-Coach header', { defaultCommandTimeout: 20000 }, () => {
       cy.restoreLocalStorage()
     })
     it('can go to profile page', () => {
-      cy.orgspage()
-      cy.contains('@').click()
+      cy.profilepage()
       cy.url().should('include', '/profile')
       cy.contains('My Account').should('exist')
       cy.contains('E-mail: ').should('exist')
+      cy.contains('My scheduled courses').should('exist')
     })
-    it('can go to the main page from profilepage', () => {
-      cy.orgspage()
-      cy.contains('@').click()
-      cy.url().should('include', '/profile')
+    it('can go to the main page from profile page', () => {
+      cy.profilepage()
       cy.contains('TMC Coach').click()
       cy.url().should('not.include', '/profile')
     })

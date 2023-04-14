@@ -43,6 +43,11 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
       cy.get('button[value=set_deadline]').click()
       cy.contains(date).should('exist')
     })
+    it('user can see the scheduled course in profile page', () => {
+      cy.profilepage()
+      cy.contains('My scheduled courses').should('exist')
+      cy.get('a[href="/orgs/courses/277"]').should('be.visible').click()
+    })
     it('can delete deadline if there is one added', () => {
       cy.get('button[value=delete_deadline]').click()
       cy.on('window:confirm', (text) => {
