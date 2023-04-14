@@ -20,6 +20,15 @@ describe('TMC-Coach course exercises', { defaultCommandTimeout: 20000 }, () => {
       cy.url().should('include', '/orgs/courses/1189')
       cy.contains('No exercises on this course')
     })
+    it('user is unable to set a deadline for disabled course', () => {
+      cy.visit('http://localhost:3000/orgs/courses/610')
+      cy.contains('This course is disabled')
+      cy.contains(/Set a( new)? deadline/).should('not.exist')
+    })
+    it('enabled course does not include disabled warning', () => {
+      cy.contains('Introduction to Artificial Intelligence').click()
+      cy.contains('This course is disabled').should('not.exist')
+    })
     it('404 page is shown if invalid page', () => {
       cy.on('uncaught:exception', () => {
         return false
