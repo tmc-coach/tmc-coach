@@ -3,16 +3,26 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 
 const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, freqvency, setFreqvency }) => {
-  let options = [
+  const options = [
     { id: 1, option: 'I want checkpoints weekly' },
     { id: 2, option: 'I want checkpoints monthly' },
     { id: 3, option: 'I want to choose the amount of checkpoints' }
   ]
 
+  const minCheckpoints = 0
+  const maxCheckpoints = 12
+
+  const handleNumberInput = event => {
+    const numberOfCheckpoints = Math.max(
+      minCheckpoints, Math.min(maxCheckpoints, Number(event.target.value))
+    )
+    setCheckpoints(numberOfCheckpoints)
+  }
+
   return (
     <div>
       <h2>{deadlines.length === 0 ? 'Set a deadline' : 'Set a new deadline'}</h2>
-      {message ? <p className="flex justify-center px-5 my-5">{message}</p> : null}
+      {message ? <p className='mb-2'>{message}</p> : null}
       <DatePicker
         inline
         selected={date}
@@ -21,23 +31,32 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
       />
       <h2>Choose the amount of checkpoints</h2>
       <p>How often do you want checkpoints?</p>
-      <select onChange={ (e) => setFreqvency(parseInt(e.target.value)) }>
+      <select
+        className='p-2 px-4 mb-2 rounded bg-gray-200'
+        defaultValue={freqvency}
+        onChange={ (e) => setFreqvency(Number(e.target.value)) }
+      >
         {options.map(o => <option key={o.id} value={o.id}>{o.option}</option>)}
       </select>
       {freqvency === 3 &&
         <>
           <p>How many checkpoints do you want?</p>
           <input
+            className='p-2 px-4 mb-2 bg-gray-200 rounded'
             type='number'
             value={checkpoints}
-            onChange={ (e) => setCheckpoints(parseInt(e.target.value))}
-            min='0'
-            max='12'
+            onChange={handleNumberInput}
           />
         </>
       }
       <div className="flex justify-center my-5">
-        <button onClick={handleSetDeadline} value="set_deadline" className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Set deadline</button>
+        <button
+          onClick={handleSetDeadline}
+          value="set_deadline"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Set deadline
+        </button>
       </div>
     </div>
   )
