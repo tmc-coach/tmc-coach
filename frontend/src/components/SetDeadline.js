@@ -1,13 +1,6 @@
-// import DatePicker, { registerLocale } from 'react-datepicker'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-//import NumberPicker from 'react-dom'
-import NumberPicker from 'react-widgets/NumberPicker'
-//import DropdownList from 'react-widgets/DropdownList'
-import Combobox from 'react-widgets/Combobox'
-// import fi from 'date-fns/locale/fi'
 
-// registerLocale('fi', fi)
 
 const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, freqvency, setFreqvency }) => {
   let options = [
@@ -18,37 +11,30 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
 
   return (
     <div>
-      <h1>{deadlines.length === 0 ? 'Set a deadline' : 'Set a new deadline'}</h1>
+      <h2>{deadlines.length === 0 ? 'Set a deadline' : 'Set a new deadline'}</h2>
       {message ? <p className="flex justify-center px-5 my-5">{message}</p> : null}
       <DatePicker
         inline
         selected={date}
         onChange={(newDate) => setDate(newDate)}
         minDate={new Date()}
-      // locale="fi"
       />
-      <div className='text-2xl font-medium pb-5'>
-        Choose the amount of checkpoints
-      </div>
+      <h2>Choose the amount of checkpoints</h2>
       <p>How often do you want checkpoints?</p>
-      <Combobox
-        className="flex flex-col mb-4"
-        //defaultValue='I want to choose the amount of checkpoint'
-        data={options}
-        dataKey='id'
-        textField='option'
-        onChange={(value) => setFreqvency(value.id)}
-      />
+      <select onChange={ (e) => setFreqvency(parseInt(e.target.value)) }>
+        {options.map(o => <option key={o.id} value={o.id}>{o.option}</option>)}
+      </select>
       {freqvency === 3 &&
-        <div>
+        <>
           <p>How many checkpoints do you want?</p>
-          <NumberPicker
+          <input
+            type='number'
             value={checkpoints}
-            onChange={(checkpoints) => setCheckpoints(checkpoints)}
-            min={0}
-            max={12}
+            onChange={ (e) => setCheckpoints(parseInt(e.target.value))}
+            min='0'
+            max='12'
           />
-        </div>
+        </>
       }
       <div className="flex justify-center my-5">
         <button onClick={handleSetDeadline} value="set_deadline" className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Set deadline</button>
