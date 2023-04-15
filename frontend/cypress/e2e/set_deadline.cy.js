@@ -36,7 +36,6 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
 
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
       cy.get('div.react-datepicker__month-container').contains('13').click()
-      // cy.get('select').select('I want checkpoints weekly') // Weekly checkpoints are default
       cy.get('button[value=set_deadline]').click()
       cy.contains(date).should('exist')
     })
@@ -55,7 +54,6 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
     it('deadline won\'t be deleted if cancel-button is clicked in confirmation window', () => {
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click().click()
       cy.get('div.react-datepicker__month-container').contains('10').click()
-      // cy.get('select').select('I want checkpoints weekly') // Weekly checkpoints are default
       cy.get('button[value=set_deadline]').click()
       cy.get('button[value=delete_deadline]').click()
       cy.on('window:confirm', (text) => {
@@ -74,7 +72,6 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
     it('set deadline -page shows a confirmation window', () => {
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
       cy.get('div.react-datepicker__month-container').contains('18').click()
-      // cy.get('select').select('I want checkpoints weekly') // Weekly checkpoints are default
       cy.get('button[value=set_deadline]').click()
       cy.on('window:confirm', (text) => {
         expect(text).to.contain('You have already set a deadline for this course.')

@@ -2,7 +2,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
 
-const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, freqvency, setFreqvency }) => {
+const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, frequency, setFrequency }) => {
   const options = [
     { id: 1, option: 'I want checkpoints weekly' },
     { id: 2, option: 'I want checkpoints monthly' },
@@ -33,12 +33,12 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
       <p>How often do you want checkpoints?</p>
       <select
         className='p-2 px-4 mb-2 rounded bg-gray-200'
-        defaultValue={freqvency}
-        onChange={ (e) => setFreqvency(Number(e.target.value)) }
+        defaultValue={frequency}
+        onChange={ (e) => setFrequency(Number(e.target.value)) }
       >
         {options.map(o => <option key={o.id} value={o.id}>{o.option}</option>)}
       </select>
-      {freqvency === 3 &&
+      {frequency === 3 &&
         <>
           <p>How many checkpoints do you want?</p>
           <input
