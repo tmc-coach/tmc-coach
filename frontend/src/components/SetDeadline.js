@@ -21,7 +21,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
 
   return (
     <div>
-      <h2>{deadlines.length === 0 ? 'Set a deadline' : 'Set a new deadline'}</h2>
+      <h2 className='text-lg font-medium py-2'>{deadlines.length === 0 ? 'Set a deadline' : 'Set a new deadline'}</h2>
       {message ? <p className='mb-2'>{message}</p> : null}
       <DatePicker
         inline
@@ -29,10 +29,10 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
         onChange={(newDate) => setDate(newDate)}
         minDate={new Date()}
       />
-      <h2>Choose the amount of checkpoints</h2>
+      <h2 className='text-lg font-medium py-2'>Choose the amount of checkpoints</h2>
       <p>How often do you want checkpoints?</p>
       <select
-        className='p-2 px-4 mb-2 rounded bg-gray-200'
+        className='py-2 px-4 my-2 rounded bg-gray-200'
         defaultValue={frequency}
         onChange={ (e) => setFrequency(Number(e.target.value)) }
       >
@@ -40,7 +40,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
       </select>
       {frequency === 3 &&
         <>
-          <p>How many checkpoints do you want?</p>
+          <p>How many checkpoints do you want? ({ minCheckpoints }&ndash;{ maxCheckpoints })</p>
           <input
             className='p-2 px-4 mb-2 bg-gray-200 rounded'
             type='number'

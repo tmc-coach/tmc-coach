@@ -6,9 +6,6 @@
   h1 {
     @apply text-3xl font-medium text-center tracking-wide pt-4 pb-4 md:pb-10;
   }
-  h2 {
-    @apply text-2xl font-medium text-center tracking-wide pt-4 pb-2 md:pb-3;
-  }
 }
 
 html {
