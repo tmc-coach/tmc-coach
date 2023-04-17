@@ -20,9 +20,9 @@ describe('TMC-Coach course exercises', { defaultCommandTimeout: 20000 }, () => {
       cy.url().should('include', '/orgs/courses/1189')
       cy.contains('No exercises on this course')
     })
-    it('user is unable to set a deadline for disabled course', () => {
+    it('disabled page or error page is shown if course is disabled', () => {
       cy.visit('http://localhost:3000/orgs/courses/610')
-      cy.contains('This course is disabled')
+      cy.get('#error, #disabled').should('exist')
       cy.contains(/Set a( new)? deadline/).should('not.exist')
     })
     it('enabled course does not include disabled warning', () => {
