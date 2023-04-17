@@ -8,7 +8,7 @@ const Deadline = ({ deadlines, onDelete }) => {
   }
 
   return (
-    <div className="my-2 rounded-md border-solid border-4 border-black-800">
+    <div className="my-5 rounded-md border-solid border-4 border-black-800">
       <p key={deadlines.id} className="flex justify-center px-5 m-5 text-2xl">You have planned to complete this course by {deadlines.date.split(' ')[0]}</p>
       {deadlines.checkpoints && <Checkpoints deadlines={deadlines} />}
       <div className="flex justify-center px-5 m-5">
