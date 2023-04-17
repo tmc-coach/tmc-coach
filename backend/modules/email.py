@@ -1,6 +1,7 @@
 import os
 from flask import render_template
-from flask_mail import Mail, Message
+from flask_mail import Message
+from app import mail
 
 
 def send_email(
@@ -14,15 +15,6 @@ def send_email(
     course_deadline,
 ):
     with app.app_context():
-        # configure e-mail settings
-        app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER")
-        app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT"))
-        app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS")
-        app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME")
-        app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
-
-        mail = Mail(app)
-
         if on_schedule:
             template = "on_schedule"
             subject = f"{course_name} Checkpoint Update: You're on track!"
