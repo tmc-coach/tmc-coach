@@ -22,7 +22,7 @@ const Exercises = ({ exercises, course_id }) => (
         )}
       </>
     ) : (
-      <div className='border rounded border-b border-red-600 text-red-700 text-left px-4 py-3'>
+      <div id='disabled' className='border rounded border-b border-red-600 text-red-700 text-left px-4 py-3'>
         <div className='flex items-center'>
           <img className='h-8'src={warning} alt="" />
           <h1 className='p-2'>This course is disabled</h1>
