@@ -48,7 +48,7 @@ const Deadlines = ({ course_id }) => {
       alert('You can not have weekly checkpoints if the deadline is over 26 weeks away')
       return
     }
-    if (freqvency === 2 && days_between < 720) {
+    if (freqvency === 2 && days_between > 720) {
       alert('You can not have monthly checkpoints if the deadline is over 24 months away')
       return
     }
