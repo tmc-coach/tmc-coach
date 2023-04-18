@@ -44,12 +44,7 @@ def get_user_email(user_id):
     user = users.query.filter_by(id=user_id).first()
     user_deadlines = deadlines.query.filter_by(user_id=user_id).all()
 
-    response = {
-        "id": user.id,
-        "user_email": user.email,
-        "courses": [],
-        "titles": []
-    }
+    response = {"id": user.id, "user_email": user.email, "courses": [], "titles": []}
 
     for course in user_deadlines:
         response["courses"].append({"course_id": course.course_id})
