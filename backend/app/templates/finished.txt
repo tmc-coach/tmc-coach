@@ -1,1 +1,9 @@
-You have finished {{ Course_Name }} course congratulations!
+Hello,
+
+You have succesfully achieved your goal on the {{ Course_Name }} course, congratulations!
+
+We hope you found tmc coach helpful while completing the course.
+Keep up the good work!
+
+Best regards,
+The TMC Coach Team
