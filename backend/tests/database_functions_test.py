@@ -322,3 +322,48 @@ class DeadlinesTestCase(TestCase):
 
         with self.app.app_context():
             delete_deadline(self.user_id, self.course_id)
+    
+    def test_set_deadline_saves_target_points_to_deadlines_table(self):
+        deadline_str = "16/6/2028"
+        with self.app.app_context():
+            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises, 3)
+        
+            sql = "SELECT target_points FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
+            result = db.session.execute(
+                    text(sql), {"user_id": self.user_id, "course_id": self.course_id}
+                ).fetchall()
+            self.assertEqual(result[0][0], 5)
+        
+        with self.app.app_context():
+            delete_deadline(self.user_id, self.course_id)
+    
+    def test_set_deadline_saves_current_points_to_deadlines_table(self):
+        deadline_str = "16/6/2028"
+        with self.app.app_context():
+            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises, 3)
+        
+            sql = "SELECT current_points FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
+            result = db.session.execute(
+                    text(sql), {"user_id": self.user_id, "course_id": self.course_id}
+                ).fetchall()
+            self.assertEqual(result[0][0], 0)
+        
+        with self.app.app_context():
+            delete_deadline(self.user_id, self.course_id)
+    
+    def test_set_deadline_saves_desired_points_to_checkpoints_table(self):
+        deadline_str = "16/6/2028"
+        with self.app.app_context():
+            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises, 3)
+        
+            sql = "SELECT desired_points FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
+            result = db.session.execute(
+                    text(sql), {"user_id": self.user_id, "course_id": self.course_id}
+                ).fetchall()
+            self.assertEqual(result[0][0], 1)
+            self.assertEqual(result[1][0], 3)
+            self.assertEqual(result[2][0], 4)
+        
+        with self.app.app_context():
+            delete_deadline(self.user_id, self.course_id)
+    
