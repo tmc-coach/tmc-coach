@@ -13,6 +13,10 @@ def count_checkpoint_dates(created_at, deadline, how_many_checkpoints):
         or how_many_checkpoints == 0
     ):
         return
+    
+    # jos käyttäjä on valinnut viikottaiset checkpointit,
+    # days_between_checkpoints on 7.
+    # previous on ensimmäinen halutun päivän checkpoint
 
     checkpoints = []
     days_apart = deadline - created_at

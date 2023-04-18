@@ -15,6 +15,15 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
     { id: 2, option: 'I want checkpoints monthly' },
     { id: 3, option: 'I want to choose the amount of checkpoints' }
   ]
+  let weekdays = [
+    { id: 1, day: 'Monday' },
+    { id: 2, day: 'Tuesday' },
+    { id: 3, day: 'Wednesday' },
+    { id: 4, day: 'Thursday' },
+    { id: 5, day: 'Friday' },
+    { id: 6, day: 'Saturday' },
+    { id: 7, day: 'Sunday' }
+  ]
 
   return (
     <div>
@@ -39,6 +48,19 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
         textField='option'
         onChange={(value) => setFreqvency(value.id)}
       />
+      {freqvency === 1 &&
+        <div>
+          <p>Which day do you want to have your checkpoints?</p>
+          <Combobox
+            className="flex flex-col mb-4"
+            //defaultValue='I want to choose the amount of checkpoint'
+            data={weekdays}
+            dataKey='id'
+            textField='day'
+            //onChange={(value) => setFreqvency(value.id)}
+          />
+        </div>
+      }
       {freqvency === 3 &&
         <div>
           <p>How many checkpoints do you want?</p>
