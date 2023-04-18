@@ -18,7 +18,24 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
 
   return (
     <div>
-      <h1>{deadlines.length === 0 ? 'Set a deadline' : 'Set a new deadline'}</h1>
+      {deadlines.length === 0 ? ( <>
+        <div className="my-2 rounded-md border-solid border-4 border-black-800">
+          <h1>Set a deadline</h1>
+          <p>You can set a deadline for the course by choosing the final date
+          that you want to finished with the course.
+          After that you need to select the amount of the checkpoints.
+          The checkpoints will work as waypoints and they will help you
+          finish the course step by step until you finish the course.
+          </p>
+        </div>
+      </>
+      ) : ( <>
+        <h1>Set a new deadline</h1>
+        <p>You can change your current deadline for the course by choosing a new date from the calendar and
+          selecting a new checkpoints.
+        </p>
+      </>
+      )}
       {message ? <p className="flex justify-center px-5 my-5">{message}</p> : null}
       <DatePicker
         inline
