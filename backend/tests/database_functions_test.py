@@ -3,14 +3,16 @@ import json
 import os
 from app import db, create_app
 from sqlalchemy.sql import text
-from datetime import date
+from datetime import date, datetime
 from dotenv import load_dotenv
 from modules.deadline import (
     set_deadline,
     get_deadlines,
     delete_deadline,
     get_course_deadline,
+    get_deadline_infos
 )
+from modules.checkpoint import get_checkpoint_infos
 import datetime
 
 
@@ -366,4 +368,36 @@ class DeadlinesTestCase(TestCase):
         
         with self.app.app_context():
             delete_deadline(self.user_id, self.course_id)
+    
+    def test_get_deadline_infos_gives_info_correctly(self):
+        deadline_str = "16/6/2028"
+        with self.app.app_context():
+            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises, 3)
+        
+            info = get_deadline_infos(deadline_str)
+            self.assertEqual(len(info[0]), 6)
+            self.assertEqual(info[0][2], int(self.user_id))
+
+        with self.app.app_context():
+            delete_deadline(self.user_id, self.course_id)
+    
+    def test_get_checkpoint_infos_gives_info_correctly(self):
+        deadline_str = "16/6/2028"
+        with self.app.app_context():
+            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises, 3)
+
+            sql = "SELECT checkpoint_date FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id and checkpoint_percent=25"
+            result = db.session.execute(
+                    text(sql), {"user_id": self.user_id, "course_id": self.course_id}
+                ).fetchall()
+            checkpoint_date = result[0][0].strftime("%d.%m.%Y")
+        
+            info = get_checkpoint_infos(checkpoint_date)
+            self.assertEqual(len(info[0]), 7)
+            self.assertEqual(info[0][2], int(self.user_id))
+
+        with self.app.app_context():
+            delete_deadline(self.user_id, self.course_id)
+    
+    
     
