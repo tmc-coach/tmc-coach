@@ -25,10 +25,10 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
         <div className="my-2 rounded-md border-solid border-4 border-black-800">
           <h1>Set a deadline</h1>
           <p>You can set a deadline for the course by choosing the final date
-          that you want to finished with the course.
+          when you want to be finished with the course.
           After that you need to select the amount of the checkpoints.
-          The checkpoints will work as waypoints and they will help you
-          finish the course step by step until you finish.
+          The checkpoints will help you finish the course by creating smaller deadlines
+          for you to achieve. 
           </p>
         </div>
       </>
