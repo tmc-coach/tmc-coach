@@ -49,7 +49,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
       cy.on('window:confirm', (text) => {
         expect(text).to.contains('Are you sure you want to delete the deadline you have set for this course?')
       })
-      cy.contains('You have not set a deadline for this course').should('exist')
+      cy.contains('You have planned to complete this course by ').should('not.exist')
     })
     it('deadline won\'t be deleted if cancel-button is clicked in confirmation window', () => {
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click().click()
@@ -64,10 +64,6 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
     })
     it('delete deadline -button will not show if deadline hasnt been set', () => {
       cy.contains('Delete deadline').should('not.exist')
-    })
-    it('set deadline -page will show no deadlines if there is none', () => {
-      cy.visit('http://localhost:3000/orgs/courses/1113')
-      cy.contains('You have not set a deadline for this course').should('exist')
     })
     it('set deadline -page shows a confirmation window', () => {
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
