@@ -20,7 +20,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
   }
 
   return (
-    <div>
+    <div className='order-last xl:order-first h-full mx-auto'>
       <h2 className='text-lg font-medium py-2'>{deadlines.length === 0 ? 'Set a deadline' : 'Set a new deadline'}</h2>
       {message ? <p className='mb-2'>{message}</p> : null}
       <DatePicker
