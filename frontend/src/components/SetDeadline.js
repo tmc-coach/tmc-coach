@@ -2,7 +2,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
 
-const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, frequency, setFrequency }) => {
+const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, frequency, setFrequency, weekday, setWeekday }) => {
   const options = [
     { id: 1, option: 'I want checkpoints weekly' },
     { id: 2, option: 'I want checkpoints monthly' },
@@ -47,17 +47,16 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
       >
         {options.map(o => <option key={o.id} value={o.id}>{o.option}</option>)}
       </select>
-      {freqvency === 1 &&
+      {frequency === 1 &&
         <div>
           <p>Which day do you want to have your checkpoints?</p>
-          <Combobox
-            className="flex flex-col mb-4"
-            //defaultValue='I want to choose the amount of checkpoint'
-            data={weekdays}
-            dataKey='id'
-            textField='day'
-            //onChange={(value) => setFreqvency(value.id)}
-          />
+          <select
+            className='py-2 px-4 my-2 rounded bg-gray-200'
+            defaultValue={weekday}
+            onChange={ (day) => setWeekday(Number(day.target.value)) }
+          >
+            {weekdays.map(day => <option key={day.id} value={day.id}>{day.day}</option>)}
+          </select>
         </div>
       }
       {frequency === 3 &&

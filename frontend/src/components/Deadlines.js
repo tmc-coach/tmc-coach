@@ -10,6 +10,7 @@ const Deadlines = ({ course_id }) => {
   const [message, setMessage] = useState(null)
   const [checkpoints, setCheckpoints] = useState(3)
   const [frequency, setFrequency] = useState(1)
+  const [weekday, setWeekday] = useState(1)
 
   useEffect(() => {
     deadlineService.get_deadline(course_id).then(deadlines => setDeadlines(deadlines))
@@ -83,9 +84,9 @@ const Deadlines = ({ course_id }) => {
     try {
       if (frequency < 3) {
         let checkpoints = amount_of_checkpoints
-        await deadlineService.set_deadline({ course_id, date, checkpoints })
+        await deadlineService.set_deadline({ course_id, date, checkpoints, weekday })
       } else {
-        await deadlineService.set_deadline({ course_id, date, checkpoints })
+        await deadlineService.set_deadline({ course_id, date, checkpoints, weekday })
       }
       setNewDeadline(true)
       setMessage('Deadline set successfully!')
@@ -123,7 +124,7 @@ const Deadlines = ({ course_id }) => {
   return (
     <>
       <Deadline deadlines={deadlines} onChange={handleSetDeadline} onDelete={handleDelete} />
-      <SetDeadline deadlines={deadlines} date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} checkpoints={checkpoints} setCheckpoints={setCheckpoints} frequency={frequency} setFrequency={setFrequency} />
+      <SetDeadline deadlines={deadlines} date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} checkpoints={checkpoints} setCheckpoints={setCheckpoints} frequency={frequency} setFrequency={setFrequency} weekday={weekday} setWeekday={setWeekday} />
     </>
   )
 }
