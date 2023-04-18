@@ -28,7 +28,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
           that you want to finished with the course.
           After that you need to select the amount of the checkpoints.
           The checkpoints will work as waypoints and they will help you
-          finish the course step by step until you finish the course.
+          finish the course step by step until you finish.
           </p>
         </div>
       </>
