@@ -21,14 +21,10 @@ describe('TMC-Coach organizations', { defaultCommandTimeout: 20000 }, () => {
       cy.contains('MOOC').click()
       cy.url().should('include', '/orgs/mooc')
     })
-    it('can see MOOC under frequently used organizations', () => {
+    it('can see MOOC and University of Helsinki under frequently used organizations', () => {
       cy.orgspage()
       cy.contains('Aalto BIZ').should('be.visible')
       cy.get('#frequent-orgs').contains('MOOC')
-    })
-    it('can see Helsingin Yliopisto under frequently used organizations', () => {
-      cy.orgspage()
-      cy.contains('Aalto BIZ').should('be.visible')
       cy.get('#frequent-orgs').contains('Helsingin Yliopisto')
     })
   })

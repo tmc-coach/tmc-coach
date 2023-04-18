@@ -1,7 +1,8 @@
 from app import db
-from app.models import users
+from app.models import users, deadlines
 from sqlalchemy import text
 import json
+import requests
 
 
 def set_user(id: int, token: str, email: str) -> str:
@@ -39,14 +40,13 @@ def delete_user(id: int) -> str:
     return "User deleted"
 
 
-def get_user_email(id):
-    user = users.query.filter_by(id=id).all()
-    response = {}
-    user = user[0]
+def get_user_email(user_id):
+    user = users.query.filter_by(id=user_id).first()
+    user_deadlines = deadlines.query.filter_by(user_id=user_id).all()
 
-    response = {
-        "id": user.id,
-        "user_email": user.email,
-    }
+    response = {"id": user.id, "user_email": user.email, "courses": [], "titles": []}
 
-    return json.dumps(response, default=str)
+    for course in user_deadlines:
+        response["courses"].append({"course_id": course.course_id})
+
+    return response

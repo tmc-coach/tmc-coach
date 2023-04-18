@@ -1,16 +1,9 @@
-// import DatePicker, { registerLocale } from 'react-datepicker'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-//import NumberPicker from 'react-dom'
-import NumberPicker from 'react-widgets/NumberPicker'
-//import DropdownList from 'react-widgets/DropdownList'
-import Combobox from 'react-widgets/Combobox'
-// import fi from 'date-fns/locale/fi'
 
-// registerLocale('fi', fi)
 
-const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, freqvency, setFreqvency }) => {
-  let options = [
+const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, frequency, setFrequency }) => {
+  const options = [
     { id: 1, option: 'I want checkpoints weekly' },
     { id: 2, option: 'I want checkpoints monthly' },
     { id: 3, option: 'I want to choose the amount of checkpoints' }
@@ -25,29 +18,35 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
     { id: 7, day: 'Sunday' }
   ]
 
+  const minCheckpoints = 0
+  const maxCheckpoints = 12
+
+  const handleNumberInput = event => {
+    const numberOfCheckpoints = Math.max(
+      minCheckpoints, Math.min(maxCheckpoints, Number(event.target.value))
+    )
+    setCheckpoints(numberOfCheckpoints)
+  }
+
   return (
     <div>
-      <h1>{deadlines.length === 0 ? 'Set a deadline' : 'Set a new deadline'}</h1>
-      {message ? <p className="flex justify-center px-5 my-5">{message}</p> : null}
+      <h2 className='text-lg font-medium py-2'>{deadlines.length === 0 ? 'Set a deadline' : 'Set a new deadline'}</h2>
+      {message ? <p className='mb-2'>{message}</p> : null}
       <DatePicker
         inline
         selected={date}
         onChange={(newDate) => setDate(newDate)}
         minDate={new Date()}
-      // locale="fi"
       />
-      <div className='text-2xl font-medium pb-5'>
-        Choose the amount of checkpoints
-      </div>
+      <h2 className='text-lg font-medium py-2'>Choose the amount of checkpoints</h2>
       <p>How often do you want checkpoints?</p>
-      <Combobox
-        className="flex flex-col mb-4"
-        //defaultValue='I want to choose the amount of checkpoint'
-        data={options}
-        dataKey='id'
-        textField='option'
-        onChange={(value) => setFreqvency(value.id)}
-      />
+      <select
+        className='py-2 px-4 my-2 rounded bg-gray-200'
+        defaultValue={frequency}
+        onChange={ (e) => setFrequency(Number(e.target.value)) }
+      >
+        {options.map(o => <option key={o.id} value={o.id}>{o.option}</option>)}
+      </select>
       {freqvency === 1 &&
         <div>
           <p>Which day do you want to have your checkpoints?</p>
@@ -61,19 +60,25 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
           />
         </div>
       }
-      {freqvency === 3 &&
-        <div>
-          <p>How many checkpoints do you want?</p>
-          <NumberPicker
+      {frequency === 3 &&
+        <>
+          <p>How many checkpoints do you want? ({ minCheckpoints }&ndash;{ maxCheckpoints })</p>
+          <input
+            className='p-2 px-4 mb-2 bg-gray-200 rounded'
+            type='number'
             value={checkpoints}
-            onChange={(checkpoints) => setCheckpoints(checkpoints)}
-            min={0}
-            max={12}
+            onChange={handleNumberInput}
           />
-        </div>
+        </>
       }
       <div className="flex justify-center my-5">
-        <button onClick={handleSetDeadline} value="set_deadline" className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Set deadline</button>
+        <button
+          onClick={handleSetDeadline}
+          value="set_deadline"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Set deadline
+        </button>
       </div>
     </div>
   )

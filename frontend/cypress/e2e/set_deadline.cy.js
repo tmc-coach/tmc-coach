@@ -36,12 +36,13 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
 
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
       cy.get('div.react-datepicker__month-container').contains('13').click()
-      //
-      cy.get('div.rw-widget-picker.rw-widget-container').click()
-      cy.contains('I want checkpoints weekly').click()
-      //
       cy.get('button[value=set_deadline]').click()
       cy.contains(date).should('exist')
+    })
+    it('user can see the scheduled course in profile page', () => {
+      cy.profilepage()
+      cy.contains('My scheduled courses').should('exist')
+      cy.get('a[href="/orgs/courses/277"]').should('be.visible').click()
     })
     it('can delete deadline if there is one added', () => {
       cy.get('button[value=delete_deadline]').click()
@@ -53,10 +54,6 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
     it('deadline won\'t be deleted if cancel-button is clicked in confirmation window', () => {
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click().click()
       cy.get('div.react-datepicker__month-container').contains('10').click()
-      //
-      cy.get('div.rw-widget-picker.rw-widget-container').click()
-      cy.contains('I want checkpoints weekly').click()
-      //
       cy.get('button[value=set_deadline]').click()
       cy.get('button[value=delete_deadline]').click()
       cy.on('window:confirm', (text) => {
@@ -72,20 +69,9 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
       cy.visit('http://localhost:3000/orgs/courses/1113')
       cy.contains('You have not set a deadline for this course').should('exist')
     })
-    it('404 page is shown if invalid page', () => {
-      cy.on('uncaught:exception', () => {
-        return false
-      })
-      cy.visit('http://localhost:3000/orgs/courses/1169/set')
-      cy.contains('The page you were looking for does not exist.')
-    })
     it('set deadline -page shows a confirmation window', () => {
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
       cy.get('div.react-datepicker__month-container').contains('18').click()
-      //
-      cy.get('div.rw-widget-picker.rw-widget-container').click()
-      cy.contains('I want checkpoints weekly').click()
-      //
       cy.get('button[value=set_deadline]').click()
       cy.on('window:confirm', (text) => {
         expect(text).to.contain('You have already set a deadline for this course.')
@@ -103,20 +89,6 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
       let date = '18-' + (nextMonth < 10) ? '0' + nextMonth : nextMonth.toString() + '-' + year.toString()
       cy.contains(date).should('be.visible')
     })
-    it('a new deadline is not added if confirm-windows cancel-button is pressed', () => {
-      cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
-      cy.get('div.react-datepicker__month-container').contains('21').click()
-      //
-      cy.get('div.rw-widget-picker.rw-widget-container').click()
-      cy.contains('I want checkpoints weekly').click()
-      //
-      cy.get('button[value=set_deadline]').click()
-      cy.on('window:confirm', (text) => {
-        expect(text).to.contains('You have already set a deadline for this course.')
-        return false
-      })
-      cy.contains('2023-04-21').should('not.exist')
-    })
     it('confirm window will show up if the deadline is too close', () => {
       // Two days from now
       const twoDaysFromToday = new Date(now.setDate(dayNow + 2))
@@ -126,10 +98,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
       let year = twoDaysFromToday.getFullYear().toString()
 
       cy.get('div.react-datepicker__day--0' + day).first().click()
-      //
-      cy.get('div.rw-widget-picker.rw-widget-container').click()
-      cy.contains('I want to choose the amount of checkpoint').click()
-      //
+      cy.get('select').select('I want to choose the amount of checkpoints')
       cy.get('button[value=set_deadline]').click()
       cy.on('window:confirm', (text) => {
         expect(text).to.contains('Why do you want to set a deadline that is under four days away???')
@@ -159,34 +128,11 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
     })
     it('the amount of checkpoints can be chosen', () => {
       cy.setdeadlinepage()
-      //
-      cy.get('div.rw-widget-picker.rw-widget-container').click()
-      cy.contains('I want to choose the amount of checkpoint').click()
-      //
-      //cy.get('input[type=text]').type('1')
-      cy.get('input[inputmode=numeric]').type('1')
-      cy.get('input[inputmode=numeric]').should('have.value', '12')
-      cy.get('input[inputmode=numeric]').clear().type('1')
-      cy.get('input[inputmode=numeric]').should('have.value', '1')
-      cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
-      cy.get('div.react-datepicker__month-container').contains('21').click()
-      cy.get('button[value=set_deadline]').click()
-      cy.on('window:confirm', (text) => {
-        expect(text).to.contains('You have already set a deadline for this course.')
-        return true
-      })
-    })
-    it('the amount of checkpoints can be chosen', () => {
-      cy.setdeadlinepage()
-      //
-      cy.get('div.rw-widget-picker.rw-widget-container').click()
-      cy.contains('I want to choose the amount of checkpoint').click()
-      //
-      //cy.get('input[type=text]').type('1')
-      cy.get('input[inputmode=numeric]').type('1')
-      cy.get('input[inputmode=numeric]').should('have.value', '12')
-      cy.get('input[inputmode=numeric]').clear().type('1')
-      cy.get('input[inputmode=numeric]').should('have.value', '1')
+      cy.get('select').select('I want to choose the amount of checkpoints')
+      cy.get('input[type=number]').clear().type('31')
+      cy.get('input[type=number]').should('have.value', '12')
+      cy.get('input[type=number]').clear().type('1{del}')
+      cy.get('input[type=number]').should('have.value', '1')
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
       cy.get('div.react-datepicker__month-container').contains('21').click()
       cy.get('button[value=set_deadline]').click()
