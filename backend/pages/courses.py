@@ -65,6 +65,7 @@ def get_exercises(course_id):
             "awarded_points": awarded_points,
             "maximum_exercises": maximum_exercises,
             "course_title": course_title["title"],
+            "disabled_status": course_title["disabled_status"],
         }
     ]
 
