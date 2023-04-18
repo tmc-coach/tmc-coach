@@ -88,9 +88,9 @@ def user_email():
 
     for i in range(len(users_courses)):
         response_coursename = requests.get(
-        f"https://tmc.mooc.fi/api/v8/courses/{users_courses[i]}",
-        headers={"Accept": "application/json", "Authorization": token["token"]},
-    )
+            f"https://tmc.mooc.fi/api/v8/courses/{users_courses[i]}",
+            headers={"Accept": "application/json", "Authorization": token["token"]},
+        )
 
         if response_coursename.status_code == 403:
             return jsonify(error="Forbidden"), 403
@@ -98,6 +98,6 @@ def user_email():
             return jsonify(error="Not Found"), 404
 
         course_title = response_coursename.json()
-        user_email['titles'].append(course_title["title"])
+        user_email["titles"].append(course_title["title"])
 
     return json.dumps(user_email, default=str)
