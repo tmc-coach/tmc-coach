@@ -68,7 +68,7 @@ def get_points_for_deadline(exercises):
     return {"current_points": current_points, "target_points": maximum_points}
 
 
-def set_deadline(user_id, date, course_id, exercises, checkpoints):
+def set_deadline(user_id, date, course_id, exercises, checkpoints, frequency, weekday):
     id = check_existing_deadline(user_id, course_id)
 
     points_for_deadline = get_points_for_deadline(exercises)
@@ -99,6 +99,8 @@ def set_deadline(user_id, date, course_id, exercises, checkpoints):
             checkpoints,
             current_points,
             target_points,
+            frequency,
+            weekday
         )
         db.session.commit()
         return "Deadline added succesfully!"
@@ -116,6 +118,8 @@ def set_deadline(user_id, date, course_id, exercises, checkpoints):
             checkpoints,
             current_points,
             target_points,
+            frequency,
+            weekday
         )
         db.session.commit()
         return "Deadline changed succesfully!"

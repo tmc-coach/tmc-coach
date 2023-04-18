@@ -15,6 +15,8 @@ from modules.user import get_user
 from modules.validate import validate_date, validate_id
 import requests
 import json
+from datetime import timedelta
+import datetime
 
 deadline = Blueprint("deadline", __name__)
 
@@ -31,6 +33,11 @@ def set_deadline_route():
 
     course_id = request.json.get("course_id")
     checkpoints = request.json.get("checkpoints")
+    weekday = request.json.get("weekday")
+    frequency = request.json.get("frequency")
+
+    if frequency != 1:
+        weekday = 0
 
     # check if course id is numeric
     if not validate_id(course_id):
@@ -51,7 +58,7 @@ def set_deadline_route():
     )
     exercises = response_exercises.json()
 
-    message = set_deadline(user["id"], date, course_id, exercises, checkpoints)
+    message = set_deadline(user["id"], date, course_id, exercises, checkpoints, frequency, weekday)
 
     return jsonify(message=message)
 

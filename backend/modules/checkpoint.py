@@ -7,7 +7,7 @@ from sqlalchemy import text
 import math
 
 
-def count_checkpoint_dates(created_at, deadline, how_many_checkpoints):
+def count_checkpoint_dates(created_at, deadline, how_many_checkpoints, frequency, weekday):
     if (
         deadline < created_at + timedelta(days=how_many_checkpoints + 1)
         or how_many_checkpoints == 0
@@ -17,24 +17,38 @@ def count_checkpoint_dates(created_at, deadline, how_many_checkpoints):
     # jos käyttäjä on valinnut viikottaiset checkpointit,
     # days_between_checkpoints on 7.
     # previous on ensimmäinen halutun päivän checkpoint
+    # how many checkpointsin voisi laskea uudestaan, jos on valinnut viikottaiset
+    # checkpointit.
 
     checkpoints = []
     days_apart = deadline - created_at
     days_apart = days_apart.days - 1
     days_between_checkpoints = 0
 
-    if (days_apart / (how_many_checkpoints + 1)) % 0.5 == 0:
-        days_between_checkpoints = math.ceil(days_apart / (how_many_checkpoints + 1))
-    else:
-        days_between_checkpoints = round(days_apart / (how_many_checkpoints + 1))
+    if frequency == 1:
+        days_between_checkpoints = 7
 
-    if days_apart < (how_many_checkpoints * days_between_checkpoints) - 1:
-        days_between_checkpoints -= 1
+        for i in range(1, 7):
+            day = created_at + timedelta(days=i)
+            if day.weekday() == weekday - 1:
+                previous = day
 
-    between_the_1st_day_and_the_1st_checkpoint = math.ceil(
-        (days_apart - ((how_many_checkpoints - 1) * days_between_checkpoints)) / 2
-    )
-    previous = created_at + timedelta(days=between_the_1st_day_and_the_1st_checkpoint)
+        if previous + timedelta(days=how_many_checkpoints * 7) < deadline:
+            how_many_checkpoints = how_many_checkpoints + 1
+
+    else: # if freqvuency == 3:
+        if (days_apart / (how_many_checkpoints + 1)) % 0.5 == 0:
+            days_between_checkpoints = math.ceil(days_apart / (how_many_checkpoints + 1))
+        else:
+            days_between_checkpoints = round(days_apart / (how_many_checkpoints + 1))
+
+        if days_apart < (how_many_checkpoints * days_between_checkpoints) - 1:
+            days_between_checkpoints -= 1
+
+        between_the_1st_day_and_the_1st_checkpoint = math.ceil(
+            (days_apart - ((how_many_checkpoints - 1) * days_between_checkpoints)) / 2
+        )
+        previous = created_at + timedelta(days=between_the_1st_day_and_the_1st_checkpoint)
 
     for i in range(how_many_checkpoints):
         percents = (round(100 / (how_many_checkpoints + 1))) * (i + 1)
@@ -67,12 +81,14 @@ def set_checkpoints(
     how_many_checkpoints,
     current_points,
     target_points,
+    frequency,
+    weekday
 ):
     checkpoint_dates_list = count_checkpoint_dates(
-        created_at, deadline, how_many_checkpoints
+        created_at, deadline, how_many_checkpoints, frequency, weekday
     )
     checkpoint_points_list = count_checkpoint_points(
-        current_points, target_points, how_many_checkpoints
+        current_points, target_points, len(checkpoint_dates_list) #how_many_checkpoints
     )
 
     try:

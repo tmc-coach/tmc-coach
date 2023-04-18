@@ -10,7 +10,7 @@ const Deadlines = ({ course_id }) => {
   const [message, setMessage] = useState(null)
   const [checkpoints, setCheckpoints] = useState(3)
   const [frequency, setFrequency] = useState(1)
-  const [weekday, setWeekday] = useState(1)
+  const [weekday, setWeekday] = useState(0)
 
   useEffect(() => {
     deadlineService.get_deadline(course_id).then(deadlines => setDeadlines(deadlines))
@@ -54,6 +54,11 @@ const Deadlines = ({ course_id }) => {
       return
     }
 
+    if (frequency === 1 && weekday === 0) {
+      alert('Please choose a weekday when you want to have your weekly checkpoints')
+      return
+    }
+
     let amount_of_checkpoints = 0
 
     if (frequency === 1) {
@@ -84,9 +89,9 @@ const Deadlines = ({ course_id }) => {
     try {
       if (frequency < 3) {
         let checkpoints = amount_of_checkpoints
-        await deadlineService.set_deadline({ course_id, date, checkpoints, weekday })
+        await deadlineService.set_deadline({ course_id, date, checkpoints, weekday, frequency })
       } else {
-        await deadlineService.set_deadline({ course_id, date, checkpoints, weekday })
+        await deadlineService.set_deadline({ course_id, date, checkpoints, weekday, frequency })
       }
       setNewDeadline(true)
       setMessage('Deadline set successfully!')
