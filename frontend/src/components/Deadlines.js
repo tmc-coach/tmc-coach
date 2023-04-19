@@ -10,7 +10,7 @@ const Deadlines = ({ course_id }) => {
   const [message, setMessage] = useState(null)
   const [checkpoints, setCheckpoints] = useState(3)
   const [frequency, setFrequency] = useState(1)
-  const [weekday, setWeekday] = useState(0)
+  const [weekday, setWeekday] = useState(1)
 
   useEffect(() => {
     deadlineService.get_deadline(course_id).then(deadlines => setDeadlines(deadlines))

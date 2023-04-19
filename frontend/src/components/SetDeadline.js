@@ -9,7 +9,6 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
     { id: 3, option: 'I want to choose the amount of checkpoints' }
   ]
   let weekdays = [
-    { id: 0, day: '' },
     { id: 1, day: 'Monday' },
     { id: 2, day: 'Tuesday' },
     { id: 3, day: 'Wednesday' },
