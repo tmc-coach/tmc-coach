@@ -137,6 +137,23 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
         return true
       })
     })
+    it('checkpoints are shown in the page', () => {
+      cy.setdeadlinepage()
+      cy.get('select').select('I want to choose the amount of checkpoints')
+      cy.get('input[type=number]').clear().type('31')
+      cy.get('input[type=number]').should('have.value', '12')
+      cy.get('input[type=number]').clear().type('1{del}')
+      cy.get('input[type=number]').should('have.value', '1')
+      cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
+      cy.get('div.react-datepicker__month-container').contains('21').click()
+      cy.get('button[value=set_deadline]').click()
+      cy.on('window:confirm', (text) => {
+        expect(text).to.contains('You have already set a deadline for this course.')
+        return true
+      })
+      cy.contains('50%')
+      cy.contains('30.4.2023')
+    })
   })
   context('logged out user', () => {
     it('is directed to login page and cant go to set_deadline page', () => {
