@@ -43,6 +43,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
       <select
         className='py-2 px-4 my-2 rounded bg-gray-200'
         defaultValue={frequency}
+        type='string'
         onChange={ (e) => setFrequency(Number(e.target.value)) }
       >
         {options.map(o => <option key={o.id} value={o.id}>{o.option}</option>)}
@@ -53,6 +54,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
           <select
             className='py-2 px-4 my-2 rounded bg-gray-200'
             defaultValue={weekday}
+            type='weekdays'
             onChange={ (day) => setWeekday(Number(day.target.value)) }
           >
             {weekdays.map(day => <option key={day.id} value={day.id}>{day.day}</option>)}
