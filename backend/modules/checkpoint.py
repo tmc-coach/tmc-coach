@@ -7,18 +7,12 @@ from sqlalchemy import text
 import math
 
 
-def count_checkpoint_dates(created_at, deadline, how_many_checkpoints, frequency, weekday):
+def count_checkpoint_dates(created_at, deadline, how_many_checkpoints, frequency=0, weekday=0):
     if (
         deadline < created_at + timedelta(days=how_many_checkpoints + 1)
         or how_many_checkpoints == 0
     ):
-        return
-    
-    # jos käyttäjä on valinnut viikottaiset checkpointit,
-    # days_between_checkpoints on 7.
-    # previous on ensimmäinen halutun päivän checkpoint
-    # how many checkpointsin voisi laskea uudestaan, jos on valinnut viikottaiset
-    # checkpointit.
+        return []
 
     checkpoints = []
     days_apart = deadline - created_at
@@ -28,15 +22,20 @@ def count_checkpoint_dates(created_at, deadline, how_many_checkpoints, frequency
     if frequency == 1:
         days_between_checkpoints = 7
 
-        for i in range(1, 7):
+        for i in range(1, 8):
             day = created_at + timedelta(days=i)
             if day.weekday() == weekday - 1:
-                previous = day
+                if i < 4:
+                    previous = day + timedelta(days=7)
+                    how_many_checkpoints -= 1
+                else:
+                    previous = day
+                break
 
-        if previous + timedelta(days=how_many_checkpoints * 7) < deadline:
-            how_many_checkpoints = how_many_checkpoints + 1
+        if previous + timedelta(days=(how_many_checkpoints * 7) + 3) < deadline:
+            how_many_checkpoints += 1
 
-    else: # if freqvuency == 3:
+    else: # if frequency == 3:
         if (days_apart / (how_many_checkpoints + 1)) % 0.5 == 0:
             days_between_checkpoints = math.ceil(days_apart / (how_many_checkpoints + 1))
         else:
@@ -81,8 +80,8 @@ def set_checkpoints(
     how_many_checkpoints,
     current_points,
     target_points,
-    frequency,
-    weekday
+    frequency=0,
+    weekday=0
 ):
     checkpoint_dates_list = count_checkpoint_dates(
         created_at, deadline, how_many_checkpoints, frequency, weekday

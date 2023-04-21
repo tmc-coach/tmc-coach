@@ -68,7 +68,7 @@ def get_points_for_deadline(exercises):
     return {"current_points": current_points, "target_points": maximum_points}
 
 
-def set_deadline(user_id, date, course_id, exercises, checkpoints, frequency, weekday):
+def set_deadline(user_id, date, course_id, exercises, checkpoints, frequency=0, weekday=0):
     id = check_existing_deadline(user_id, course_id)
 
     points_for_deadline = get_points_for_deadline(exercises)
