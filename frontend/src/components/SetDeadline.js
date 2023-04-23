@@ -59,7 +59,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
           </>
         )
       )}
-      {message ? <p className="flex justify-center px-5 my-5">{message}</p> : null}
+      {message && <p className="flex justify-center px-5 my-5">{message}</p>}
       <DatePicker
         inline
         selected={date}
@@ -71,13 +71,13 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
       <select
         className='py-2 px-4 my-2 rounded bg-gray-200'
         defaultValue={frequency}
-        onChange={ (e) => setFrequency(Number(e.target.value)) }
+        onChange={(e) => setFrequency(Number(e.target.value))}
       >
         {options.map(o => <option key={o.id} value={o.id}>{o.option}</option>)}
       </select>
       {frequency === 3 &&
         <>
-          <p>How many checkpoints do you want? ({ minCheckpoints }&ndash;{ maxCheckpoints })</p>
+          <p>How many checkpoints do you want? ({minCheckpoints}&ndash;{maxCheckpoints})</p>
           <input
             className='p-2 px-4 mb-2 bg-gray-200 rounded'
             type='number'
