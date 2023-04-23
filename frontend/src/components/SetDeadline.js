@@ -1,7 +1,7 @@
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import Loading from '../components/Loading'
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, frequency, setFrequency }) => {
   const options = [

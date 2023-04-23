@@ -1,6 +1,6 @@
 import Checkpoints from './Checkpoints'
 import Loading from '../components/Loading'
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 const Deadline = ({ deadlines, onDelete }) => {
   const [LoadingSpinner, setLoadingSpinner] = useState(true)
