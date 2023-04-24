@@ -108,6 +108,7 @@ def set_deadline(user_id, date, course_id, exercises, checkpoints, target_points
         target_dl.date = deadline_as_date
         target_dl.created_at = date_now
         target_dl.current_points = current_points
+        target_dl.target_points = target_points
         deleting_existing_checkpoints_for_course(user_id, course_id)
         set_checkpoints(
             user_id,
