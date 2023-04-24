@@ -101,7 +101,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
       cy.get('select[type=string]').select('I want to choose the amount of checkpoints')
       cy.get('button[value=set_deadline]').click()
       cy.on('window:confirm', (text) => {
-        expect(text).to.contains('Why do you want to set a deadline that is under four days away???')
+        expect(text).to.contains('You are trying to have more checkpoints than there are days between today and the deadline.')
         return true
       })
       cy.contains(year + '-' + month + '-' + day).should('be.visible')
