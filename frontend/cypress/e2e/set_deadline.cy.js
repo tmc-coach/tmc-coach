@@ -32,7 +32,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
         nextMonth = 1
         year = yearNow + 1
       }
-      let date = year.toString() + '-' + (nextMonth < 10) ? '0' + nextMonth : nextMonth.toString() + '-13'
+      let date = '13.' + (nextMonth < 10) ? nextMonth : nextMonth.toString() + '.' + year.toString()
 
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
       cy.get('div.react-datepicker__month-container').contains('13').click()
@@ -82,15 +82,15 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
         year = yearNow + 1
       }
 
-      let date = '18-' + (nextMonth < 10) ? '0' + nextMonth : nextMonth.toString() + '-' + year.toString()
+      let date = '18.' + (nextMonth < 10) ? nextMonth : nextMonth.toString() + '.' + year.toString()
       cy.contains(date).should('be.visible')
     })
     it('confirm window will show up if the deadline is too close', () => {
       // Two days from now
       const twoDaysFromToday = new Date(now.setDate(dayNow + 2))
-      let day = (twoDaysFromToday.getDate() < 10) ? '0' + twoDaysFromToday.getDate() : twoDaysFromToday.getDate().toString()
+      let day = (twoDaysFromToday.getDate() < 10) ? twoDaysFromToday.getDate() : twoDaysFromToday.getDate().toString()
       let month = twoDaysFromToday.getMonth() + 1
-      month = (month < 10) ? '0' + month : month.toString()
+      month = (month < 10) ? month : month.toString()
       let year = twoDaysFromToday.getFullYear().toString()
 
       cy.get('div.react-datepicker__day--0' + day).last().click()
@@ -100,7 +100,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
         expect(text).to.contains('Why do you want to set a deadline that is under four days away???')
         return true
       })
-      cy.contains(year + '-' + month + '-' + day).should('be.visible')
+      cy.contains(day + '.' + month + '.' + year).should('be.visible')
     })
     it('a new deadline will not be set if the cancel-button is pressed', () => {
       // Next month 17th
@@ -110,8 +110,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
         nextMonth = 1
         year = yearNow + 1
       }
-
-      let date = year.toString() + '-' + (nextMonth < 10) ? '0' + nextMonth : nextMonth.toString() + '-17'
+      let date = '17.' + nextMonth.toString() + '.' + year.toString()
 
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
       cy.get('div.react-datepicker__month-container').contains('17').click()
