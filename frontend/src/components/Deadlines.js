@@ -70,8 +70,17 @@ const Deadlines = ({ course_id }) => {
     }
 
     let text = ''
-    if (days_between < checkpoints) {
-      text = 'Why do you want to set a deadline that is under four days away??? Go do your exercises!!! No checkpoints will be assigned if you set the deadline under four days away from this day. Are you sure you want to set this deadline?' + '\n' + '\n'
+    if (days_between < 1) {
+      text = 'Why do you want to set a deadline that is under two days away??? Go do your exercises!!! No checkpoints will be assigned if you set the deadline under 2 days away from this day. Are you sure you want to set this deadline?' + '\n' + '\n'
+      if (deadlines.length === 0) {
+        if (window.confirm(text) === false) {
+          return
+        }
+      }
+    }
+
+    if (days_between < checkpoints && days_between > 0) {
+      text = 'You are trying to have more checkpoints than there are days between today and the deadline. No checkpoints will be assigned if you try to have more checkpoints than there are days till the deadline. Are you sure you want to set this deadline?' + '\n' + '\n'
       if (deadlines.length === 0) {
         if (window.confirm(text) === false) {
           return
