@@ -62,6 +62,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
       )}
       {message && <p className="flex justify-center px-5 my-5">{message}</p>}
       <DatePicker
+        fixedHeight
         inline
         selected={date}
         onChange={(newDate) => setDate(newDate)}
