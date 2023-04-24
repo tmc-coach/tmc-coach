@@ -93,7 +93,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
       month = (month < 10) ? '0' + month : month.toString()
       let year = twoDaysFromToday.getFullYear().toString()
 
-      cy.get('div.react-datepicker__day--0' + day).first().click()
+      cy.get('div.react-datepicker__day--0' + day).last().click()
       cy.get('select').select('I want to choose the amount of checkpoints')
       cy.get('button[value=set_deadline]').click()
       cy.on('window:confirm', (text) => {

@@ -121,7 +121,7 @@ const Deadlines = ({ course_id }) => {
   }
 
   return (
-    <div className='flex flex-wrap'>
+    <div className='flex flex-wrap justify-center'>
       {deadlines.length !== 0 && <Deadline deadlines={deadlines} onChange={handleSetDeadline} onDelete={handleDelete} />}
       <SetDeadline deadlines={deadlines} date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} checkpoints={checkpoints} setCheckpoints={setCheckpoints} frequency={frequency} setFrequency={setFrequency} />
     </div>
