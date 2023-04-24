@@ -167,3 +167,88 @@ class CheckpointsTestCase(TestCase):
         for checkpoint in dictionary:
             self.assertEqual(checkpoint["user_id"], int(user_id))
             self.assertEqual(checkpoint["course_id"], int(course_id))
+
+    def test_weekly_checkpoints_are_on_the_right_weekday(self):
+        user_id = os.getenv("TMCUSERID")
+        course_id = 4
+        created_at = datetime.datetime(2023, 4, 24)
+        date_for_deadline = datetime.datetime(2023, 5, 19)
+
+        with self.app.app_context():
+            set_checkpoints(
+                user_id,
+                course_id,
+                created_at,
+                date_for_deadline,
+                2,
+                self.current_points,
+                self.target_points,
+                1,
+                3
+            )
+            db.session.commit()
+
+        checkpoints = []
+
+        with self.app.app_context():
+            sql = "SELECT * FROM checkpoints WHERE user_id=:user_id and course_id=:course_id"
+            result = db.session.execute(
+                text(sql), {"user_id": user_id, "course_id": course_id}
+            )
+            checkpoints = result.fetchall()
+
+        self.assertEqual(len(checkpoints), 2)
+
+        for i in range(len(checkpoints)):
+            if i == 1:
+                self.assertEqual(datetime.date(2023, 5, 10), checkpoints[i][3])
+            if i == 0:
+                self.assertEqual(datetime.date(2023, 5, 3), checkpoints[i][3])
+
+        with self.app.app_context():
+            sql = "DELETE FROM checkpoints WHERE user_id=:user_id and course_id=:course_id"
+            result = db.session.execute(
+                text(sql), {"user_id": user_id, "course_id": course_id}
+            )
+            db.session.commit()
+        
+        with self.app.app_context():
+            set_checkpoints(
+                user_id,
+                course_id,
+                created_at,
+                date_for_deadline,
+                2,
+                self.current_points,
+                self.target_points,
+                1,
+                6
+            )
+            db.session.commit()
+
+        checkpoints = []
+
+        with self.app.app_context():
+            sql = "SELECT * FROM checkpoints WHERE user_id=:user_id and course_id=:course_id"
+            result = db.session.execute(
+                text(sql), {"user_id": user_id, "course_id": course_id}
+            )
+            checkpoints = result.fetchall()
+
+        self.assertEqual(len(checkpoints), 3)
+
+        for i in range(len(checkpoints)):
+            if i == 2:
+                self.assertEqual(datetime.date(2023, 5, 13), checkpoints[i][3])
+            if i == 1:
+                self.assertEqual(datetime.date(2023, 5, 6), checkpoints[i][3])
+            if i == 0:
+                self.assertEqual(datetime.date(2023, 4, 29), checkpoints[i][3])
+
+        with self.app.app_context():
+            sql = "DELETE FROM checkpoints WHERE user_id=:user_id and course_id=:course_id"
+            result = db.session.execute(
+                text(sql), {"user_id": user_id, "course_id": course_id}
+            )
+            db.session.commit()
+
