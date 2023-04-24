@@ -3,9 +3,11 @@ from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail
 
 
 db = SQLAlchemy()
+mail = Mail()
 
 
 def create_app():
@@ -23,6 +25,14 @@ def create_app():
 
     # set secret key
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+
+    # configure e-mail settings
+    app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER")
+    app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT"))
+    app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS")
+    app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME")
+    app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
+    mail.init_app(app)
 
     # set up database connection
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
