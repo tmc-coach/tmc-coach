@@ -1,15 +1,13 @@
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-
-const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, frequency, setFrequency }) => {
+const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, frequency, setFrequency, target_points, setTarget_points, current_points, max_points }) => {
   const options = [
     { id: 1, option: 'I want checkpoints weekly' },
     { id: 2, option: 'I want checkpoints monthly' },
     { id: 3, option: 'I want to choose the amount of checkpoints' }
   ]
-
-  const minCheckpoints = 0
+  const minCheckpoints = 1
   const maxCheckpoints = 12
 
   const handleNumberInput = event => {
@@ -17,6 +15,13 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
       minCheckpoints, Math.min(maxCheckpoints, Number(event.target.value))
     )
     setCheckpoints(numberOfCheckpoints)
+  }
+
+  const handleTargetPointInput = (event) => {
+    const targetPointValue = Math.max(
+      current_points, Math.min(max_points, Number(event.target.value))
+    )
+    setTarget_points(targetPointValue)
   }
 
   return (
@@ -49,6 +54,13 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
           />
         </>
       }
+      <h2 className='text-lg font-medium py-2'>How many points do you aim to complete in this course?</h2>
+      <input
+        className='p-2 px-4 mb-2 bg-gray-200 rounded'
+        type='number'
+        value={target_points}
+        onChange={handleTargetPointInput}
+      />
       <div className="flex justify-center my-5">
         <button
           onClick={handleSetDeadline}

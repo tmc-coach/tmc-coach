@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import deadlineService from '../services/deadlines'
+import coursesService from '../services/courses'
 import SetDeadline from './SetDeadline'
 import Deadline from './Deadline'
 
@@ -10,9 +11,17 @@ const Deadlines = ({ course_id }) => {
   const [message, setMessage] = useState(null)
   const [checkpoints, setCheckpoints] = useState(3)
   const [frequency, setFrequency] = useState(1)
-
+  const [current_points, setCurrent_points] = useState(0)
+  const [max_points, setMax_points] = useState(0)
+  const [target_points, setTarget_points] = useState(0)
   useEffect(() => {
     deadlineService.get_deadline(course_id).then(deadlines => setDeadlines(deadlines))
+  }, [])
+
+  useEffect(() => {
+    coursesService.get_exercises(course_id).then(exercises => setCurrent_points(exercises[0].awarded_points))
+    coursesService.get_exercises(course_id).then(exercises => setMax_points(exercises[0].maximum_exercises))
+    coursesService.get_exercises(course_id).then(exercises => setTarget_points(exercises[0].maximum_exercises))
   }, [])
 
   useEffect(() => {
@@ -83,9 +92,9 @@ const Deadlines = ({ course_id }) => {
     try {
       if (frequency < 3) {
         let checkpoints = amount_of_checkpoints
-        await deadlineService.set_deadline({ course_id, date, checkpoints })
+        await deadlineService.set_deadline({ course_id, date, checkpoints, target_points })
       } else {
-        await deadlineService.set_deadline({ course_id, date, checkpoints })
+        await deadlineService.set_deadline({ course_id, date, checkpoints, target_points })
       }
       setNewDeadline(true)
       setMessage('Deadline set successfully!')
@@ -123,7 +132,7 @@ const Deadlines = ({ course_id }) => {
   return (
     <>
       <Deadline deadlines={deadlines} onChange={handleSetDeadline} onDelete={handleDelete} />
-      <SetDeadline deadlines={deadlines} date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} checkpoints={checkpoints} setCheckpoints={setCheckpoints} frequency={frequency} setFrequency={setFrequency} />
+      <SetDeadline deadlines={deadlines} date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} checkpoints={checkpoints} setCheckpoints={setCheckpoints} frequency={frequency} setFrequency={setFrequency} target_points={target_points} setTarget_points={setTarget_points} current_points={current_points} max_points={max_points}/>
     </>
   )
 }
