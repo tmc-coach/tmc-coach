@@ -68,12 +68,18 @@ def get_points_for_deadline(exercises):
     return {"current_points": current_points, "target_points": maximum_points}
 
 
-def set_deadline(user_id, date, course_id, exercises, checkpoints, frequency=0, weekday=0):
+def set_deadline(user_id, date, course_id, exercises, checkpoints, target_points=None, frequency=0, weekday=0):
     id = check_existing_deadline(user_id, course_id)
 
     points_for_deadline = get_points_for_deadline(exercises)
     current_points = points_for_deadline["current_points"]
-    target_points = points_for_deadline["target_points"]
+
+    if target_points == None:
+        target_points = points_for_deadline["target_points"]
+    if target_points > points_for_deadline["target_points"]:
+        return "Adding deadline was unsuccessful"
+    if target_points < points_for_deadline["current_points"]:
+        return "Adding deadline was unsuccessful"
 
     date_now = datetime.datetime.now()
     deadline_as_list = date.split("/")
@@ -109,6 +115,7 @@ def set_deadline(user_id, date, course_id, exercises, checkpoints, frequency=0, 
         target_dl.date = deadline_as_date
         target_dl.created_at = date_now
         target_dl.current_points = current_points
+        target_dl.target_points = target_points
         deleting_existing_checkpoints_for_course(user_id, course_id)
         set_checkpoints(
             user_id,

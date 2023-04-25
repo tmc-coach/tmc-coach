@@ -33,6 +33,7 @@ def set_deadline_route():
 
     course_id = request.json.get("course_id")
     checkpoints = request.json.get("checkpoints")
+    target_points = request.json.get("target_points")
     weekday = request.json.get("weekday")
     frequency = request.json.get("frequency")
 
@@ -58,7 +59,8 @@ def set_deadline_route():
     )
     exercises = response_exercises.json()
 
-    message = set_deadline(user["id"], date, course_id, exercises, checkpoints, frequency, weekday)
+    message = set_deadline(
+        user["id"], date, course_id, exercises, checkpoints, target_points, frequency, weekday)
 
     return jsonify(message=message)
 
