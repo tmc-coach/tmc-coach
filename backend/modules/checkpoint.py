@@ -35,6 +35,13 @@ def count_checkpoint_dates(created_at, deadline, how_many_checkpoints, frequency
         if previous + timedelta(days=(how_many_checkpoints * 7) + 3) < deadline:
             how_many_checkpoints += 1
 
+    elif frequency == 2:
+        days_between_checkpoints = 30
+        previous = created_at + timedelta(days=30)
+
+        if previous + timedelta(days=(how_many_checkpoints * 30) + 15) < deadline:
+            how_many_checkpoints += 1
+
     else: # if frequency == 3:
         if (days_apart / (how_many_checkpoints + 1)) % 0.5 == 0:
             days_between_checkpoints = math.ceil(days_apart / (how_many_checkpoints + 1))
