@@ -10,6 +10,19 @@ from modules.checkpoint import (
 
 
 def check_existing_deadline(user_id, course_id):
+    """Fetch's id from the deadlines database to check if user has already deadline
+    added to the course.
+
+    Args:
+        user_id: user id
+        course_id: course id
+    
+    Returns:
+        If the user already has a deadline for the course, it will return the id of the
+        deadline. If there is no deadline added, returns None. This will determine
+        the way a new deadline will be added to the databases.
+    """
+
     sql = "SELECT id FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
     result = db.session.execute(text(sql), {"user_id": user_id, "course_id": course_id})
     for id in result:
@@ -20,6 +33,14 @@ def check_existing_deadline(user_id, course_id):
 
 
 def get_course_deadline(user_id, course_id):
+    """Fetch the data from the deadlines database by given the user id and course id.
+
+    Returns:
+        If the user has a deadline for the wanted course, the function will return the
+        data from the database. If the user doesn't have a deadline, the function will
+        return an empty list.
+    """
+
     deadline = deadlines.query.filter_by(user_id=user_id, course_id=course_id).all()
 
     if not deadline:
@@ -41,6 +62,7 @@ def get_course_deadline(user_id, course_id):
 
 
 def get_deadlines(user_id):
+    "doesnt do anything, delete"
     deadlines_from_database = deadlines.query.filter_by(user_id=user_id).all()
     response = {}
 
@@ -54,10 +76,18 @@ def get_deadlines(user_id):
             "current_points": deadlines_from_database[i].current_points,
             "target_points": deadlines_from_database[i].target_points,
         }
+
     return json.dumps(response, default=str)
 
 
 def get_points_for_deadline(exercises):
+    """By given exercises data, will count the user's current points from the
+    course's exercises and count the maximum points from the course.
+
+    Returns:
+        Information about user's current points in the course and maximum points.
+    """
+
     current_points = 0
     maximum_points = 0
 
@@ -69,6 +99,21 @@ def get_points_for_deadline(exercises):
 
 
 def set_deadline(user_id, date, course_id, exercises, checkpoints):
+    """Sets deadline and checkpoints for the course, and adds them to the databases
+    by calling other functions.
+
+    Args:
+        user_id: user id
+        date: final date for the course
+        course_id: course id
+        exercises: all of the exercises data that includes info about the available
+        points from the course. 
+        checkpoints: the number of checkpoints
+
+    Returns:
+        Information regarding saving the deadline to the database.
+    """
+
     id = check_existing_deadline(user_id, course_id)
 
     points_for_deadline = get_points_for_deadline(exercises)
@@ -124,6 +169,14 @@ def set_deadline(user_id, date, course_id, exercises, checkpoints):
 
 
 def delete_deadline(user_id, course_id):
+    """Deletes the deadline from the deadlines database based on the given user
+    id and course id. Also calls a function that will delete checkpoints from
+    the checkpoints database.
+
+    Returns:
+        Information regarding deleting the deadline successfully from the database.
+    """
+
     try:
         sql = "DELETE FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
         db.session.execute(text(sql), {"user_id": user_id, "course_id": course_id})
