@@ -18,6 +18,7 @@ def set_user(id: int, token: str, email: str) -> str:
     Returns:
         str: Description of update
     """
+
     sql = "SELECT token, email FROM users WHERE id=:id"
     result = db.session.execute(text(sql), {"id": id}).first()
     if result == None:
