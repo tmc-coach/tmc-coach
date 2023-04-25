@@ -90,7 +90,6 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
       const twoDaysFromToday = new Date(now.setDate(dayNow + 2))
       let day = (twoDaysFromToday.getDate() < 10) ? '0' + twoDaysFromToday.getDate().toString() : twoDaysFromToday.getDate().toString()
       let month = twoDaysFromToday.getMonth() + 1
-      month = (month < 10) ? month : month.toString()
       let year = twoDaysFromToday.getFullYear().toString()
 
       cy.get('div.react-datepicker__day--0' + day).last().click()
@@ -138,24 +137,20 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
     })
     it('checkpoints are shown in the page', () => {
       //six days from now
-      const sixDaysFromToday = new Date(now.setDate(dayNow + 6))
+      const newNow = new Date()
+      const sixDaysFromToday = new Date(newNow.setDate(dayNow + 6))
       let day = (sixDaysFromToday.getDate() < 10) ? '0' + sixDaysFromToday.getDate().toString() : sixDaysFromToday.getDate().toString()
-      let month = sixDaysFromToday.getMonth() + 1
-      month = (month < 10) ? month : month.toString()
-      let year = sixDaysFromToday.getFullYear().toString()
 
       //50% checkpoint date
       const threeDaysFromToday = new Date(now.setDate(dayNow + 3))
       let checkday = (threeDaysFromToday.getDate() < 10) ? '0' + threeDaysFromToday.getDate().toString() : threeDaysFromToday.getDate().toString()
-      let checkmonth = (checkday < dayNow) ? threeDaysFromToday.getMonth() +1 : threeDaysFromToday.getMonth()
-      checkmonth = (checkmonth < 10) ? checkmonth : checkmonth.toString()
+      let checkmonth = threeDaysFromToday.getMonth() + 1
       let checkyear = threeDaysFromToday.getFullYear().toString()
 
       cy.setdeadlinepage()
       cy.get('select').select('I want to choose the amount of checkpoints')
       cy.get('input[type=number]').clear().type('1{del}')
       cy.get('input[type=number]').should('have.value', '1')
-      //cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
       cy.get('div.react-datepicker__day--0' + day).last().click()
       cy.get('button[value=set_deadline]').click()
       cy.on('window:confirm', (text) => {
