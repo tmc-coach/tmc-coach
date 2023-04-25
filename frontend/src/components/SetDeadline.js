@@ -1,7 +1,7 @@
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, frequency, setFrequency, target_points, setTarget_points, current_points, max_points }) => {
+const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, frequency, setFrequency, target_points, setTarget_points, exercises }) => {
   const options = [
     { id: 1, option: 'I want checkpoints weekly' },
     { id: 2, option: 'I want checkpoints monthly' },
@@ -9,6 +9,9 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
   ]
   const minCheckpoints = 1
   const maxCheckpoints = 12
+
+  const max_points = exercises[0].maximum_exercises
+  const current_points = exercises[0].awarded_points
 
   const handleNumberInput = event => {
     const numberOfCheckpoints = Math.max(
