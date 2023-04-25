@@ -3,7 +3,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 from modules.checkpoint import get_checkpoint_infos
 from modules.deadline import get_deadline_infos
-from modules.email import send_checkpoint_email, send_deadline_email
+from modules.email import send_email
 import requests
 
 
@@ -13,8 +13,8 @@ def schedule(app):
     # scheduler.add_job(do_stuff, "interval", seconds=10)
     scheduler.add_job(send_checkpoint_emails, "cron", hour=10, minute=30, args=(app,))
     scheduler.add_job(send_deadline_emails, "cron", hour=10, minute=30, args=(app,))
-    #scheduler.add_job(send_deadline_emails, "interval", seconds=10, args=(app,))
-    #scheduler.add_job(send_checkpoint_emails, "interval", seconds=10, args=(app,))
+    # scheduler.add_job(send_deadline_emails, "interval", seconds=10, args=(app,))
+    # scheduler.add_job(send_checkpoint_emails, "interval", seconds=10, args=(app,))
     scheduler.start()
 
 
@@ -25,6 +25,7 @@ def do_stuff():
     print("Never gonna make you cry")
     print("Never gonna say goodbye")
     print("Never gonna tell a lie and hurt you")
+
 
 def send_deadline_emails(app):
     with app.app_context():
@@ -44,16 +45,20 @@ def send_deadline_emails(app):
             if current_points < target_points:
                 template = "not_finished"
                 subject = f"{course_name} Deadline day: Let's get back on track!"
-            send_deadline_email(
-            app=app,
-            to=email,
-            template=template,
-            course_name=course_name,
-            current_points=current_points,
-            target_points=target_points,
-            course_deadline=deadline_date,
-            subject=subject,
+            kwargs = {
+                "to": email,
+                "template": template,
+                "Course_Name": course_name,
+                "Completed_Points": current_points,
+                "Expected_Points": target_points,
+                "Course_Deadline": deadline_date,
+                "subject": subject,
+            }
+            send_email(
+                app=app,
+                **kwargs,
             )
+
 
 def send_checkpoint_emails(app):
     with app.app_context():
@@ -75,16 +80,19 @@ def send_checkpoint_emails(app):
             if current_points < target_points:
                 template = "falling_behind"
                 subject = f"{course_name} Checkpoint Update: Let's get back on track!"
-            send_checkpoint_email(
+            kwargs = {
+                "to": email,
+                "template": template,
+                "Course_Name": course_name,
+                "Checkpoint_Percent": checkpoint_percent,
+                "Completed_Points": current_points,
+                "Expected_Points": target_points,
+                "Course_Deadline": course_deadline,
+                "subject": subject,
+            }
+            send_email(
                 app=app,
-                to=email,
-                template=template,
-                course_name=course_name,
-                checkpoint_percent=checkpoint_percent,
-                current_points=current_points,
-                target_points=target_points,
-                course_deadline=course_deadline,
-                subject=subject,
+                **kwargs,
             )
 
 
