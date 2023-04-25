@@ -12,7 +12,7 @@ def send_async_email(app, msg):
 
 def send_email(
     app,
-    kwargs,
+    **kwargs,
 ):
     msg = Message(
         kwargs["subject"],
