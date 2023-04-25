@@ -8,6 +8,21 @@ import math
 
 
 def count_checkpoint_dates(created_at, deadline, how_many_checkpoints, frequency=0, weekday=0):
+    """Counts dates for the checkpoints.
+        First, the days_between_checkpoints and the first checkpoint will be asigned and then
+        the rest of the checkpoints. 
+
+    Args:
+        created_at (datetime): today
+        deadline (datetime): date of the deadline
+        how_many_checkpoints (int): the amount of checkpoints
+        frequency (int): 1 = weekly checkpoints, 2 = monthly checkpoints, 3 = user has just chosen the amount of checkpoints
+        weekday (string): the weekday, when the user wants to have their weekly checkpoints
+            (Monday, tuesday, wednesday, thursday, friday, saturday or sunday)
+
+    Returns:
+        list of checkpoints
+    """
     if (
         deadline < created_at + timedelta(days=how_many_checkpoints + 1)
         or how_many_checkpoints == 0
@@ -22,6 +37,7 @@ def count_checkpoint_dates(created_at, deadline, how_many_checkpoints, frequency
     if frequency == 1:
         days_between_checkpoints = 7
 
+        # Find the first wanted weekday after the created_at-date:
         for i in range(1, 8):
             day = created_at + timedelta(days=i)
             if day.weekday() == weekday - 1:
@@ -68,6 +84,16 @@ def count_checkpoint_dates(created_at, deadline, how_many_checkpoints, frequency
 
 
 def count_checkpoint_points(current_points, target_points, how_many_checkpoints):
+    """Count how many exercise points should be done on every checkpoint
+
+    Args:
+        current_points (int): how many points the user has already done of the course
+        target_points (int): how many points the user wants to get done of the course
+        how_many_checkpoints (int): the amount of checkpoints
+
+    Returns:
+        list of checkpoints
+    """
     remaining_points = target_points - current_points
     desired_points_list = []
     for i in range(how_many_checkpoints):
@@ -90,6 +116,24 @@ def set_checkpoints(
     frequency=0,
     weekday=0
 ):
+    """Add the checkpoints to database
+
+    Args:
+        user_id (int): user's id
+        course_id (int): course's id
+        created_at (datetime): today
+        deadline (datetime): date of the deadline
+        how_many_checkpoints (int): the amount of checkpoints
+        current_points (int): how many points the user has already done of the course
+        target_points (int): how many points the user wants to get done of the course
+        frequency (int): 1 = weekly checkpoints, 2 = monthly checkpoints, 3 = user has just chosen the amount of checkpoints
+        weekday (string): the weekday, when the user wants to have their weekly checkpoints
+            (Monday, tuesday, wednesday, thursday, friday, saturday or sunday)
+
+    Returns:
+        String that tell if the adding was succesful or not
+
+    """
     checkpoint_dates_list = count_checkpoint_dates(
         created_at, deadline, how_many_checkpoints, frequency, weekday
     )
@@ -116,6 +160,15 @@ def set_checkpoints(
 
 
 def get_checkpoints(user_id, course_id):
+    """Get the checkpoints from the database
+
+    Args:
+        user_id (int): user's id
+        course_id (int): course's id
+
+    Returns:
+        list of checkpoints
+    """
     checkpoints_from_database = checkpoints.query.filter_by(
         user_id=user_id, course_id=course_id
     ).all()
@@ -136,6 +189,15 @@ def get_checkpoints(user_id, course_id):
 
 
 def deleting_existing_checkpoints_for_course(user_id, course_id):
+    """Delete the existing checkpoints for the wanted course
+
+    Args:
+        user_id (int): user's id
+        course_id (int): course's id
+
+    Returns:
+        String that tells if the deleteing was successful or not
+    """
     try:
         sql = "DELETE FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
         db.session.execute(text(sql), {"user_id": user_id, "course_id": course_id})
@@ -145,6 +207,14 @@ def deleting_existing_checkpoints_for_course(user_id, course_id):
 
 
 def get_checkpoint_infos(current_date):
+    """Get the info of a checkpoints
+
+    Args:
+        current_date (datetime): today
+
+    Returns:
+        List of the info
+    """
     query = """SELECT
                 u.email,
                 u.token,
