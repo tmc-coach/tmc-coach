@@ -21,20 +21,14 @@ def create_msg(template, subject, to, **kwargs):
 def send_checkpoint_email(
     app,
     to,
-    on_schedule,
+    template,
     course_name,
     checkpoint_percent,
     current_points,
     target_points,
     course_deadline,
+    subject,
 ):
-
-    if on_schedule:
-        template = "on_schedule"
-        subject = f"{course_name} Checkpoint Update: You're on track!"
-    else:
-        template = "falling_behind"
-        subject = f"{course_name} Checkpoint Update: Let's get back on track!"
 
     msg = create_msg(
         template=template,
@@ -54,19 +48,13 @@ def send_checkpoint_email(
 def send_deadline_email(
     app,
     to,
-    finished,
+    template,
     course_name,
     current_points,
     target_points,
-    course_deadline
-):
-    
-    if finished:
-        template = "finished"
-        subject = f"{course_name} Deadline day: You have finished the course!"
-    else:
-        template = "not_finished"
-        subject = f"{course_name} Deadline day: Let's get back on track!"
+    course_deadline,
+    subject,
+):   
 
     msg = create_msg(
         template=template,

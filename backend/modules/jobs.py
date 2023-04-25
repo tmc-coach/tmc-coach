@@ -39,17 +39,20 @@ def send_deadline_emails(app):
             deadline_date = result[5]
             current_points = len(current_points_from_api(course_id, user_id))
             course_name = course_name_from_api(course_id, token)
-            finished = True
+            template = "finished"
+            subject = f"{course_name} Deadline day: You have finished the course!"
             if current_points < target_points:
-                finished = False
+                template = "not_finished"
+                subject = f"{course_name} Deadline day: Let's get back on track!"
             send_deadline_email(
             app=app,
             to=email,
-            finished=finished,
+            template=template,
             course_name=course_name,
             current_points=current_points,
             target_points=target_points,
             course_deadline=deadline_date,
+            subject=subject,
             )
 
 def send_checkpoint_emails(app):
@@ -67,18 +70,21 @@ def send_checkpoint_emails(app):
             course_deadline = course_deadline.strftime("%d.%m.%Y")
             current_points = len(current_points_from_api(course_id, user_id))
             course_name = course_name_from_api(course_id, token)
-            on_schedule = True
+            template = "on_schedule"
+            subject = f"{course_name} Checkpoint Update: You're on track!"
             if current_points < target_points:
-                on_schedule = False
+                template = "falling_behind"
+                subject = f"{course_name} Checkpoint Update: Let's get back on track!"
             send_checkpoint_email(
                 app=app,
                 to=email,
-                on_schedule=on_schedule,
+                template=template,
                 course_name=course_name,
                 checkpoint_percent=checkpoint_percent,
                 current_points=current_points,
                 target_points=target_points,
                 course_deadline=course_deadline,
+                subject=subject,
             )
 
 
