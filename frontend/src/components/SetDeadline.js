@@ -49,6 +49,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
           <input
             className='p-2 px-4 mb-2 bg-gray-200 rounded'
             type='number'
+            name='checkpoint_number'
             value={checkpoints}
             onChange={handleNumberInput}
           />
@@ -58,6 +59,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
       <input
         className='p-2 px-4 mb-2 bg-gray-200 rounded'
         type='number'
+        name='target_point_number'
         value={target_points}
         onChange={handleTargetPointInput}
       />
