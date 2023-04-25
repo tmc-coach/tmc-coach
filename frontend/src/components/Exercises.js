@@ -10,7 +10,7 @@ const Exercises = ({ exercises, course_id }) => (
         {exercises[0].maximum_exercises > -1 ? (
           <>
             <div className='text-2xl font-medium pb-5'>
-              Awarded points: {exercises[0].completed_percentage} %
+            Awarded points: {exercises[0].awarded_points} / {exercises[0].maximum_exercises}
             </div>
             <div className="w-full bg-gray-200 rounded-full max-w-2xl mx-auto mb-5">
               <div className="bg-indigo-600 text-xs font-medium text-blue-100 text-center p-1.5 leading-none rounded-full" style={{ width: `${(exercises[0].completed_percentage < 5) ? 5 : exercises[0].completed_percentage}` + '%' }} >{exercises[0].completed_percentage} %</div>
