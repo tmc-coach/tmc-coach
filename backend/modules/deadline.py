@@ -82,6 +82,7 @@ def get_points_for_deadline(exercises):
 def set_deadline(user_id, date, course_id, exercises, checkpoints, target_points=None):
     """Sets deadline and checkpoints for the course, and adds them to the databases
     by calling other functions.
+
     Args:
         user_id: user id
         date: final date for the course
