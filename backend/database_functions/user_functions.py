@@ -1,8 +1,6 @@
 from app import db
 from app.models import users, deadlines
 from sqlalchemy import text
-import json
-import requests
 
 
 def set_user(id: int, token: str, email: str) -> str:
