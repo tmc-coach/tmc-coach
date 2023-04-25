@@ -14,6 +14,11 @@ const Deadline = ({ deadlines, onDelete }) => {
     }
   }, [])
 
+  const formatDate = (d) => {
+    const date = new Date(d)
+    return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
+  }
+
   if (deadlines.length === 0) {
     return (
       <div>
@@ -43,5 +48,4 @@ const Deadline = ({ deadlines, onDelete }) => {
     </div>
   )
 }
-
 export default Deadline
