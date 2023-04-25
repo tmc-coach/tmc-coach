@@ -2,7 +2,6 @@ from flask import Blueprint, jsonify, request
 from sqlalchemy import text
 from modules.deadline import (
     set_deadline,
-    get_deadlines,
     delete_deadline,
     get_course_deadline,
 )
@@ -54,20 +53,6 @@ def set_deadline_route():
     message = set_deadline(user["id"], date, course_id, exercises, checkpoints)
 
     return jsonify(message=message)
-
-
-@deadline.route("/", methods=["GET"])
-def get_all_deadlines():
-    auth_header = request.headers.get("Authorization", None)
-    if not auth_header:
-        return jsonify(error="Authorization header missing")
-
-    user = get_user(auth_header)
-    if not user:
-        return jsonify(error="Forbidden"), 403
-
-    deadlines = get_deadlines(user["id"])
-    return deadlines
 
 
 @deadline.route("/<course_id>", methods=["GET", "DELETE"])

@@ -2,12 +2,6 @@ import axios from 'axios'
 
 const baseUrl = process.env.REACT_APP_BACKEND + '/deadline'
 
-const get_all_deadlines = async () => {
-  const response = await axios.get(`${baseUrl}/`, { headers: { Authorization: localStorage.getItem('user') } })
-
-  return response.data
-}
-
 const get_deadline = async course_id => {
   const response = await axios.get(`${baseUrl}/${course_id}`, { headers: { Authorization: localStorage.getItem('user') } })
 
@@ -28,4 +22,4 @@ const delete_deadline = async course_id => {
   return response.data
 }
 
-export default { get_deadline, get_all_deadlines, set_deadline, delete_deadline }
+export default { get_deadline, set_deadline, delete_deadline }

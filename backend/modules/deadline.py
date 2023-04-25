@@ -61,25 +61,6 @@ def get_course_deadline(user_id, course_id):
     return json.dumps(response, default=str)
 
 
-def get_deadlines(user_id):
-    "doesnt do anything, delete"
-    deadlines_from_database = deadlines.query.filter_by(user_id=user_id).all()
-    response = {}
-
-    for i in range(len(deadlines_from_database)):
-        response[i] = {
-            "id": deadlines_from_database[i].id,
-            "user_id": deadlines_from_database[i].user_id,
-            "course_id": deadlines_from_database[i].course_id,
-            "date": deadlines_from_database[i].date,
-            "created_at": deadlines_from_database[i].created_at,
-            "current_points": deadlines_from_database[i].current_points,
-            "target_points": deadlines_from_database[i].target_points,
-        }
-
-    return json.dumps(response, default=str)
-
-
 def get_points_for_deadline(exercises):
     """By given exercises data, will count the user's current points from the
     course's exercises and count the maximum points from the course.
