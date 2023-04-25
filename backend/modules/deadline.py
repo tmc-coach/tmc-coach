@@ -73,9 +73,14 @@ def set_deadline(user_id, date, course_id, exercises, checkpoints, target_points
 
     points_for_deadline = get_points_for_deadline(exercises)
     current_points = points_for_deadline["current_points"]
+    
     if target_points == None:
         target_points = points_for_deadline["target_points"]
-
+    if target_points > points_for_deadline["target_points"]:
+        return "Adding deadline was unsuccessful"
+    if target_points < points_for_deadline["current_points"]:
+        return "Adding deadline was unsuccessful"
+    
     date_now = datetime.datetime.now()
     deadline_as_list = date.split("/")
     deadline_as_date = datetime.date(
