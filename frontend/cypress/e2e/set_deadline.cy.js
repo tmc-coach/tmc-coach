@@ -148,7 +148,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
       let checkyear = threeDaysFromToday.getFullYear().toString()
 
       cy.setdeadlinepage()
-      cy.get('select').select('I want to choose the amount of checkpoints')
+      cy.get('select[type=string]').select('I want to choose the amount of checkpoints')
       cy.get('input[type=number]').clear().type('1{del}')
       cy.get('input[type=number]').should('have.value', '1')
       cy.get('div.react-datepicker__day--0' + day).last().click()
@@ -169,7 +169,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
         expect(text).to.contains('You have already set a deadline for this course.')
         return true
       })
-      cy.get('p:visible:contains("2023-")').should('have.length', 4)
+      cy.get('p:visible:contains(".2023")').should('have.length', 4)
     })
   })
   context('logged out user', () => {
