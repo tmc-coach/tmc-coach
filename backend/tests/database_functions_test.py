@@ -326,8 +326,10 @@ class DeadlinesTestCase(TestCase):
     def test_changing_target_points_changes_point_targets_in_checkpoints(self):
         deadline_str = "24/5/2028"
         with self.app.app_context():
-            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises, 3, 4)
-        
+            set_deadline(
+                self.user_id, deadline_str, self.course_id, self.exercises, 3, 4
+            )
+
         with self.app.app_context():
             sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
             result = db.session.execute(
@@ -337,16 +339,18 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(checkpoints[0][-1], 1)
             self.assertEqual(checkpoints[1][-1], 2)
             self.assertEqual(checkpoints[2][-1], 3)
-        
+
         with self.app.app_context():
             delete_deadline(self.user_id, self.course_id)
-        
+
     def test_cannot_set_target_points_bigger_than_max_course_points(self):
         deadline_str = "24/5/2028"
 
         with self.app.app_context():
-            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises, 3, 6)
-        
+            set_deadline(
+                self.user_id, deadline_str, self.course_id, self.exercises, 3, 6
+            )
+
         with self.app.app_context():
             sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
             result = db.session.execute(
@@ -357,13 +361,15 @@ class DeadlinesTestCase(TestCase):
 
         with self.app.app_context():
             delete_deadline(self.user_id, self.course_id)
-    
+
     def test_cannot_set_target_points_smaller_than_current_course_points(self):
         deadline_str = "24/5/2028"
 
         with self.app.app_context():
-            set_deadline(self.user_id, deadline_str, self.course_id, self.exercises, 3, -1)
-        
+            set_deadline(
+                self.user_id, deadline_str, self.course_id, self.exercises, 3, -1
+            )
+
         with self.app.app_context():
             sql = "SELECT * FROM checkpoints WHERE user_id=:user_id AND course_id=:course_id"
             result = db.session.execute(
@@ -374,4 +380,3 @@ class DeadlinesTestCase(TestCase):
 
         with self.app.app_context():
             delete_deadline(self.user_id, self.course_id)
-    
