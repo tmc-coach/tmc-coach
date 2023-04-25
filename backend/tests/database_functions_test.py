@@ -7,7 +7,6 @@ from datetime import date
 from dotenv import load_dotenv
 from modules.deadline import (
     set_deadline,
-    get_deadlines,
     delete_deadline,
     get_course_deadline,
 )
@@ -106,7 +105,7 @@ class DeadlinesTestCase(TestCase):
 
     def test_get_deadlines_only_gets_deadlines_that_have_been_made_by_the_user(self):
         with self.app.app_context():
-            deadlines = get_deadlines(self.user_id)
+            deadlines = get_course_deadline(self.user_id, self.course_id)
 
         dictionary = json.loads(deadlines)
 
