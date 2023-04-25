@@ -45,3 +45,6 @@ Cypress.Commands.add('loginpage', () => {
 Cypress.Commands.add('setdeadlinepage', () => {
   cy.visit('http://localhost:3000/orgs/courses/277')
 })
+Cypress.Commands.add('profilepage', () => {
+  cy.visit('http://localhost:3000/profile')
+})

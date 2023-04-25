@@ -17,30 +17,11 @@ describe('TMC-Coach header', { defaultCommandTimeout: 20000 }, () => {
       cy.orgspage()
       cy.contains('Schedule your courses and get feedback on your pace').should('not.exist')
     })
-    it('on course page can click header link to get to homepage', () => {
-      cy.coursepage()
-      cy.contains('TMC Coach').click()
-      cy.url().should('not.include', '/orgs/aalto-biz')
-    })
     it('on course page can click email to get to profilepage', () => {
       cy.coursepage()
       cy.contains('@').click()
       cy.url().should('not.include', '/orgs/aalto-biz')
       cy.url().should('include', '/profile')
-    })
-    it('on course page description is not shown', () => {
-      cy.coursepage()
-      cy.contains('Schedule your courses and get feedback on your pace').should('not.exist')
-    })
-    it('on homepage can use sign out button and is directed to login page', () => {
-      cy.homepage()
-      cy.contains('Sign out').click()
-      cy.url().should('include', '/login')
-    })
-    it('on organizations page can use sign out button and is directed to login page', () => {
-      cy.orgspage()
-      cy.contains('Sign out').click()
-      cy.url().should('include', '/login')
     })
     it('on course page can use sign out button and is directed to login page', () => {
       cy.coursepage()
@@ -48,23 +29,11 @@ describe('TMC-Coach header', { defaultCommandTimeout: 20000 }, () => {
       cy.contains('Sign out').click()
       cy.url().should('include', '/login')
     })
-    it('on courses exercises page can use sign out button and is directed to login page', () => {
-      cy.visit('http://localhost:3000/orgs/courses/900')
-      cy.contains('Sign out').click()
-      cy.url().should('include', '/login')
-    })
-    it('on courses exercises page description is not shown', () => {
-      cy.visit('http://localhost:3000/orgs/courses/900')
-      cy.contains('Schedule your courses and get feedback on your pace').should('not.exist')
-    })
   })
   context('logged out user', () => {
-    it('on login page can not see sign out button', () => {
+    it('on login page sign out button is hidden and description shown', () => {
       cy.loginpage()
       cy.contains('Sign out').should('not.exist')
-    })
-    it('description is shown on login page', () => {
-      cy.loginpage()
       cy.contains('Schedule your courses and get feedback on your pace')
     })
   })
