@@ -79,10 +79,9 @@ def get_points_for_deadline(exercises):
     return {"current_points": current_points, "target_points": maximum_points}
 
 
-def set_deadline(user_id, date, course_id, exercises, checkpoints):
+def set_deadline(user_id, date, course_id, exercises, checkpoints, target_points=None):
     """Sets deadline and checkpoints for the course, and adds them to the databases
     by calling other functions.
-
     Args:
         user_id: user id
         date: final date for the course
@@ -90,6 +89,7 @@ def set_deadline(user_id, date, course_id, exercises, checkpoints):
         exercises: all of the exercises data that includes info about the available
         points from the course. 
         checkpoints: the number of checkpoints
+        target_points: default as None
 
     Returns:
         Information regarding saving the deadline to the database.
@@ -99,7 +99,13 @@ def set_deadline(user_id, date, course_id, exercises, checkpoints):
 
     points_for_deadline = get_points_for_deadline(exercises)
     current_points = points_for_deadline["current_points"]
-    target_points = points_for_deadline["target_points"]
+
+    if target_points == None:
+        target_points = points_for_deadline["target_points"]
+    if target_points > points_for_deadline["target_points"]:
+        return "Adding deadline was unsuccessful"
+    if target_points < points_for_deadline["current_points"]:
+        return "Adding deadline was unsuccessful"
 
     date_now = datetime.datetime.now()
     deadline_as_list = date.split("/")
@@ -133,6 +139,7 @@ def set_deadline(user_id, date, course_id, exercises, checkpoints):
         target_dl.date = deadline_as_date
         target_dl.created_at = date_now
         target_dl.current_points = current_points
+        target_dl.target_points = target_points
         deleting_existing_checkpoints_for_course(user_id, course_id)
         set_checkpoints(
             user_id,
