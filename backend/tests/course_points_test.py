@@ -68,10 +68,10 @@ class TestCoursesPoints(unittest.TestCase):
     def test_get_exercises_not_auth(self):
         response = self.client.get("/org/778/courses")
         response_t = response.text
-        expected_response = "{\"error\":\"Authorization header missing\"}\n"
+        expected_response = '{"error":"Authorization header missing"}\n'
         self.assertEqual(response_t, expected_response)
 
     def test_get_exercises_with_wrong_courseid(self):
-        expected_response = "{\"error\":\"Not Found\"}\n"
+        expected_response = '{"error":"Not Found"}\n'
         response = self.client.get("/org/778884651/courses", headers=self.headers)
         self.assertEqual(response.text, expected_response)
