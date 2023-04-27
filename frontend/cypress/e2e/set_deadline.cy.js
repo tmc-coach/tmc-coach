@@ -169,7 +169,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
         expect(text).to.contains('You have already set a deadline for this course.')
         return true
       })
-      cy.get('p:visible:contains(".2023")').should('have.length', 4)
+      cy.get('p:visible:contains(".2023")').should('have.length', 5)
     })
   })
   context('logged out user', () => {
