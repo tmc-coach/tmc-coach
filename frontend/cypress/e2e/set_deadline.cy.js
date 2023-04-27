@@ -149,8 +149,8 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
 
       cy.setdeadlinepage()
       cy.get('select').select('I want to choose the amount of checkpoints')
-      cy.get('input[type=number]').clear().type('1{del}')
-      cy.get('input[type=number]').should('have.value', '1')
+      cy.get('input[name=checkpoint_number]').clear().type('1{del}')
+      cy.get('input[name=checkpoint_number]').should('have.value', '1')
       cy.get('div.react-datepicker__day--0' + day).last().click()
       cy.get('button[value=set_deadline]').click()
       cy.on('window:confirm', (text) => {
