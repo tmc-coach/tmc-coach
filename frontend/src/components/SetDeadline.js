@@ -43,7 +43,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
 
   return (
 
-    <div className='order-last xl:order-first h-full mx-auto py-4'>
+    <div className={`order-last xl:order-first h-full mx-auto py-4 ${deadlines.length !== 0 && 'max-w-sm'}`}>
       {LoadingSpinner ? (
         <Loading />
       ) : deadlines.length === 0 ? (
