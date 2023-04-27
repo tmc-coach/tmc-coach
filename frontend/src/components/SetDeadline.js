@@ -3,21 +3,30 @@ import 'react-datepicker/dist/react-datepicker.css'
 import Loading from '../components/Loading'
 import { useState, useEffect } from 'react'
 
-const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, frequency, setFrequency }) => {
+const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, frequency, setFrequency, target_points, setTarget_points, exercises }) => {
   const options = [
     { id: 1, option: 'I want checkpoints weekly' },
     { id: 2, option: 'I want checkpoints monthly' },
     { id: 3, option: 'I want to choose the amount of checkpoints' }
   ]
-
-  const minCheckpoints = 0
+  const minCheckpoints = 1
   const maxCheckpoints = 12
+
+  const max_points = exercises[0].maximum_exercises
+  const current_points = exercises[0].awarded_points
 
   const handleNumberInput = event => {
     const numberOfCheckpoints = Math.max(
       minCheckpoints, Math.min(maxCheckpoints, Number(event.target.value))
     )
     setCheckpoints(numberOfCheckpoints)
+  }
+
+  const handleTargetPointInput = (event) => {
+    const targetPointValue = Math.max(
+      current_points, Math.min(max_points, Number(event.target.value))
+    )
+    setTarget_points(targetPointValue)
   }
 
   const [LoadingSpinner, setLoadingSpinner] = useState(true)
@@ -83,11 +92,20 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
           <input
             className='p-2 px-4 mb-2 bg-gray-200 rounded'
             type='number'
+            name='checkpoint_number'
             value={checkpoints}
             onChange={handleNumberInput}
           />
         </>
       }
+      <h2 className='text-lg font-medium py-2'>How many points do you aim to complete in this course?</h2>
+      <input
+        className='p-2 px-4 mb-2 bg-gray-200 rounded'
+        type='number'
+        name='target_point_number'
+        value={target_points}
+        onChange={handleTargetPointInput}
+      />
       <div className="flex justify-center my-5">
         <button
           onClick={handleSetDeadline}
