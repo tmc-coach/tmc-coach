@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 from modules.user import encode_jwt, decode_jwt
 from modules.user import get_user as user_info
 from database_functions.user_functions import set_user, get_user_email
@@ -32,6 +32,7 @@ def authorize():
     )
 
     if response.status_code != 200:
+        current_app.logger.error("Unsuccessful login attempt with username: " + username)
         return jsonify(error="invalid username or password"), 401
 
     token = f"{response.json()['token_type']} {response.json()['access_token']}"

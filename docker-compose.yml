@@ -14,6 +14,8 @@ services:
     ports:
       - "5000:5000"
     container_name: backend
+    volumes:
+      - ./logs/:/tmc-coach/logs/
     depends_on:
       - postgres-db
 
