@@ -10,8 +10,8 @@ from modules.checkpoint import (
 
 
 def check_existing_deadline(user_id, course_id):
-    """Fetch's id from the deadlines database to check if user has already deadline
-    added to the course.
+    """Checks the id from the deadlines database to see if the user has already
+    deadline added to the course.
 
     Args:
         user_id: user id
@@ -33,7 +33,8 @@ def check_existing_deadline(user_id, course_id):
 
 
 def get_course_deadline(user_id, course_id):
-    """Fetch the data from the deadlines database by given the user id and course id.
+    """Searches the data from the deadlines database by giving the user id and
+    course id.
 
     Returns:
         If the user has a deadline for the wanted course, the function will return the
@@ -62,11 +63,11 @@ def get_course_deadline(user_id, course_id):
 
 
 def get_points_for_deadline(exercises):
-    """By given exercises data, will count the user's current points from the
-    course's exercises and count the maximum points from the course.
+    """By giving exercises data, the function will count the user's current points
+    from the course exercises and count the course maximum points.
 
     Returns:
-        Information about user's current points in the course and maximum points.
+        Information about the user's current points in the course and maximum points.
     """
 
     current_points = 0
