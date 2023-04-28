@@ -143,9 +143,9 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
 
       //50% checkpoint date
       const threeDaysFromToday = new Date(now.setDate(dayNow + 3))
-      let checkday = (threeDaysFromToday.getDate() < 10) ? '0' + threeDaysFromToday.getDate().toString() : threeDaysFromToday.getDate().toString()
-      let checkmonth = threeDaysFromToday.getMonth() + 1
-      let checkyear = threeDaysFromToday.getFullYear().toString()
+      //let checkday = (threeDaysFromToday.getDate() < 10) ? '0' + threeDaysFromToday.getDate().toString() : threeDaysFromToday.getDate().toString()
+      //let checkmonth = threeDaysFromToday.getMonth() + 1
+      //let checkyear = threeDaysFromToday.getFullYear().toString()
 
       cy.setdeadlinepage()
       cy.get('select').select('I want to choose the amount of checkpoints')
