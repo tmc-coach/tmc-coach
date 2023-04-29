@@ -3,21 +3,30 @@ import 'react-datepicker/dist/react-datepicker.css'
 import Loading from '../components/Loading'
 import { useState, useEffect } from 'react'
 
-const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, frequency, setFrequency }) => {
+const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, frequency, setFrequency, target_points, setTarget_points, exercises }) => {
   const options = [
     { id: 1, option: 'I want checkpoints weekly' },
     { id: 2, option: 'I want checkpoints monthly' },
     { id: 3, option: 'I want to choose the amount of checkpoints' }
   ]
-
-  const minCheckpoints = 0
+  const minCheckpoints = 1
   const maxCheckpoints = 12
+
+  const max_points = exercises[0].maximum_exercises
+  const current_points = exercises[0].awarded_points
 
   const handleNumberInput = event => {
     const numberOfCheckpoints = Math.max(
       minCheckpoints, Math.min(maxCheckpoints, Number(event.target.value))
     )
     setCheckpoints(numberOfCheckpoints)
+  }
+
+  const handleTargetPointInput = (event) => {
+    const targetPointValue = Math.max(
+      current_points, Math.min(max_points, Number(event.target.value))
+    )
+    setTarget_points(targetPointValue)
   }
 
   const [LoadingSpinner, setLoadingSpinner] = useState(true)
@@ -33,12 +42,13 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
 
 
   return (
-    <div>
+
+    <div className='order-last xl:order-first h-full mx-auto py-4'>
       {LoadingSpinner ? (
         <Loading />
       ) : deadlines.length === 0 ? (
         <>
-          <h1>Set a deadline</h1>
+          <h1 className='text-lg font-medium py-2'>Set a deadline</h1>
           <p className="md:text-center text-left pb-4 px-4">
             To schedule the course, first, you need to choose the final date for
             the deadline from the calendar. Then select amount of checkpoints
@@ -51,8 +61,8 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
       ) : (
         deadlines.length !== 0 && (
           <>
-            <h1>Set a new deadline</h1>
-            <p className="md:text-center text-left pb-4 px-4">
+            <h1 className='text-lg font-medium py-2'>Set a new deadline</h1>
+            <p className="md:text-center text-left pb-4 px-4 max-w-sm">
               You can change your current deadline for the course by choosing a new
               date from the calendar and select new checkpoints from the menu.
             </p>
@@ -61,6 +71,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
       )}
       {message && <p className="flex justify-center px-5 my-5">{message}</p>}
       <DatePicker
+        fixedHeight
         inline
         selected={date}
         onChange={(newDate) => setDate(newDate)}
@@ -81,11 +92,20 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
           <input
             className='p-2 px-4 mb-2 bg-gray-200 rounded'
             type='number'
+            name='checkpoint_number'
             value={checkpoints}
             onChange={handleNumberInput}
           />
         </>
       }
+      <h2 className='text-lg font-medium py-2'>How many points do you aim to complete in this course?</h2>
+      <input
+        className='p-2 px-4 mb-2 bg-gray-200 rounded'
+        type='number'
+        name='target_point_number'
+        value={target_points}
+        onChange={handleTargetPointInput}
+      />
       <div className="flex justify-center my-5">
         <button
           onClick={handleSetDeadline}
