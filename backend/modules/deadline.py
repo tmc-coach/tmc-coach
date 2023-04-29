@@ -133,6 +133,7 @@ def delete_deadline(user_id, course_id):
     except:
         return "Deleting course deadline was unsuccessful"
 
+
 def get_deadline_infos(current_date):
     query = """SELECT
                 u.email,

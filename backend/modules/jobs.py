@@ -9,22 +9,11 @@ import requests
 
 def schedule(app):
     scheduler = BackgroundScheduler()
-    scheduler.add_job(do_stuff, "cron", hour=4, minute=20)
-    # scheduler.add_job(do_stuff, "interval", seconds=10)
-    scheduler.add_job(send_checkpoint_emails, "cron", hour=10, minute=30, args=(app,))
-    scheduler.add_job(send_deadline_emails, "cron", hour=10, minute=30, args=(app,))
-    # scheduler.add_job(send_deadline_emails, "interval", seconds=10, args=(app,))
-    # scheduler.add_job(send_checkpoint_emails, "interval", seconds=10, args=(app,))
+    scheduler.add_job(send_checkpoint_emails, "cron", hour=9, minute=0, args=(app,))
+    scheduler.add_job(send_deadline_emails, "cron", hour=9, minute=0, args=(app,))
+    scheduler.add_job(send_deadline_emails, "interval", minutes=7, args=(app,))
+    scheduler.add_job(send_checkpoint_emails, "interval", minutes=5, args=(app,))
     scheduler.start()
-
-
-def do_stuff():
-    print("Never gonna give you up")
-    print("Never gonna let you down")
-    print("Never gonna run around and desert you")
-    print("Never gonna make you cry")
-    print("Never gonna say goodbye")
-    print("Never gonna tell a lie and hurt you")
 
 
 def send_deadline_emails(app):
