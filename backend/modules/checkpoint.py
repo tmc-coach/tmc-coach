@@ -120,25 +120,25 @@ def deleting_existing_checkpoints_for_course(user_id, course_id):
 
 def get_checkpoint_infos(current_date):
     query = """SELECT
-                u.email,
-                u.token,
-                u.id,
-                c.checkpoint_percent,
-                c.desired_points,
-                c.course_id,
-                d.date
+                    u.email,
+                    u.token,
+                    u.id,
+                    c.checkpoint_percent,
+                    c.desired_points,
+                    c.course_id,
+                    d.date
                 FROM
-                users u
+                    users u
                 INNER JOIN
-                checkpoints c
+                    checkpoints c
                 ON
-                u.id = c.user_id
+                    u.id = c.user_id
                 INNER JOIN
-                deadlines d
+                    deadlines d
                 ON
-                u.id = d.user_id
+                    c.course_id = d.course_id
                 WHERE
-                c.checkpoint_date =:current_date
+                    c.checkpoint_date =:current_date
             """
     results = db.session.execute(text(query), {"current_date": current_date}).fetchall()
     if results is None:

@@ -139,3 +139,26 @@ def delete_deadline(user_id, course_id):
         return "Course deadline deleted succesfully!"
     except:
         return "Deleting course deadline was unsuccessful"
+
+
+def get_deadline_infos(current_date):
+    query = """SELECT
+                u.email,
+                u.token,
+                u.id,
+                d.target_points,
+                d.course_id,
+                d.date
+                FROM
+                users u
+                INNER JOIN
+                deadlines d
+                ON
+                u.id = d.user_id
+                WHERE
+                d.date =:current_date
+            """
+    results = db.session.execute(text(query), {"current_date": current_date}).fetchall()
+    if results is None:
+        return None
+    return results
