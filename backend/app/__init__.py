@@ -15,7 +15,11 @@ def create_app():
     # create Flask app instance
     app = Flask(__name__)
 
-    logging.basicConfig(filename='logs/backend.log', level=logging.WARNING, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+    logging.basicConfig(
+        filename="logs/backend.log",
+        level=logging.WARNING,
+        format=f"%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s",
+    )
 
     # configure environment variables
     load_dotenv()

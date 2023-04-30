@@ -60,7 +60,15 @@ def set_deadline_route():
     exercises = response_exercises.json()
 
     message = set_deadline(
-        user["id"], date, course_id, exercises, checkpoints, target_points, frequency, weekday)
+        user["id"],
+        date,
+        course_id,
+        exercises,
+        checkpoints,
+        target_points,
+        frequency,
+        weekday,
+    )
 
     return jsonify(message=message)
 

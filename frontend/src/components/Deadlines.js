@@ -90,7 +90,7 @@ const Deadlines = ({ course_id, exercises }) => {
     }
 
     if (deadlines.length !== 0) {
-      text = text + 'You have already set a deadline for this course.\nDo you want to set ' + JSON.stringify(date.getFullYear()) + '.' + JSON.stringify(date.getMonth() + 1) + '.' + JSON.stringify(date.getDate()) + ' as your new deadline for this course?'
+      text = text + 'You have already set a deadline for this course.\nDo you want to set ' + JSON.stringify(date.getDate()) + '.' + JSON.stringify(date.getMonth() + 1) + '.' + JSON.stringify(date.getFullYear()) + ' as your new deadline for this course?'
       if (window.confirm(text) === false) {
         return
       }

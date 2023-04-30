@@ -7,10 +7,12 @@ from sqlalchemy import text
 import math
 
 
-def count_checkpoint_dates(created_at, deadline, how_many_checkpoints, frequency=0, weekday=0):
+def count_checkpoint_dates(
+    created_at, deadline, how_many_checkpoints, frequency=0, weekday=0
+):
     """Counts dates for the checkpoints.
         First, the days_between_checkpoints and the first checkpoint will be asigned and then
-        the rest of the checkpoints. 
+        the rest of the checkpoints.
 
     Args:
         created_at (datetime): today
@@ -58,9 +60,11 @@ def count_checkpoint_dates(created_at, deadline, how_many_checkpoints, frequency
         if previous + timedelta(days=(how_many_checkpoints * 30) + 15) < deadline:
             how_many_checkpoints += 1
 
-    else: # if frequency == 3:
+    else:  # if frequency == 3:
         if (days_apart / (how_many_checkpoints + 1)) % 0.5 == 0:
-            days_between_checkpoints = math.ceil(days_apart / (how_many_checkpoints + 1))
+            days_between_checkpoints = math.ceil(
+                days_apart / (how_many_checkpoints + 1)
+            )
         else:
             days_between_checkpoints = round(days_apart / (how_many_checkpoints + 1))
 
@@ -70,7 +74,9 @@ def count_checkpoint_dates(created_at, deadline, how_many_checkpoints, frequency
         between_the_1st_day_and_the_1st_checkpoint = math.ceil(
             (days_apart - ((how_many_checkpoints - 1) * days_between_checkpoints)) / 2
         )
-        previous = created_at + timedelta(days=between_the_1st_day_and_the_1st_checkpoint)
+        previous = created_at + timedelta(
+            days=between_the_1st_day_and_the_1st_checkpoint
+        )
 
     for i in range(how_many_checkpoints):
         percents = ((100 / (how_many_checkpoints + 1))) * (i + 1)
@@ -114,7 +120,7 @@ def set_checkpoints(
     current_points,
     target_points,
     frequency=0,
-    weekday=0
+    weekday=0,
 ):
     """Add the checkpoints to database
 
@@ -138,7 +144,9 @@ def set_checkpoints(
         created_at, deadline, how_many_checkpoints, frequency, weekday
     )
     checkpoint_points_list = count_checkpoint_points(
-        current_points, target_points, len(checkpoint_dates_list) #how_many_checkpoints
+        current_points,
+        target_points,
+        len(checkpoint_dates_list),  # how_many_checkpoints
     )
 
     try:

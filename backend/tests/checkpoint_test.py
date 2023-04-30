@@ -1,15 +1,12 @@
-import unittest
 from unittest import TestCase
 import json
 import os
 from sqlalchemy.sql import text
-from datetime import date
-from dotenv import load_dotenv
+import datetime
 from modules.checkpoint import (
     set_checkpoints,
     get_checkpoints,
 )
-import datetime
 from app import create_app, db
 
 
@@ -184,7 +181,7 @@ class CheckpointsTestCase(TestCase):
                 self.current_points,
                 self.target_points,
                 1,
-                3
+                3,
             )
             db.session.commit()
 
@@ -199,11 +196,8 @@ class CheckpointsTestCase(TestCase):
 
         self.assertEqual(len(checkpoints), 2)
 
-        for i in range(len(checkpoints)):
-            if i == 1:
-                self.assertEqual(datetime.date(2023, 5, 10), checkpoints[i][3])
-            if i == 0:
-                self.assertEqual(datetime.date(2023, 5, 3), checkpoints[i][3])
+        self.assertEqual(datetime.datetime(2023, 5, 10, 0, 0), checkpoints[1][3])
+        self.assertEqual(datetime.datetime(2023, 5, 3, 0, 0), checkpoints[0][3])
 
         with self.app.app_context():
             sql = "DELETE FROM checkpoints WHERE user_id=:user_id and course_id=:course_id"
@@ -211,7 +205,7 @@ class CheckpointsTestCase(TestCase):
                 text(sql), {"user_id": user_id, "course_id": course_id}
             )
             db.session.commit()
-        
+
         with self.app.app_context():
             set_checkpoints(
                 user_id,
@@ -222,7 +216,7 @@ class CheckpointsTestCase(TestCase):
                 self.current_points,
                 self.target_points,
                 1,
-                6
+                6,
             )
             db.session.commit()
 
@@ -237,13 +231,9 @@ class CheckpointsTestCase(TestCase):
 
         self.assertEqual(len(checkpoints), 3)
 
-        for i in range(len(checkpoints)):
-            if i == 2:
-                self.assertEqual(datetime.date(2023, 5, 13), checkpoints[i][3])
-            if i == 1:
-                self.assertEqual(datetime.date(2023, 5, 6), checkpoints[i][3])
-            if i == 0:
-                self.assertEqual(datetime.date(2023, 4, 29), checkpoints[i][3])
+        self.assertEqual(datetime.datetime(2023, 5, 13, 0, 0), checkpoints[2][3])
+        self.assertEqual(datetime.datetime(2023, 5, 6, 0, 0), checkpoints[1][3])
+        self.assertEqual(datetime.datetime(2023, 4, 29, 0, 0), checkpoints[0][3])
 
         with self.app.app_context():
             sql = "DELETE FROM checkpoints WHERE user_id=:user_id and course_id=:course_id"
@@ -251,4 +241,3 @@ class CheckpointsTestCase(TestCase):
                 text(sql), {"user_id": user_id, "course_id": course_id}
             )
             db.session.commit()
-
