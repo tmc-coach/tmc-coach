@@ -11,6 +11,8 @@ const Deadlines = ({ course_id, exercises }) => {
   const [checkpoints, setCheckpoints] = useState(3)
   const [frequency, setFrequency] = useState(1)
   const [target_points, setTarget_points] = useState(exercises[0].maximum_exercises)
+  const [weekday, setWeekday] = useState(1)
+
   useEffect(() => {
     deadlineService.get_deadline(course_id).then(deadlines => setDeadlines(deadlines))
   }, [])
@@ -53,6 +55,11 @@ const Deadlines = ({ course_id, exercises }) => {
       return
     }
 
+    if (frequency === 1 && weekday === 0) {
+      alert('Please choose a weekday when you want to have your weekly checkpoints')
+      return
+    }
+
     let amount_of_checkpoints = 0
 
     if (frequency === 1) {
@@ -64,8 +71,17 @@ const Deadlines = ({ course_id, exercises }) => {
     }
 
     let text = ''
-    if (days_between < checkpoints) {
-      text = 'Why do you want to set a deadline that is under four days away??? Go do your exercises!!! No checkpoints will be assigned if you set the deadline under four days away from this day. Are you sure you want to set this deadline?' + '\n' + '\n'
+    if (days_between < 1) {
+      text = 'Why do you want to set a deadline that is under two days away??? Go do your exercises!!! No checkpoints will be assigned if you set the deadline under 2 days away from this day. Are you sure you want to set this deadline?' + '\n' + '\n'
+      if (deadlines.length === 0) {
+        if (window.confirm(text) === false) {
+          return
+        }
+      }
+    }
+
+    if (days_between < checkpoints && days_between > 0) {
+      text = 'You are trying to have more checkpoints than there are days between today and the deadline. No checkpoints will be assigned if you try to have more checkpoints than there are days till the deadline. Are you sure you want to set this deadline?' + '\n' + '\n'
       if (deadlines.length === 0) {
         if (window.confirm(text) === false) {
           return
@@ -74,7 +90,7 @@ const Deadlines = ({ course_id, exercises }) => {
     }
 
     if (deadlines.length !== 0) {
-      text = text + 'You have already set a deadline for this course.\nDo you want to set ' + JSON.stringify(date.getFullYear()) + '.' + JSON.stringify(date.getMonth() + 1) + '.' + JSON.stringify(date.getDate()) + ' as your new deadline for this course?'
+      text = text + 'You have already set a deadline for this course.\nDo you want to set ' + JSON.stringify(date.getDate()) + '.' + JSON.stringify(date.getMonth() + 1) + '.' + JSON.stringify(date.getFullYear()) + ' as your new deadline for this course?'
       if (window.confirm(text) === false) {
         return
       }
@@ -83,9 +99,9 @@ const Deadlines = ({ course_id, exercises }) => {
     try {
       if (frequency < 3) {
         let checkpoints = amount_of_checkpoints
-        await deadlineService.set_deadline({ course_id, date, checkpoints, target_points })
+        await deadlineService.set_deadline({ course_id, date, checkpoints, target_points, weekday, frequency })
       } else {
-        await deadlineService.set_deadline({ course_id, date, checkpoints, target_points })
+        await deadlineService.set_deadline({ course_id, date, checkpoints, target_points, weekday, frequency })
       }
       setNewDeadline(true)
       setMessage('Deadline set successfully!')
@@ -123,7 +139,7 @@ const Deadlines = ({ course_id, exercises }) => {
   return (
     <div className='flex flex-wrap justify-center'>
       {deadlines.length !== 0 && <Deadline deadlines={deadlines} onChange={handleSetDeadline} onDelete={handleDelete} />}
-      <SetDeadline deadlines={deadlines} date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} checkpoints={checkpoints} setCheckpoints={setCheckpoints} frequency={frequency} setFrequency={setFrequency} target_points={target_points} setTarget_points={setTarget_points} exercises={exercises}/>
+      <SetDeadline deadlines={deadlines} date={date} setDate={setDate} handleSetDeadline={handleSetDeadline} message={message} checkpoints={checkpoints} setCheckpoints={setCheckpoints} frequency={frequency} setFrequency={setFrequency} weekday={weekday} setWeekday={setWeekday} target_points={target_points} setTarget_points={setTarget_points} exercises={exercises}/>
     </div>
   )
 }
