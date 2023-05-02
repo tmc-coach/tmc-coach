@@ -1,6 +1,6 @@
 Hello,
 
-You've reached the {{ Checkpoint_Percentage }}% checkpoint for the {{ Course_Name }} course. We noticed that you have completed {{ Completed_Points }} points, while {{ Expected_Points }} points were expected for this checkpoint.
+You've reached the {{ Checkpoint_Percent }}% checkpoint for the {{ Course_Name }} course. We noticed that you have completed {{ Completed_Points }} points, while {{ Expected_Points }} points were expected for this checkpoint.
 
 Don't worry, there's still time to catch up! Here are some suggestions to help you get back on track:
 

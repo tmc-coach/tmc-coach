@@ -177,9 +177,11 @@ def get_checkpoints(user_id, course_id):
     Returns:
         list of checkpoints
     """
-    checkpoints_from_database = checkpoints.query.filter_by(
-        user_id=user_id, course_id=course_id
-    ).all()
+    checkpoints_from_database = (
+        checkpoints.query.filter_by(user_id=user_id, course_id=course_id)
+        .order_by(checkpoints.checkpoint_date)
+        .all()
+    )
     response = []
     for checkpoint in checkpoints_from_database:
         response.append(

@@ -337,7 +337,6 @@ class DeadlinesTestCase(TestCase):
         with self.app.app_context():
             delete_deadline(self.user_id, self.course_id)
 
-
     def test_changing_target_points_changes_point_targets_in_checkpoints(self):
         deadline_str = "24/5/2028"
         with self.app.app_context():
@@ -370,7 +369,6 @@ class DeadlinesTestCase(TestCase):
             self.assertEqual(result[0][0], 0)
         with self.app.app_context():
             delete_deadline(self.user_id, self.course_id)
-
 
     def test_cannot_set_target_points_bigger_than_max_course_points(self):
         deadline_str = "24/5/2028"

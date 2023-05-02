@@ -1,6 +1,6 @@
 Hello,
 
-Congratulations on reaching the {{ Checkpoint_Percentage }}% checkpoint for the {{ Course_Name }} course on time!
+Congratulations on reaching the {{ Checkpoint_Percent }}% checkpoint for the {{ Course_Name }} course on time!
 
 So far, you have completed {{ Completed_Points }} points out of the {{ Expected_Points }} points expected for this checkpoint. Keep on keeping on!
 
