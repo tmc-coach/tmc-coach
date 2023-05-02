@@ -15,6 +15,8 @@ const Checkpoints = ({ deadlines }) => {
             <td className='p-1'>{checkpoint.checkpoint_percent}%</td>
             <td><span className="border-indigo-500 border-solid border-2 mx-2"></span></td>
             <td>{formatDate(checkpoint.checkpoint_date.split(' ')[0])}</td>
+            <td><span className="border-indigo-500 border-solid border-2 mx-2"></span></td>
+            <td className='p-1'>{checkpoint.desired_points} points should be completed</td>
           </tr>
         ))}
       </table>
