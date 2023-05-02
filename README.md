@@ -10,14 +10,6 @@ TMC-Coach is a project for Ohjelmistotuotantoprojekti course in University of He
 
 Feature is desired by both the users and MOOC-center. The unscheduled courses require a lot of self-control and planning ahead in which current platform doesn't provide any support on. The new application will help students to plan course schedule and send reminders to follow it, thus, supporting students to get through the course.
 
-## Where users can get help with your project
-
-TBA
-
-## Who maintains and contributes to the project
-
-TBA
-
 ## Documentation
 
 - [Definition of Done](https://github.com/tmc-coach/tmc-coach/blob/main/documentation/definitionofdone.md)

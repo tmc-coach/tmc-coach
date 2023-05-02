@@ -74,6 +74,10 @@ def get_user():
 
 @auth.route("/profile", methods=["GET"])
 def user_email():
+    """Returns user's id, user's email, course id's and course titles for the
+    scheduled courses. Information is used for the profile page in the frontend.
+    """
+
     auth_header = request.headers.get("Authorization", None)
     if not auth_header:
         return jsonify(error="Authorization header missing")

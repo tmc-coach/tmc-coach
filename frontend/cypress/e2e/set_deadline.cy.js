@@ -7,6 +7,21 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
   const monthNow = now.getMonth() + 1
   const yearNow = now.getFullYear().toString()
 
+  /**
+   * Pick date of current month on the calendar view.
+   *
+   * @param {number} day - number of the selected date
+   * @example
+   *    clickDate(5) // click fifth day of current month
+   */
+  function clickDate(day) {
+    if (day < 15) {
+      cy.get('div.react-datepicker__day--0' + day).first().click()
+    } else {
+      cy.get('div.react-datepicker__day--0' + day).last().click()
+    }
+  }
+
   context('logged in user', () => {
     before(() => {
       cy.login()
@@ -91,8 +106,7 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
       let day = (twoDaysFromToday.getDate() < 10) ? '0' + twoDaysFromToday.getDate().toString() : twoDaysFromToday.getDate().toString()
       let month = twoDaysFromToday.getMonth() + 1
       let year = twoDaysFromToday.getFullYear().toString()
-
-      cy.get('div.react-datepicker__day--0' + day).last().click()
+      clickDate(day)
       cy.get('select[type=string]').select('I want to choose the amount of checkpoints')
       cy.get('button[value=set_deadline]').click()
       cy.on('window:confirm', (text) => {
@@ -135,35 +149,36 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
         return true
       })
     })
-    // it('checkpoints are shown in the page', () => {
-    //   //six days from now
-    //   const newNow = new Date()
-    //   const sixDaysFromToday = new Date(newNow.setDate(dayNow + 6))
-    //   let day = (sixDaysFromToday.getDate() < 10) ? '0' + sixDaysFromToday.getDate().toString() : sixDaysFromToday.getDate().toString()
+    it('checkpoints are shown in the page', () => {
+      // Make deadline 6 days from now and check if the only checkpoint is 3 days from now
+      const newNow = new Date()
+      const sixDaysFromToday = new Date(newNow.setDate(dayNow + 6))
+      let day = (sixDaysFromToday.getDate() < 10) ? '0' + sixDaysFromToday.getDate().toString() : sixDaysFromToday.getDate().toString()
 
-    //   //50% checkpoint date
-    //   const threeDaysFromToday = new Date(now.setDate(dayNow + 3))
-    //   let checkday = (threeDaysFromToday.getDate() < 10) ? '0' + threeDaysFromToday.getDate().toString() : threeDaysFromToday.getDate().toString()
-    //   let checkmonth = threeDaysFromToday.getMonth() + 1
-    //   let checkyear = threeDaysFromToday.getFullYear().toString()
+      // 50% checkpoint date
+      const threeDaysFromToday = new Date(now.setDate(dayNow + 3))
+      let checkday = threeDaysFromToday.getDate().toString()
+      let checkmonth = threeDaysFromToday.getMonth() + 1
+      let checkyear = threeDaysFromToday.getFullYear().toString()
 
-    //   cy.setdeadlinepage()
-    //   cy.get('select[type=string]').select('I want to choose the amount of checkpoints')
-    //   cy.get('input[name=checkpoint_number]').clear().type('1{del}')
-    //   cy.get('input[name=checkpoint_number]').should('have.value', '1')
-    //   cy.get('div.react-datepicker__day--0' + day).last().click()
-    //   cy.get('button[value=set_deadline]').click()
-    //   cy.on('window:confirm', (text) => {
-    //     expect(text).to.contains('You have already set a deadline for this course.')
-    //     return true
-    //   })
-    //   cy.contains('50%')
-    //   cy.contains(sixDaysFromToday.getDate().toString() + '.' + checkmonth + '.' + checkyear)
-    // })
-    it.only('the amount of added checkpoints is right', () => {
+      cy.setdeadlinepage()
+      cy.get('select[type=string]').select('I want to choose the amount of checkpoints')
+      cy.get('input[name=checkpoint_number]').clear().type('1{del}')
+      cy.get('input[name=checkpoint_number]').should('have.value', '1')
+      clickDate(day)
+      cy.get('button[value=set_deadline]').click()
+      cy.on('window:confirm', (text) => {
+        expect(text).to.contains('You have already set a deadline for this course.')
+        return true
+      })
+      cy.contains('50%')
+      cy.contains(checkday + '.' + checkmonth + '.' + checkyear)
+    })
+    it('the amount of added checkpoints is right', () => {
       cy.setdeadlinepage()
       cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
-      cy.get('div.react-datepicker__day--0' + dayNow).last().click()
+      let day = (dayNow < 10) ? '0' + dayNow.toString() : dayNow.toString()
+      clickDate(day)
       cy.get('button[value=set_deadline]').click()
       cy.on('window:confirm', (text) => {
         expect(text).to.contains('You have already set a deadline for this course.')

@@ -10,6 +10,19 @@ from modules.checkpoint import (
 
 
 def check_existing_deadline(user_id, course_id):
+    """Checks the id from the deadlines database to see if the user has already
+    deadline added to the course.
+
+    Args:
+        user_id: user id
+        course_id: course id
+    
+    Returns:
+        If the user already has a deadline for the course, it will return the id of the
+        deadline. If there is no deadline added, returns None. This will determine
+        the way a new deadline will be added to the databases.
+    """
+
     sql = "SELECT id FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
     result = db.session.execute(text(sql), {"user_id": user_id, "course_id": course_id})
     for id in result:
@@ -20,6 +33,15 @@ def check_existing_deadline(user_id, course_id):
 
 
 def get_course_deadline(user_id, course_id):
+    """Searches the data from the deadlines database by giving the user id and
+    course id.
+
+    Returns:
+        If the user has a deadline for the wanted course, the function will return the
+        data from the database. If the user doesn't have a deadline, the function will
+        return an empty list.
+    """
+
     deadline = deadlines.query.filter_by(user_id=user_id, course_id=course_id).all()
 
     if not deadline:
@@ -40,24 +62,14 @@ def get_course_deadline(user_id, course_id):
     return json.dumps(response, default=str)
 
 
-def get_deadlines(user_id):
-    deadlines_from_database = deadlines.query.filter_by(user_id=user_id).all()
-    response = {}
-
-    for i in range(len(deadlines_from_database)):
-        response[i] = {
-            "id": deadlines_from_database[i].id,
-            "user_id": deadlines_from_database[i].user_id,
-            "course_id": deadlines_from_database[i].course_id,
-            "date": deadlines_from_database[i].date,
-            "created_at": deadlines_from_database[i].created_at,
-            "current_points": deadlines_from_database[i].current_points,
-            "target_points": deadlines_from_database[i].target_points,
-        }
-    return json.dumps(response, default=str)
-
-
 def get_points_for_deadline(exercises):
+    """By giving exercises data, the function will count the user's current points
+    from the course exercises and count the course maximum points.
+
+    Returns:
+        Information about the user's current points in the course and maximum points.
+    """
+
     current_points = 0
     maximum_points = 0
 
@@ -78,6 +90,25 @@ def set_deadline(
     frequency=0,
     weekday=0,
 ):
+    """Sets deadline and checkpoints for the course, and adds them to the databases
+    by calling other functions.
+
+    Args:
+        user_id: user id
+        date: final date for the course
+        course_id: course id
+        exercises: all of the exercises data that includes info about the available
+        points from the course. 
+        checkpoints: the number of checkpoints
+        target_points: default as None
+        frequency (int): 1 = weekly checkpoints, 2 = monthly checkpoints, 3 = user has just chosen the amount of checkpoints
+        weekday (string): the weekday, when the user wants to have their weekly checkpoints
+            (Monday, tuesday, wednesday, thursday, friday, saturday or sunday)
+
+    Returns:
+        Information regarding saving the deadline to the database.
+    """
+
     id = check_existing_deadline(user_id, course_id)
 
     points_for_deadline = get_points_for_deadline(exercises)
@@ -144,6 +175,14 @@ def set_deadline(
 
 
 def delete_deadline(user_id, course_id):
+    """Deletes the deadline from the deadlines database based on the given user
+    id and course id. Also calls a function that will delete checkpoints from
+    the checkpoints database.
+
+    Returns:
+        Information regarding deleting the deadline successfully from the database.
+    """
+
     try:
         sql = "DELETE FROM deadlines WHERE user_id=:user_id AND course_id=:course_id"
         db.session.execute(text(sql), {"user_id": user_id, "course_id": course_id})
