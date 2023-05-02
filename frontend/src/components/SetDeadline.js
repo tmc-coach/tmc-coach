@@ -53,13 +53,13 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
 
   return (
 
-    <div className='order-last xl:order-first h-full mx-auto py-4'>
+    <div className={`order-last xl:order-first h-full mx-auto py-4 ${deadlines.length !== 0 && 'max-w-sm'}`}>
       {LoadingSpinner ? (
         <Loading />
       ) : deadlines.length === 0 ? (
         <>
           <h1 className='text-lg font-medium py-2'>Set a deadline</h1>
-          <p className="md:text-center text-left pb-4 px-4">
+          <p className="md:text-center text-left pb-4">
             To schedule the course, first, you need to choose the final date for
             the deadline from the calendar. Then select amount of checkpoints
             from the menu. Checkpoints are smaller deadlines for the course and will
@@ -72,7 +72,7 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
         deadlines.length !== 0 && (
           <>
             <h1 className='text-lg font-medium py-2'>Set a new deadline</h1>
-            <p className="md:text-center text-left pb-4 px-4 max-w-sm">
+            <p className="md:text-center text-left pb-4 px-4 max-w-sm mx-auto">
               You can change your current deadline for the course by choosing a new
               date from the calendar and select new checkpoints from the menu.
             </p>
