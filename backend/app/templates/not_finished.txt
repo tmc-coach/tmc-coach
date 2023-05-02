@@ -1,0 +1,8 @@
+Hi,
+You have reached your chosen deadline for the course {{ Course_Name }}, but there is still more work to be done to achieve your goal.
+Currently you have completed {{ Completed_Points }} out of the {{ Expected_Points }} points on this course.
+
+If you wish to receive further help from tmc coach for this course, feel free to set a preferred new deadline on the tmc coach site.
+
+Best regards,
+The TMC Coach Team

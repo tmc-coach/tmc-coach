@@ -3,11 +3,21 @@ import 'react-datepicker/dist/react-datepicker.css'
 import Loading from '../components/Loading'
 import { useState, useEffect } from 'react'
 
-const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, frequency, setFrequency, target_points, setTarget_points, exercises }) => {
+
+const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, checkpoints, setCheckpoints, frequency, setFrequency, target_points, setTarget_points, exercises, weekday, setWeekday }) => {
   const options = [
     { id: 1, option: 'I want checkpoints weekly' },
     { id: 2, option: 'I want checkpoints monthly' },
     { id: 3, option: 'I want to choose the amount of checkpoints' }
+  ]
+  let weekdays = [
+    { id: 1, day: 'Monday' },
+    { id: 2, day: 'Tuesday' },
+    { id: 3, day: 'Wednesday' },
+    { id: 4, day: 'Thursday' },
+    { id: 5, day: 'Friday' },
+    { id: 6, day: 'Saturday' },
+    { id: 7, day: 'Sunday' }
   ]
   const minCheckpoints = 1
   const maxCheckpoints = 12
@@ -82,10 +92,24 @@ const SetDeadline = ({ date, handleSetDeadline, setDate, message, deadlines, che
       <select
         className='py-2 px-4 my-2 rounded bg-gray-200'
         defaultValue={frequency}
+        type='string'
         onChange={(e) => setFrequency(Number(e.target.value))}
       >
         {options.map(o => <option key={o.id} value={o.id}>{o.option}</option>)}
       </select>
+      {frequency === 1 &&
+        <div>
+          <p>Which day do you want to have your checkpoints?</p>
+          <select
+            className='py-2 px-4 my-2 rounded bg-gray-200'
+            defaultValue={weekday}
+            type='weekdays'
+            onChange={ (day) => setWeekday(Number(day.target.value)) }
+          >
+            {weekdays.map(day => <option key={day.id} value={day.id}>{day.day}</option>)}
+          </select>
+        </div>
+      }
       {frequency === 3 &&
         <>
           <p>How many checkpoints do you want? ({minCheckpoints}&ndash;{maxCheckpoints})</p>

@@ -80,7 +80,16 @@ def get_points_for_deadline(exercises):
     return {"current_points": current_points, "target_points": maximum_points}
 
 
-def set_deadline(user_id, date, course_id, exercises, checkpoints, target_points=None):
+def set_deadline(
+    user_id,
+    date,
+    course_id,
+    exercises,
+    checkpoints,
+    target_points=None,
+    frequency=0,
+    weekday=0,
+):
     """Sets deadline and checkpoints for the course, and adds them to the databases
     by calling other functions.
 
@@ -92,6 +101,9 @@ def set_deadline(user_id, date, course_id, exercises, checkpoints, target_points
         points from the course. 
         checkpoints: the number of checkpoints
         target_points: default as None
+        frequency (int): 1 = weekly checkpoints, 2 = monthly checkpoints, 3 = user has just chosen the amount of checkpoints
+        weekday (string): the weekday, when the user wants to have their weekly checkpoints
+            (Monday, tuesday, wednesday, thursday, friday, saturday or sunday)
 
     Returns:
         Information regarding saving the deadline to the database.
@@ -133,6 +145,8 @@ def set_deadline(user_id, date, course_id, exercises, checkpoints, target_points
             checkpoints,
             current_points,
             target_points,
+            frequency,
+            weekday,
         )
         db.session.commit()
         return "Deadline added succesfully!"
@@ -151,6 +165,8 @@ def set_deadline(user_id, date, course_id, exercises, checkpoints, target_points
             checkpoints,
             current_points,
             target_points,
+            frequency,
+            weekday,
         )
         db.session.commit()
         return "Deadline changed succesfully!"
@@ -175,3 +191,26 @@ def delete_deadline(user_id, course_id):
         return "Course deadline deleted succesfully!"
     except:
         return "Deleting course deadline was unsuccessful"
+
+
+def get_deadline_infos(current_date):
+    query = """SELECT
+                u.email,
+                u.token,
+                u.id,
+                d.target_points,
+                d.course_id,
+                d.date
+                FROM
+                users u
+                INNER JOIN
+                deadlines d
+                ON
+                u.id = d.user_id
+                WHERE
+                d.date =:current_date
+            """
+    results = db.session.execute(text(query), {"current_date": current_date}).fetchall()
+    if results is None:
+        return None
+    return results
