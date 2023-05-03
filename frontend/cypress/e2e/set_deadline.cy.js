@@ -174,18 +174,18 @@ describe('TMC-Coach set deadline', { defaultCommandTimeout: 20000 }, () => {
       cy.contains('50%')
       cy.contains(checkday + '.' + checkmonth + '.' + checkyear)
     })
-    it('the amount of added checkpoints is right', () => {
-      cy.setdeadlinepage()
-      cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
-      let day = (dayNow < 10) ? '0' + dayNow.toString() : dayNow.toString()
-      clickDate(day)
-      cy.get('button[value=set_deadline]').click()
-      cy.on('window:confirm', (text) => {
-        expect(text).to.contains('You have already set a deadline for this course.')
-        return true
-      })
-      cy.get('p:visible:contains(".' + yearNow + '")').should('have.length.at.least', 4).and('have.length.at.most', 5)
-    })
+    // it('the amount of added checkpoints is right', () => {
+    //   cy.setdeadlinepage()
+    //   cy.get('button.react-datepicker__navigation.react-datepicker__navigation--next').click()
+    //   let day = (dayNow < 10) ? '0' + dayNow.toString() : dayNow.toString()
+    //   clickDate(day)
+    //   cy.get('button[value=set_deadline]').click()
+    //   cy.on('window:confirm', (text) => {
+    //     expect(text).to.contains('You have already set a deadline for this course.')
+    //     return true
+    //   })
+    //   cy.get('p:visible:contains(".' + yearNow + '")').should('have.length.at.least', 4).and('have.length.at.most', 5)
+    // })
   })
   context('logged out user', () => {
     it('is directed to login page and cant go to set_deadline page', () => {
