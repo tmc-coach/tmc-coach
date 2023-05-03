@@ -30,7 +30,7 @@ def get_one_org(org_slug):
         return jsonify(error="Forbidden"), 403
     response = requests.get(
         "https://tmc.mooc.fi/api/v8/org.json",
-        headers={"Accept": "application/json", "Authorization": token["token"]},
+        headers={"Accept": "application/json", "Authorization": user["token"]},
     )
     if response.status_code == 403:
         return jsonify(error="Forbidden"), 403
