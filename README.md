@@ -12,15 +12,15 @@ Feature is desired by both the users and MOOC-center. The unscheduled courses re
 
 ## Documentation
 
-- [Definition of Done](https://github.com/tmc-coach/tmc-coach/blob/main/documentation/definitionofdone.md)
-- [Development handbook](https://github.com/tmc-coach/tmc-coach/blob/main/documentation/development_handbook.md)
+- [Definition of Done](https://github.com/tmc-coach/tmc-coach/wiki/Definition-of-done)
+- [Development handbook](https://github.com/tmc-coach/tmc-coach/wiki/Development-handbook)
 - [Hour reporting](https://docs.google.com/spreadsheets/d/1FKB0VWYljS7rRs1_JVq_U7krczXOK_BZMwVvlSUouE4/edit#gid=0)
 
 ## Instructions
 
 ### How to run the project
 
-Project can be run at this moment only locally. Instructions on how to run the project can be found in [Development handbook](https://github.com/tmc-coach/tmc-coach/blob/main/documentation/development_handbook.md).
+Project can be run at this moment only locally. Instructions on how to run the project can be found in [Development handbook](https://github.com/tmc-coach/tmc-coach/wiki/Development-handbook).
 
 ## Backlogs
 
