@@ -57,4 +57,8 @@ def encode_jwt(username, token, user_id):
 
 
 def get_user(token):
-    return decode_jwt(token)
+    try:
+        user = decode_jwt(token)
+        return user
+    except jwt.DecodeError:
+        return None

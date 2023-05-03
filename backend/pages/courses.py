@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from modules.user import decode_jwt
+from modules.user import get_user
 import requests
 import json
 
@@ -11,14 +11,18 @@ def get_exercises(course_id):
     auth_header = request.headers.get("Authorization", None)
     if not auth_header:
         return jsonify(error="Authorization header missing")
-    token = decode_jwt(auth_header)
+
+    user = get_user(auth_header)
+    if not user:
+        return jsonify(error="Forbidden"), 403
+
     response_exercises = requests.get(
         f"https://tmc.mooc.fi/api/v8/courses/{course_id}/exercises",
-        headers={"Accept": "application/json", "Authorization": token["token"]},
+        headers={"Accept": "application/json", "Authorization": user["token"]},
     )
     response_name = requests.get(
         f"https://tmc.mooc.fi/api/v8/courses/{course_id}",
-        headers={"Accept": "application/json", "Authorization": token["token"]},
+        headers={"Accept": "application/json", "Authorization": user["token"]},
     )
 
     if response_exercises.status_code == 403 or response_name.status_code == 403:
