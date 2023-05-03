@@ -103,7 +103,7 @@ def count_checkpoint_points(current_points, target_points, how_many_checkpoints)
     remaining_points = target_points - current_points
     desired_points_list = []
     for i in range(how_many_checkpoints):
-        percents = (100 // (how_many_checkpoints + 1)) * (i + 1)
+        percents = (100 / (how_many_checkpoints + 1)) * (i + 1)
         points = remaining_points * (percents / 100)
         desired_points = current_points + points
         desired_points_list.append((percents, desired_points))
