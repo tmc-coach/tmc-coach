@@ -8,15 +8,34 @@ import requests
 
 
 def schedule(app):
+    """Schedules the jobs. Apscheduler works in the background. In the future,
+    changing Apscheduler to Celery would be recommended if scaling the application.
+
+    Args:
+        app: Flask app
+
+    Returns:
+        None
+    """
+
     scheduler = BackgroundScheduler()
     scheduler.add_job(send_checkpoint_emails, "cron", hour=9, minute=0, args=(app,))
     scheduler.add_job(send_deadline_emails, "cron", hour=9, minute=0, args=(app,))
-    # scheduler.add_job(send_deadline_emails, "interval", minutes=2, args=(app,))
-    # scheduler.add_job(send_checkpoint_emails, "interval", minutes=1, args=(app,))
+    # scheduler.add_job(send_deadline_emails, "interval", minutes=7, args=(app,))
+    # scheduler.add_job(send_checkpoint_emails, "interval", minutes=5, args=(app,))
     scheduler.start()
 
 
 def send_deadline_emails(app):
+    """Sends deadline emails
+
+    Args:
+        app: Flask app
+
+    Returns:
+        None
+    """
+
     with app.app_context():
         current_date = datetime.now().date()
         results = get_deadline_infos(current_date)
@@ -50,6 +69,15 @@ def send_deadline_emails(app):
 
 
 def send_checkpoint_emails(app):
+    """Sends checkpoint emails
+
+    Args:
+        app: Flask app
+
+    Returns:
+        None
+    """
+
     with app.app_context():
         current_date = datetime.now().date()
         results = get_checkpoint_infos(current_date)
