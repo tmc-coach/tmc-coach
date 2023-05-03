@@ -82,12 +82,12 @@ def send_checkpoint_emails(app):
         current_date = datetime.now().date()
         results = get_checkpoint_infos(current_date)
         for result in results:
-            user_id = result[2]
+            email = result[0]
             token = result[1]
+            user_id = result[2]
+            checkpoint_percent = result[3]
             target_points = result[4]
             course_id = result[5]
-            email = result[0]
-            checkpoint_percent = result[3]
             course_deadline = result[6]
             course_deadline = course_deadline.strftime("%d.%m.%Y")
             current_points = len(current_points_from_api(course_id, user_id))

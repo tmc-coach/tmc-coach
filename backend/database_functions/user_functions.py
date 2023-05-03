@@ -33,8 +33,7 @@ def set_user(id: int, token: str, email: str) -> str:
 
 
 def delete_user(id: int) -> str:
-    """Deletes user from the database.
-    """
+    """Deletes user from the database."""
 
     sql = "DELETE FROM users WHERE id=:id"
     db.session.execute(text(sql), {"id": id})

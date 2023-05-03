@@ -16,7 +16,7 @@ def check_existing_deadline(user_id, course_id):
     Args:
         user_id: user id
         course_id: course id
-    
+
     Returns:
         If the user already has a deadline for the course, it will return the id of the
         deadline. If there is no deadline added, returns None. This will determine
@@ -98,7 +98,7 @@ def set_deadline(
         date: final date for the course
         course_id: course id
         exercises: all of the exercises data that includes info about the available
-        points from the course. 
+        points from the course.
         checkpoints: the number of checkpoints
         target_points: default as None
         frequency (int): 1 = weekly checkpoints, 2 = monthly checkpoints, 3 = user has just chosen the amount of checkpoints
