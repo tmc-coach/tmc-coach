@@ -51,16 +51,15 @@ def authorize():
 
 @auth.route("/user", methods=["GET"])
 def get_user():
-    authorization = request.headers.get("Authorization", None)
-    if not authorization:
+    auth_token = request.headers.get("Authorization", None)
+    if not auth_token:
         return jsonify(error="Authorization header is required"), 400
 
-    try:
-        decoded_jwt = decode_jwt(authorization)
-    except jwt.DecodeError:
-        return jsonify(error="Invalid token"), 401
+    user = user_info(auth_token)
+    if not user:
+        return jsonify(error="Forbidden"), 403
 
-    headers = {"Authorization": decoded_jwt["token"]}
+    headers = {"Authorization": user["token"]}
     response = requests.get("https://tmc.mooc.fi/api/v8/users/current", headers=headers)
 
     if response.status_code != 200:
@@ -81,12 +80,12 @@ def user_email():
     auth_header = request.headers.get("Authorization", None)
     if not auth_header:
         return jsonify(error="Authorization header missing")
-    token = decode_jwt(auth_header)
+    
     user = user_info(auth_header)
 
     if not user:
         return jsonify(error="Forbidden"), 403
-
+    
     user_email = get_user_email(user["id"])
 
     users_courses = []
@@ -96,7 +95,7 @@ def user_email():
     for i in range(len(users_courses)):
         response_coursename = requests.get(
             f"https://tmc.mooc.fi/api/v8/courses/{users_courses[i]}",
-            headers={"Accept": "application/json", "Authorization": token["token"]},
+            headers={"Accept": "application/json", "Authorization": user["token"]},
         )
 
         if response_coursename.status_code == 403:
