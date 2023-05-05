@@ -1,4 +1,4 @@
-# TMC-Coach
+# TMC Coach
 
 ## What the project does
 
